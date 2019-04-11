@@ -27,5 +27,6 @@ _sections_unfolded = [ "Cell", "Collision" ]
 [node name="KinematicBody2D" parent="." index="0" instance=ExtResource( 2 )]
 
 position = Vector2( 560.284, 288.052 )
+speed = 250
 
 
