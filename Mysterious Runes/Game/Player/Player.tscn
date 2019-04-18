@@ -1,7 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Game/Player/Player.gd" type="Script" id=1]
-[ext_resource path="res://Game/Player/Player.png" type="Texture" id=2]
+[ext_resource path="res://Game/Bullet/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Game/Player/Player.png" type="Texture" id=3]
+[ext_resource path="res://Game/Player/Fly Particle.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"
@@ -140,6 +142,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.28 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_spawn_bullet"
+} ]
+}
 
 [sub_resource type="Animation" id=9]
 resource_name = "Shoot Jump"
@@ -168,6 +184,32 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_spawn_bullet"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("..:jumping")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=10]
 length = 0.6
@@ -189,15 +231,30 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 39.236, 60 )
 
+[sub_resource type="ParticlesMaterial" id=12]
+emission_shape = 2
+emission_box_extents = Vector3( 30, 1, 1 )
+flag_disable_z = true
+gravity = Vector3( 0, -50, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 25.0
+radial_accel = 30.0
+scale = 0.1
+scale_random = 0.3
+color = Color( 1, 1, 1, 0.392157 )
+
 [node name="Node2D" type="Node2D"]
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 script = ExtResource( 1 )
+Bullet = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="KinematicBody2D"]
-position = Vector2( 27.2448, 82.9095 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 offset = Vector2( -54.4896, -165.819 )
 vframes = 7
 hframes = 10
@@ -216,16 +273,32 @@ anims/Shoot = SubResource( 8 )
 anims/Walk = SubResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
-visible = false
-position = Vector2( 26.2064, 26.7398 )
+position = Vector2( 0, -56 )
 shape = SubResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ShootTimer" type="Timer" parent="KinematicBody2D"]
+one_shot = true
+
+[node name="FlyTimer" type="Timer" parent="KinematicBody2D"]
+wait_time = 10.0
+autostart = true
+
+[node name="Particles2D" type="Particles2D" parent="KinematicBody2D"]
+emitting = false
+amount = 15
+randomness = 1.0
+process_material = SubResource( 12 )
+texture = ExtResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]
-position = Vector2( 27.2071, 83.6746 )
+position = Vector2( 0, -56 )
 collision_mask = 6
 
 [node name="DamageCollision" type="CollisionPolygon2D" parent="Area2D"]
-visible = false
-position = Vector2( -26.9763, -91.7883 )
-polygon = PoolVector2Array( 1.06956, 94.9507, 52.8176, 94.9507, 50.1953, 36.0348, 63.3505, 27.5555, 70.1613, -40.5583, 16.2619, -46.7122, -31.3357, -25.9457, -21.2999, 15.5331, 0.911423, 30.1546 )
+position = Vector2( 38.7097, 19.1578 )
+polygon = PoolVector2Array( -14.4077, 40.8631, -65.1746, 40.8631, -64.7945, -21.5685, -88.097, -39.4592, -97.3397, -77.7502, -53.7672, -97.5559, 9.1709, -91.8343, -1.83228, -28.4561, -17.2367, -17.4529 )
 
+[connection signal="timeout" from="KinematicBody2D/FlyTimer" to="KinematicBody2D" method="_on_FlyTimer_timeout"]
