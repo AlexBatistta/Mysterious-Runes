@@ -7,35 +7,36 @@ export var attack_wait = 1
 export var shooting = false
 export var jumping = false
 export var flying = false
+export var animation = "Idle";
 
 export (PackedScene) var Bullet
 
-var animation = "Idle";
-var velocity = Vector2()
 
+var velocity = Vector2()
+var direction = Vector2()
 
 func _ready():
-	shooting = false
-	jumping = false
-	flying = false
+	$Sprite/AnimationPlayer.animation_set_next("Fly to Up", "Fly Up")
+	$Sprite/AnimationPlayer.animation_set_next("Fly to Down", "Fly Down")
 	pass
 
 func _physics_process(delta):
 	if !flying:
 		_move(delta)
+		_shoot()
+		_animate()
 	else:
 		_fly(delta)
 	
-	_shoot()
-	
-	_animate()
+	if Input.is_key_pressed(KEY_B) && !flying:
+		_active_fly()
 
 func _move(delta):
 	velocity.y += delta * gravity
 	
-	var sideX = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
+	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
 	
-	velocity.x = (sideX * (speed * delta)) / delta
+	velocity.x = (direction.x * (speed * delta)) / delta
 	
 	if is_on_floor():
 		velocity.y = 0
@@ -47,15 +48,26 @@ func _move(delta):
 	
 	if shooting && !jumping: velocity.x = 0
 	move_and_slide(velocity, Vector2(0, -1))
-	
-func _fly(delta):
+
+func _active_fly():
+	flying = true;
+	$FlyTimer.start(10)
 	$Particles2D.emitting = true
-	var sideX = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
-	var sideY = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
+
+func _fly(delta):
+	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
+	direction.y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
 	
-	velocity = Vector2(lerp(velocity.x, sideX * speed * delta, delta * 2), lerp(velocity.y, sideY * speed * delta, delta * 2))
-	jumping = true
+	if direction.y == -1 && $Sprite/AnimationPlayer.current_animation != "Fly Up":
+		$Sprite/AnimationPlayer.play("Fly to Up")
+	if direction.y == 1 && $Sprite/AnimationPlayer.current_animation != "Fly Down":
+		$Sprite/AnimationPlayer.play("Fly to Down")
+	
+	velocity = lerp(velocity, direction * speed * delta, delta * 2)
 	move_and_collide(velocity)
+	
+	if velocity.x != 0:
+		$Sprite.scale.x = 0.5 if velocity.x > 0 else -0.5
 
 func _shoot():
 	if !shooting && $ShootTimer.is_stopped() :
@@ -67,7 +79,6 @@ func _spawn_bullet():
 	bullet.setup(position + Vector2 (150 * $Sprite.scale.x, -50), $Sprite.scale.x, "Player")
 	get_parent().add_child(bullet)
 	$ShootTimer.start(attack_wait)
-	
 
 func _animate():
 	if velocity.x != 0:

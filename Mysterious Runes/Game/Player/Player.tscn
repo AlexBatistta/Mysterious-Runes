@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Game/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Game/Bullet/Bullet.tscn" type="PackedScene" id=2]
@@ -23,6 +23,92 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=2]
+resource_name = "Fly Down"
+length = 0.72
+loop = true
+step = 0.09
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.09, 0.18, 0.27, 0.36, 0.45, 0.54, 0.63 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 75, 76, 77, 78, 79, 78, 77, 76 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Fly Shoot"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 85, 86, 87, 88, 89 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Fly Up"
+length = 0.72
+loop = true
+step = 0.09
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.09, 0.18, 0.27, 0.36, 0.45, 0.54, 0.63 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 70, 71, 72, 73, 74, 73, 72, 71 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Fly to Down"
+length = 0.45
+step = 0.09
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.09, 0.18, 0.27, 0.36 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 80, 81, 82, 83, 84 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Fly to Up"
+length = 0.45
+step = 0.09
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.09, 0.18, 0.27, 0.36 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 84, 83, 82, 81, 80 ]
+}
+
+[sub_resource type="Animation" id=7]
 length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -37,7 +123,7 @@ tracks/0/keys = {
 "values": [ 20, 21, 22, 23, 24, 23, 22, 21, 20 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=8]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -53,7 +139,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 3, 2, 1 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=9]
 length = 1.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -68,8 +154,7 @@ tracks/0/keys = {
 "values": [ 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 40 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Jump"
+[sub_resource type="Animation" id=10]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -85,8 +170,7 @@ tracks/0/keys = {
 "values": [ 30, 31, 32, 33, 34, 33, 32, 31 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Jump End"
+[sub_resource type="Animation" id=11]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -100,7 +184,7 @@ tracks/0/keys = {
 "values": [ 35, 36, 37, 38, 39, 38, 39, 38, 39, 38 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=12]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -115,7 +199,7 @@ tracks/0/keys = {
 "values": [ 50, 51, 52, 53, 54, 55, 56, 57, 58, 59 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=13]
 length = 0.56
 step = 0.07
 tracks/0/type = "value"
@@ -157,8 +241,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "Shoot Jump"
+[sub_resource type="Animation" id=14]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -211,7 +294,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=15]
 length = 0.6
 loop = true
 step = 0.06
@@ -228,10 +311,10 @@ tracks/0/keys = {
 "values": [ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
 }
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=26]
 extents = Vector2( 39.236, 60 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=27]
 emission_shape = 2
 emission_box_extents = Vector3( 30, 1, 1 )
 flag_disable_z = true
@@ -256,25 +339,31 @@ Bullet = ExtResource( 2 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
 offset = Vector2( -54.4896, -165.819 )
-vframes = 7
+vframes = 9
 hframes = 10
-frame = 29
+frame = 80
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="KinematicBody2D/Sprite"]
 anims/Die = SubResource( 1 )
-anims/Hurt = SubResource( 2 )
-anims/Idle = SubResource( 3 )
-anims/Invoke = SubResource( 4 )
-anims/Jump = SubResource( 5 )
-"anims/Jump End" = SubResource( 6 )
-anims/Shield = SubResource( 7 )
-anims/Shoot = SubResource( 8 )
-"anims/Shoot Jump" = SubResource( 9 )
-anims/Walk = SubResource( 10 )
+"anims/Fly Down" = SubResource( 2 )
+"anims/Fly Shoot" = SubResource( 3 )
+"anims/Fly Up" = SubResource( 4 )
+"anims/Fly to Down" = SubResource( 5 )
+"anims/Fly to Up" = SubResource( 6 )
+anims/Hurt = SubResource( 7 )
+anims/Idle = SubResource( 8 )
+anims/Invoke = SubResource( 9 )
+anims/Jump = SubResource( 10 )
+"anims/Jump End" = SubResource( 11 )
+anims/Shield = SubResource( 12 )
+anims/Shoot = SubResource( 13 )
+"anims/Shoot Jump" = SubResource( 14 )
+anims/Walk = SubResource( 15 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+visible = false
 position = Vector2( 0, -56 )
-shape = SubResource( 11 )
+shape = SubResource( 26 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -283,14 +372,15 @@ __meta__ = {
 one_shot = true
 
 [node name="FlyTimer" type="Timer" parent="KinematicBody2D"]
-wait_time = 10.0
-autostart = true
+wait_time = 20.0
+one_shot = true
 
 [node name="Particles2D" type="Particles2D" parent="KinematicBody2D"]
 emitting = false
 amount = 15
 randomness = 1.0
-process_material = SubResource( 12 )
+visibility_rect = Rect2( -2.5, -0.5, 5, 1 )
+process_material = SubResource( 27 )
 texture = ExtResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -298,7 +388,11 @@ position = Vector2( 0, -56 )
 collision_mask = 6
 
 [node name="DamageCollision" type="CollisionPolygon2D" parent="Area2D"]
+visible = false
 position = Vector2( 38.7097, 19.1578 )
 polygon = PoolVector2Array( -14.4077, 40.8631, -65.1746, 40.8631, -64.7945, -21.5685, -88.097, -39.4592, -97.3397, -77.7502, -53.7672, -97.5559, 9.1709, -91.8343, -1.83228, -28.4561, -17.2367, -17.4529 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [connection signal="timeout" from="KinematicBody2D/FlyTimer" to="KinematicBody2D" method="_on_FlyTimer_timeout"]

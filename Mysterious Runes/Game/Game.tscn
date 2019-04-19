@@ -8,5 +8,5 @@
 [node name="Level 1" parent="." instance=ExtResource( 1 )]
 
 [node name="Node2D" parent="." instance=ExtResource( 2 )]
-position = Vector2( 117.984, -0.328705 )
+position = Vector2( 96.8069, 89.2668 )
 
