@@ -55,6 +55,46 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 85, 86, 87, 88, 89 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:shooting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_spawn_bullet"
+} ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "fly_out"
+} ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "Fly Up"
@@ -311,10 +351,10 @@ tracks/0/keys = {
 "values": [ 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
 }
 
-[sub_resource type="RectangleShape2D" id=26]
+[sub_resource type="RectangleShape2D" id=16]
 extents = Vector2( 39.236, 60 )
 
-[sub_resource type="ParticlesMaterial" id=27]
+[sub_resource type="ParticlesMaterial" id=17]
 emission_shape = 2
 emission_box_extents = Vector3( 30, 1, 1 )
 flag_disable_z = true
@@ -341,7 +381,7 @@ texture = ExtResource( 3 )
 offset = Vector2( -54.4896, -165.819 )
 vframes = 9
 hframes = 10
-frame = 80
+frame = 89
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="KinematicBody2D/Sprite"]
 anims/Die = SubResource( 1 )
@@ -363,7 +403,7 @@ anims/Walk = SubResource( 15 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 visible = false
 position = Vector2( 0, -56 )
-shape = SubResource( 26 )
+shape = SubResource( 16 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -380,7 +420,7 @@ emitting = false
 amount = 15
 randomness = 1.0
 visibility_rect = Rect2( -2.5, -0.5, 5, 1 )
-process_material = SubResource( 27 )
+process_material = SubResource( 17 )
 texture = ExtResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]

@@ -5,11 +5,13 @@ export var rotation_speed = 10
 
 func setup(_position, _direction, _type):
 	position = _position
+	$Particles2D.emitting = true
 	if _direction < 0:
 		speed = -speed
 		rotation_speed = -rotation_speed
 	if _type == "Player":
 		$Bullet.modulate = Color("#00c5f4")
+		$Particles2D.modulate = Color("#00c5f4")
 	else:
 		$Bullet.modulate = Color(1,1,1,1)
 

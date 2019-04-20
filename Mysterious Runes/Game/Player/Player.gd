@@ -7,11 +7,10 @@ export var attack_wait = 1
 export var shooting = false
 export var jumping = false
 export var flying = false
-export var animation = "Idle";
 
 export (PackedScene) var Bullet
 
-
+var animation = "Idle"
 var velocity = Vector2()
 var direction = Vector2()
 
@@ -23,10 +22,11 @@ func _ready():
 func _physics_process(delta):
 	if !flying:
 		_move(delta)
-		_shoot()
 		_animate()
 	else:
 		_fly(delta)
+	
+	_shoot()
 	
 	if Input.is_key_pressed(KEY_B) && !flying:
 		_active_fly()
@@ -62,6 +62,11 @@ func _fly(delta):
 		$Sprite/AnimationPlayer.play("Fly to Up")
 	if direction.y == 1 && $Sprite/AnimationPlayer.current_animation != "Fly Down":
 		$Sprite/AnimationPlayer.play("Fly to Down")
+	
+	if shooting && $Sprite/AnimationPlayer.current_animation != "Fly Shoot":
+		var anim = $Sprite/AnimationPlayer.current_animation
+		$Sprite/AnimationPlayer.animation_set_next("Fly Shoot", anim)
+		$Sprite/AnimationPlayer.play("Fly Shoot")
 	
 	velocity = lerp(velocity, direction * speed * delta, delta * 2)
 	move_and_collide(velocity)
@@ -102,5 +107,10 @@ func _animate():
 	
 
 func _on_FlyTimer_timeout():
-	flying = false
-	$Particles2D.emitting = false
+	if !shooting:
+		flying = false
+		$Particles2D.emitting = false
+
+func fly_out():
+	if $FlyTimer.is_stopped():
+		_on_FlyTimer_timeout()
