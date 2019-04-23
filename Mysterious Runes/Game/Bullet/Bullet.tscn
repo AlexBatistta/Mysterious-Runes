@@ -4,7 +4,7 @@
 [ext_resource path="res://Game/Bullet/Bullet.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 43.391
+radius = 55.0419
 
 [sub_resource type="ParticlesMaterial" id=2]
 emission_shape = 2
@@ -18,7 +18,11 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 3.0
 
-[node name="Area2D" type="Area2D"]
+[node name="Bullet" type="KinematicBody2D" groups=[
+"Bullet",
+]]
+collision_layer = 16
+collision_mask = 10
 script = ExtResource( 1 )
 
 [node name="Bullet" type="Sprite" parent="."]
@@ -26,7 +30,6 @@ scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 scale = Vector2( 0.2, 0.2 )
 shape = SubResource( 1 )
 

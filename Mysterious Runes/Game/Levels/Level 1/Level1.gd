@@ -9,5 +9,5 @@ var name_tileset = "res://Game/Tileset/TileSet-1.tres"
 
 func change_color(_color):
 	color = _color
-	name_tileset = "res://Game/Tileset/TileSet-" + str(color + 1) + ".tres"
+	name_tileset = "res://Game/Tileset/TileSet-" + str(color) + ".tres"
 	tile_set = load(name_tileset)

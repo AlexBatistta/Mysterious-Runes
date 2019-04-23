@@ -1,4 +1,4 @@
-extends Area2D
+extends KinematicBody2D
 
 export var speed = 500
 export var rotation_speed = 10
@@ -22,5 +22,5 @@ func set_speed(_speed, _rotation_speed):
 func _process(delta):
 	rotation_degrees += rotation_speed
 	$Bullet.scale += Vector2(0.001, 0.001)
-	position.x += speed * delta
+	move_and_collide(Vector2(speed * delta, 0))
 

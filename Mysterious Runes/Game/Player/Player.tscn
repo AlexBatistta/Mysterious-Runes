@@ -371,19 +371,19 @@ color = Color( 1, 1, 1, 0.392157 )
 
 [node name="Node2D" type="Node2D"]
 
-[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+[node name="Player" type="KinematicBody2D" parent="."]
+collision_mask = 4
 script = ExtResource( 1 )
 Bullet = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="KinematicBody2D"]
+[node name="Sprite" type="Sprite" parent="Player"]
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
 offset = Vector2( -54.4896, -165.819 )
 vframes = 9
 hframes = 10
-frame = 89
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="KinematicBody2D/Sprite"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Sprite"]
 anims/Die = SubResource( 1 )
 "anims/Fly Down" = SubResource( 2 )
 "anims/Fly Shoot" = SubResource( 3 )
@@ -400,7 +400,7 @@ anims/Shoot = SubResource( 13 )
 "anims/Shoot Jump" = SubResource( 14 )
 anims/Walk = SubResource( 15 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 visible = false
 position = Vector2( 0, -56 )
 shape = SubResource( 16 )
@@ -408,14 +408,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="ShootTimer" type="Timer" parent="KinematicBody2D"]
+[node name="ShootTimer" type="Timer" parent="Player"]
 one_shot = true
 
-[node name="FlyTimer" type="Timer" parent="KinematicBody2D"]
+[node name="FlyTimer" type="Timer" parent="Player"]
 wait_time = 20.0
 one_shot = true
 
-[node name="Particles2D" type="Particles2D" parent="KinematicBody2D"]
+[node name="Particles2D" type="Particles2D" parent="Player"]
 emitting = false
 amount = 15
 randomness = 1.0
@@ -435,4 +435,4 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[connection signal="timeout" from="KinematicBody2D/FlyTimer" to="KinematicBody2D" method="_on_FlyTimer_timeout"]
+[connection signal="timeout" from="Player/FlyTimer" to="Player" method="_on_FlyTimer_timeout"]

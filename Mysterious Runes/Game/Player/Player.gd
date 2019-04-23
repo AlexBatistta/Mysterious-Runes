@@ -114,3 +114,6 @@ func _on_FlyTimer_timeout():
 func fly_out():
 	if $FlyTimer.is_stopped():
 		_on_FlyTimer_timeout()
+
+func rune(type):
+	print(type)
