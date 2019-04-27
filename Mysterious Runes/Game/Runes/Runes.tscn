@@ -68,9 +68,21 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("../CollisionShape2D:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 2, 2 ) ]
+}
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 34.7798
+radius = 49.6802
 height = 7.09314
 
 [sub_resource type="ParticlesMaterial" id=3]
@@ -102,10 +114,9 @@ collision_layer = 8
 collision_mask = 17
 
 [node name="Rune" type="Sprite" parent="Rune"]
-scale = Vector2( 0.5, 0.5 )
+scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 3 )
 hframes = 4
-frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Rune/Rune"]
 anims/Drop = SubResource( 1 )
@@ -115,17 +126,18 @@ visible = false
 texture = ExtResource( 4 )
 vframes = 2
 hframes = 4
+frame = 1
 
 [node name="Label" type="Label" parent="Rune/Rune"]
 visible = false
 anchor_right = 0.45
-margin_left = -49.8107
-margin_top = -11.3206
-margin_right = 9.68927
-margin_bottom = 13.6794
+margin_left = -49.811
+margin_top = -75.0
+margin_right = 9.68897
+margin_bottom = -50.0
 rect_scale = Vector2( 2, 2 )
 rect_pivot_offset = Vector2( 50, 12 )
-text = "Damage"
+text = "Shield"
 align = 1
 valign = 1
 
@@ -134,7 +146,6 @@ shape = SubResource( 2 )
 
 [node name="Particles2D" type="Particles2D" parent="Rune"]
 scale = Vector2( 2, 2 )
-emitting = false
 amount = 5
 lifetime = 2.0
 visibility_rect = Rect2( -25, -25, 50, 50 )

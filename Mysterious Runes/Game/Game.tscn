@@ -14,6 +14,11 @@ tile_data = PoolIntArray( 65536, 1, 0, 65537, 1, 0, 196614, 1, 0, 196617, 1, 0, 
 [node name="Runes" parent="." instance=ExtResource( 3 )]
 position = Vector2( 280, -100 )
 
+[node name="Runes2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 390, 290 )
+runeType = 1
+permanent = "Fly"
+
 [node name="Player" parent="." instance=ExtResource( 4 )]
 position = Vector2( 96.8069, 89.2668 )
 

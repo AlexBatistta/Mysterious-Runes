@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Game/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Game/Bullet/Bullet.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Player/Player.png" type="Texture" id=3]
 [ext_resource path="res://Game/Player/Fly Particle.png" type="Texture" id=4]
+[ext_resource path="res://Game/Player/Power.gd" type="Script" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"
@@ -79,20 +80,6 @@ tracks/2/keys = {
 "values": [ {
 "args": [  ],
 "method": "_spawn_bullet"
-} ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath("..")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "fly_out"
 } ]
 }
 
@@ -180,21 +167,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=9]
-length = 1.1
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 40 ]
-}
-
-[sub_resource type="Animation" id=10]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -210,7 +182,7 @@ tracks/0/keys = {
 "values": [ 30, 31, 32, 33, 34, 33, 32, 31 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=10]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -224,8 +196,11 @@ tracks/0/keys = {
 "values": [ 35, 36, 37, 38, 39, 38, 39, 38, 39, 38 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=11]
+resource_name = "Power 0"
+length = 0.8
 loop = true
+step = 0.08
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -233,10 +208,50 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56, 0.64, 0.72 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 50, 51, 52, 53, 54, 55, 56, 57, 58, 59 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:power_active")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.8 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.8
+step = 0.08
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56, 0.64, 0.72 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 40, 41, 42, 43, 44, 45, 46, 47, 48, 49 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:power_active")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.8 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=13]
@@ -355,6 +370,18 @@ tracks/0/keys = {
 extents = Vector2( 39.236, 60 )
 
 [sub_resource type="ParticlesMaterial" id=17]
+flag_disable_z = true
+spread = 90.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+angular_velocity = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.1
+scale_random = 0.2
+color = Color( 0, 0.772549, 0.956863, 0.784314 )
+
+[sub_resource type="ParticlesMaterial" id=18]
 emission_shape = 2
 emission_box_extents = Vector3( 30, 1, 1 )
 flag_disable_z = true
@@ -369,7 +396,7 @@ scale = 0.1
 scale_random = 0.3
 color = Color( 1, 1, 1, 0.392157 )
 
-[node name="Node2D" type="Node2D"]
+[node name="Player" type="Node2D"]
 
 [node name="Player" type="KinematicBody2D" parent="."]
 collision_mask = 4
@@ -382,6 +409,7 @@ texture = ExtResource( 3 )
 offset = Vector2( -54.4896, -165.819 )
 vframes = 9
 hframes = 10
+frame = 85
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Sprite"]
 anims/Die = SubResource( 1 )
@@ -392,10 +420,10 @@ anims/Die = SubResource( 1 )
 "anims/Fly to Up" = SubResource( 6 )
 anims/Hurt = SubResource( 7 )
 anims/Idle = SubResource( 8 )
-anims/Invoke = SubResource( 9 )
-anims/Jump = SubResource( 10 )
-"anims/Jump End" = SubResource( 11 )
-anims/Shield = SubResource( 12 )
+anims/Jump = SubResource( 9 )
+"anims/Jump End" = SubResource( 10 )
+"anims/Power 0" = SubResource( 11 )
+"anims/Power 1" = SubResource( 12 )
 anims/Shoot = SubResource( 13 )
 "anims/Shoot Jump" = SubResource( 14 )
 anims/Walk = SubResource( 15 )
@@ -411,23 +439,47 @@ __meta__ = {
 [node name="ShootTimer" type="Timer" parent="Player"]
 one_shot = true
 
-[node name="FlyTimer" type="Timer" parent="Player"]
+[node name="ImmunityTimer" type="Timer" parent="Player"]
+
+[node name="PowerMagic" type="Particles2D" parent="Player"]
+position = Vector2( -1.0267, -90.3481 )
+emitting = false
+amount = 25
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2( -145, -145, 290, 290 )
+process_material = SubResource( 17 )
+texture = ExtResource( 4 )
+
+[node name="Power" type="Node2D" parent="."]
+script = ExtResource( 5 )
+
+[node name="DamageTimer" type="Timer" parent="Power"]
+
+[node name="FlyTimer" type="Timer" parent="Power"]
 wait_time = 20.0
 one_shot = true
 
-[node name="Particles2D" type="Particles2D" parent="Player"]
+[node name="FlyMagic" type="Particles2D" parent="Power"]
 emitting = false
 amount = 15
 randomness = 1.0
 visibility_rect = Rect2( -2.5, -0.5, 5, 1 )
-process_material = SubResource( 17 )
+local_coords = false
+process_material = SubResource( 18 )
 texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Damage" type="Area2D" parent="."]
 position = Vector2( 0, -56 )
 collision_mask = 6
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="DamageCollision" type="CollisionPolygon2D" parent="Area2D"]
+[node name="DamageCollision" type="CollisionPolygon2D" parent="Damage"]
 visible = false
 position = Vector2( 38.7097, 19.1578 )
 polygon = PoolVector2Array( -14.4077, 40.8631, -65.1746, 40.8631, -64.7945, -21.5685, -88.097, -39.4592, -97.3397, -77.7502, -53.7672, -97.5559, 9.1709, -91.8343, -1.83228, -28.4561, -17.2367, -17.4529 )
@@ -435,4 +487,6 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[connection signal="timeout" from="Player/FlyTimer" to="Player" method="_on_FlyTimer_timeout"]
+[connection signal="timeout" from="Power/DamageTimer" to="Power" method="_on_DamageTimer_timeout"]
+[connection signal="timeout" from="Power/FlyTimer" to="Power" method="_on_FlyTimer_timeout"]
+[connection signal="body_entered" from="Damage" to="Player" method="_on_Area2D_body_entered"]

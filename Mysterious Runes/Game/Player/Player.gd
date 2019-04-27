@@ -1,12 +1,12 @@
 extends KinematicBody2D
 
+export var health = 100
 export var speed = 250
-export var gravity = 900
+export var hit_power = 25
 export var jump_speed = 450
 export var attack_wait = 1
 export var shooting = false
-export var jumping = false
-export var flying = false
+export var power_active = false
 
 export (PackedScene) var Bullet
 
@@ -14,22 +14,24 @@ var animation = "Idle"
 var velocity = Vector2()
 var direction = Vector2()
 
+var gravity = 900
+var maxLife = 0
+var jumping = false
+var dying = false
+
 func _ready():
 	$Sprite/AnimationPlayer.animation_set_next("Fly to Up", "Fly Up")
 	$Sprite/AnimationPlayer.animation_set_next("Fly to Down", "Fly Down")
+	$Sprite.frame = 0
+	maxLife = health
 	pass
 
 func _physics_process(delta):
-	if !flying:
+	if !power_active:
 		_move(delta)
 		_animate()
-	else:
-		_fly(delta)
 	
 	_shoot()
-	
-	if Input.is_key_pressed(KEY_B) && !flying:
-		_active_fly()
 
 func _move(delta):
 	velocity.y += delta * gravity
@@ -49,42 +51,6 @@ func _move(delta):
 	if shooting && !jumping: velocity.x = 0
 	move_and_slide(velocity, Vector2(0, -1))
 
-func _active_fly():
-	flying = true;
-	$FlyTimer.start(10)
-	$Particles2D.emitting = true
-
-func _fly(delta):
-	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
-	direction.y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
-	
-	if direction.y == -1 && $Sprite/AnimationPlayer.current_animation != "Fly Up":
-		$Sprite/AnimationPlayer.play("Fly to Up")
-	if direction.y == 1 && $Sprite/AnimationPlayer.current_animation != "Fly Down":
-		$Sprite/AnimationPlayer.play("Fly to Down")
-	
-	if shooting && $Sprite/AnimationPlayer.current_animation != "Fly Shoot":
-		var anim = $Sprite/AnimationPlayer.current_animation
-		$Sprite/AnimationPlayer.animation_set_next("Fly Shoot", anim)
-		$Sprite/AnimationPlayer.play("Fly Shoot")
-	
-	velocity = lerp(velocity, direction * speed * delta, delta * 2)
-	move_and_collide(velocity)
-	
-	if velocity.x != 0:
-		$Sprite.scale.x = 0.5 if velocity.x > 0 else -0.5
-
-func _shoot():
-	if !shooting && $ShootTimer.is_stopped() :
-		if Input.is_action_pressed("shoot"):
-			shooting = true
-
-func _spawn_bullet():
-	var bullet = Bullet.instance()
-	bullet.setup(position + Vector2 (150 * $Sprite.scale.x, -50), $Sprite.scale.x, "Player")
-	get_parent().add_child(bullet)
-	$ShootTimer.start(attack_wait)
-
 func _animate():
 	if velocity.x != 0:
 		animation = "Walk"
@@ -101,19 +67,38 @@ func _animate():
 		if jumping:
 			animation += " Jump"
 	
-	
 	if animation != $Sprite/AnimationPlayer.current_animation:
 		$Sprite/AnimationPlayer.play(animation)
-	
 
-func _on_FlyTimer_timeout():
-	if !shooting:
-		flying = false
-		$Particles2D.emitting = false
+func _shoot():
+	if !shooting && $ShootTimer.is_stopped() :
+		if Input.is_action_pressed("shoot"):
+			shooting = true
 
-func fly_out():
-	if $FlyTimer.is_stopped():
-		_on_FlyTimer_timeout()
+func _spawn_bullet():
+	var bullet = Bullet.instance()
+	bullet.setup(position + Vector2 (150 * $Sprite.scale.x, -50), $Sprite.scale.x, "Player")
+	get_parent().add_child(bullet)
+	$ShootTimer.start(attack_wait)
 
-func rune(type):
-	print(type)
+func _hurt(hit):
+	if $ImmunityTimer.is_stopped():
+		health -= hit
+		$ImmunityTimer.start(1)
+
+func rune(power, type):
+	power_active = true
+	get_parent().get_node("Power").call("_" + power.to_lower())
+	if power != "Fly":
+		$Sprite/AnimationPlayer.play("Power " + str(type))
+		$PowerMagic.emitting = true
+		$PowerMagic.rotation_degrees = $Sprite.scale.x * 180 
+		$PowerMagic.restart()
+
+func check_life():
+	health = clamp(health, 0, maxLife)
+	if health == 0:
+		dying = true
+
+func _on_Area2D_body_entered(body):
+	pass # Replace with function body.

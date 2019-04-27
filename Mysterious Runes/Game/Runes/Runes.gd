@@ -7,7 +7,6 @@ export (String, "Slow_Down", "Poison", "Paralyze", "Invoke", "Fly") var permanen
 var temporary = ["Damage", "Shield", "Regeneration"]
 var power = ""
 var dropped = false
-var power_frame = 0
 
 signal rune
 
@@ -17,6 +16,8 @@ func change_tree(_type):
 	$Rune.position.x = 5 if treeType == 1 else -15
 
 func _ready():
+	$Rune/Rune/Label.visible = false
+	$Rune/Rune/Power.visible = false
 	$Rune/Particles2D.emitting = true
 	
 	randomize()
@@ -41,12 +42,10 @@ func animation():
 	$Rune/Rune/Power.frame = frame
 
 func _on_Rune_body_entered(body):
-	if body.name == "Bullet":
+	if body.is_in_group("Bullet"):
 		dropped = true
 		$Rune/Rune/AnimationPlayer.play("Drop")
-		$Drop.start(1)
 	elif body.name == "Player" && dropped:
-		self.connect("rune", body, "rune", [power])
+		self.connect("rune", body, "rune", [power, runeType])
 		self.emit_signal("rune")
-		$Rune.set_collision_mask_bit(0, false)
 
