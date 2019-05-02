@@ -114,7 +114,6 @@ collision_layer = 8
 collision_mask = 17
 
 [node name="Rune" type="Sprite" parent="Rune"]
-scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 3 )
 hframes = 4
 
@@ -131,10 +130,10 @@ frame = 1
 [node name="Label" type="Label" parent="Rune/Rune"]
 visible = false
 anchor_right = 0.45
-margin_left = -49.811
-margin_top = -75.0
-margin_right = 9.68897
-margin_bottom = -50.0
+margin_left = -49.8107
+margin_top = -11.3206
+margin_right = 9.68927
+margin_bottom = 13.6794
 rect_scale = Vector2( 2, 2 )
 rect_pivot_offset = Vector2( 50, 12 )
 text = "Shield"

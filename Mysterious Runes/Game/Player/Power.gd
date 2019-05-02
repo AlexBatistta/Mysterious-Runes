@@ -1,5 +1,7 @@
 extends Node2D
 
+export (PackedScene) var Invoked
+
 var Player
 var Animation
 
@@ -14,11 +16,11 @@ func _ready():
 func _process(delta):
 	if flying:
 		_flying(delta)
+		$FlyMagic.position = Player.position
 
 func _damage():
 	Player.hit_power *= 2
 	print("Damage")
-	
 	pass
 
 func _shield():
@@ -29,7 +31,7 @@ func _shield():
 
 func _regeneration():
 	Player.health += 50  
-	Player.check_life
+	Player.check_life()
 	
 	print("Regeneration")
 	pass
@@ -48,6 +50,11 @@ func _paralyze():
 	pass
 
 func _invoke():
+	var invoked_01 = Invoked.instance()
+	var _direction = Player.get_node("Sprite").scale.x * 2
+	var _position = Player.position + Vector2 (200 * _direction, -150)
+	invoked_01.get_node("InvokedBody").setup(_position, _direction)
+	call_deferred("add_child",invoked_01)
 	print("Invoke")
 	pass
 

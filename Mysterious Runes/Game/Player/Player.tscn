@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Game/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Game/Bullet/Bullet.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Player/Player.png" type="Texture" id=3]
 [ext_resource path="res://Game/Player/Fly Particle.png" type="Texture" id=4]
 [ext_resource path="res://Game/Player/Power.gd" type="Script" id=5]
+[ext_resource path="res://Game/Invoked/Invoked.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"
@@ -367,21 +368,29 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=16]
-extents = Vector2( 39.236, 60 )
+extents = Vector2( 39, 60 )
 
-[sub_resource type="ParticlesMaterial" id=17]
+[sub_resource type="Curve" id=17]
+_data = [ Vector2( 0, 0.5088 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=18]
+curve = SubResource( 17 )
+
+[sub_resource type="ParticlesMaterial" id=19]
 flag_disable_z = true
-spread = 90.0
+spread = 180.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 100.0
-angular_velocity = 1.0
+angular_velocity = 90.0
+angular_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale = 0.1
-scale_random = 0.2
-color = Color( 0, 0.772549, 0.956863, 0.784314 )
+linear_accel = 25.0
+scale = 0.3
+scale_curve = SubResource( 18 )
+color = Color( 1, 1, 1, 0.588235 )
 
-[sub_resource type="ParticlesMaterial" id=18]
+[sub_resource type="ParticlesMaterial" id=20]
 emission_shape = 2
 emission_box_extents = Vector3( 30, 1, 1 )
 flag_disable_z = true
@@ -394,13 +403,16 @@ linear_accel = 25.0
 radial_accel = 30.0
 scale = 0.1
 scale_random = 0.3
-color = Color( 1, 1, 1, 0.392157 )
+color = Color( 1, 1, 1, 0.588235 )
 
 [node name="Player" type="Node2D"]
 
 [node name="Player" type="KinematicBody2D" parent="."]
 collision_mask = 4
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 Bullet = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Player"]
@@ -409,7 +421,6 @@ texture = ExtResource( 3 )
 offset = Vector2( -54.4896, -165.819 )
 vframes = 9
 hframes = 10
-frame = 85
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Sprite"]
 anims/Die = SubResource( 1 )
@@ -429,7 +440,6 @@ anims/Shoot = SubResource( 13 )
 anims/Walk = SubResource( 15 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-visible = false
 position = Vector2( 0, -56 )
 shape = SubResource( 16 )
 __meta__ = {
@@ -442,17 +452,22 @@ one_shot = true
 [node name="ImmunityTimer" type="Timer" parent="Player"]
 
 [node name="PowerMagic" type="Particles2D" parent="Player"]
-position = Vector2( -1.0267, -90.3481 )
+position = Vector2( 0, -55 )
+rotation = -1.5708
 emitting = false
-amount = 25
+amount = 20
 one_shot = true
-explosiveness = 1.0
+explosiveness = 0.5
 visibility_rect = Rect2( -145, -145, 290, 290 )
-process_material = SubResource( 17 )
+process_material = SubResource( 19 )
 texture = ExtResource( 4 )
 
 [node name="Power" type="Node2D" parent="."]
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+Invoked = ExtResource( 6 )
 
 [node name="DamageTimer" type="Timer" parent="Power"]
 
@@ -466,7 +481,7 @@ amount = 15
 randomness = 1.0
 visibility_rect = Rect2( -2.5, -0.5, 5, 1 )
 local_coords = false
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true

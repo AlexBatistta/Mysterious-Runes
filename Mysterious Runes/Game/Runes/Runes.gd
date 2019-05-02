@@ -48,4 +48,7 @@ func _on_Rune_body_entered(body):
 	elif body.name == "Player" && dropped:
 		self.connect("rune", body, "rune", [power, runeType])
 		self.emit_signal("rune")
+		call_deferred("disabled_collision", true)
 
+func disabled_collision(_disabled):
+	$Rune/CollisionShape2D.disabled = _disabled

@@ -89,11 +89,10 @@ func _hurt(hit):
 func rune(power, type):
 	power_active = true
 	get_parent().get_node("Power").call("_" + power.to_lower())
+	$PowerMagic.emitting = true
+	$PowerMagic.restart()
 	if power != "Fly":
 		$Sprite/AnimationPlayer.play("Power " + str(type))
-		$PowerMagic.emitting = true
-		$PowerMagic.rotation_degrees = $Sprite.scale.x * 180 
-		$PowerMagic.restart()
 
 func check_life():
 	health = clamp(health, 0, maxLife)
