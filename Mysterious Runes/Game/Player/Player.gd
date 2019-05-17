@@ -7,6 +7,7 @@ export var jump_speed = 450
 export var attack_wait = 1
 export var shooting = false
 export var power_active = false
+export var wait = true
 
 export (PackedScene) var Bullet
 
@@ -18,6 +19,7 @@ var gravity = 900
 var maxLife = 0
 var jumping = false
 var dying = false
+var specialPower = false
 
 func _ready():
 	$Sprite/AnimationPlayer.animation_set_next("Fly to Up", "Fly Up")
@@ -49,12 +51,14 @@ func _move(delta):
 	elif velocity.y > gravity * delta * 2: jumping = true
 	
 	if shooting && !jumping: velocity.x = 0
+	if wait: velocity.x = 0
 	move_and_slide(velocity, Vector2(0, -1))
 
 func _animate():
 	if velocity.x != 0:
 		animation = "Walk"
 		$Sprite.scale.x = 0.5 if velocity.x > 0 else -0.5
+		$Damage.scale.x = 1 if velocity.x > 0 else -1
 	else: animation = "Idle"
 	
 	if jumping: 
@@ -88,7 +92,9 @@ func _hurt(hit):
 
 func rune(power, type):
 	power_active = true
-	get_parent().get_node("Power").call("_" + power.to_lower())
+	if type == 1:
+		specialPower = true
+	$Power.call("_" + power.to_lower())
 	$PowerMagic.emitting = true
 	$PowerMagic.restart()
 	if power != "Fly":

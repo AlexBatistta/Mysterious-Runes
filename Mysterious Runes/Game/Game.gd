@@ -11,9 +11,11 @@ func change_color(_color):
 func change_level(_level):
 	current_level = _level
 
-func _ready():
-	$Levels.setup(current_level, color)
+func setup_level():
+	$CanvasLayer/FadeOut/AnimationPlayer.play("Fade")
+	$Levels.setup(current_level, color, $Player)
+	$Player/Camera2D.limit_right = $Levels.get_limits().x
+	$Player/Camera2D.limit_bottom = $Levels.get_limits().y
 
-func _process(delta):
-	$Player/Camera2D.position = get_node("Player/Player").position 
-	pass
+func _ready():
+	setup_level()

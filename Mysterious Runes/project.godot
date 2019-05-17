@@ -19,6 +19,11 @@ config/name="Mysterious Runes"
 run/main_scene="res://Game/Game.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/stretch/mode="2d"
+window/stretch/aspect="expand"
+
 [input]
 
 move_left={

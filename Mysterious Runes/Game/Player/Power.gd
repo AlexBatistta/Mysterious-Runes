@@ -10,8 +10,8 @@ var velocity = Vector2()
 var direction = Vector2()
 
 func _ready():
-	Player = get_parent().get_node("Player")
-	Animation = Player.get_node("Sprite/AnimationPlayer")
+	Animation = get_parent().get_node("Sprite/AnimationPlayer")
+	Player = get_parent()
 
 func _process(delta):
 	if flying:

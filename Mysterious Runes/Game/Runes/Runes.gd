@@ -10,9 +10,6 @@ var dropped = false
 
 signal rune
 
-func set_position(_position):
-	position = _position
-
 func change_tree(_type):
 	treeType = _type
 	$Tree.frame = treeType
