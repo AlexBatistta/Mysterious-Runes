@@ -1,21 +1,29 @@
+tool
 extends Node2D
 
-enum ColorLevel {ORANGE, PURPLE, VIOLET, LIGHT_GREEN, GREEN}
 
-export (ColorLevel) var color = ColorLevel.ORANGE setget change_color
 export (int, 1, 5) var current_level = 1 setget change_level
-
-func change_color(_color):
-	color = _color
 
 func change_level(_level):
 	current_level = _level
+	if Engine.is_editor_hint():
+		$Levels.change_level(_level)
+		$Levels.set_color(_color())
 
 func setup_level():
-	$CanvasLayer/FadeOut/AnimationPlayer.play("Fade")
-	$Levels.setup(current_level, color, $Player)
-	$Player/Camera2D.limit_right = $Levels.get_limits().x
-	$Player/Camera2D.limit_bottom = $Levels.get_limits().y
+	if !Engine.is_editor_hint():
+		$CanvasLayer/FadeOut/AnimationPlayer.play("Fade")
+		$Levels.setup(current_level, _color(), $Player)
+		$Player/Camera2D.limit_right = $Levels.get_limits().x
+		$Player/Camera2D.limit_bottom = $Levels.get_limits().y
 
 func _ready():
 	setup_level()
+
+func _color():
+	match current_level:
+		1:	return Color.red
+		2:	return Color.blue
+		3:	return Color.green
+		4:	return Color.yellow
+		5:	return Color.purple

@@ -1,23 +1,18 @@
 extends KinematicBody2D
 
-#export var health = 100
-export var speed = 275
 #export var shooting = false
-#export var hit_power = 25
 
 var animation = "Spawn"
 var velocity = Vector2()
 var direction = 1
-var spawning = true
 var gravity = 900
+var spawning = true
 
 signal attack_reposition
 
 func _ready():
-	var attack_node = get_parent().get_node("AttackArea")
-	connect("attack_reposition", attack_node, "_reposition")
-	speed /= 2
-	pass
+	connect("attack_reposition", $AttackArea, "_reposition")
+	get_parent().speed /= 2
 
 func setup(_position, _direction):
 	position = _position
@@ -26,26 +21,30 @@ func setup(_position, _direction):
 		_change_direction()
 
 func _physics_process(delta):
-	
-	_move(delta)
+	if get_parent().type != 2:
+		_move(delta)
+	else:
+		_fly()
 	
 	_animate()
 	
 	_attack()
 	
-	get_parent().get_node("AttackArea").position = position
+	$AttackArea.position = position
 
 func _move(delta):
 	
 	velocity.y += delta * gravity
 	
-	velocity.x = (direction * (speed * delta)) / delta
+	velocity.x = (direction * (get_parent().speed * delta)) / delta
 	
 	move_and_slide(velocity, Vector2(0, -1))
 	
-	if !spawning:
-		if is_on_wall() || !$RayCast2D.is_colliding():
-			_change_direction()
+	if is_on_wall() || !$RayCast2D.is_colliding():
+		_change_direction()
+
+func _fly():
+	pass
 
 func _attack():
 	#if !shooting && $AttackTimer.is_stopped() :
@@ -58,15 +57,14 @@ func _animate():
 		animation = "Spawn"
 		if is_on_floor():
 			spawning = false
-			speed *= 2
-	else:
-		if velocity.x != 0:
-			animation = "Run"
-			$Sprite.scale.x = 0.5 if velocity.x > 0 else -0.5
-		else: animation = "Idle"
+			get_parent().speed *= 2
+	elif velocity.x != 0:
+		animation = "Run"
+		$Sprite.scale.x = 0.5 if velocity.x > 0 else -0.5
+	else: animation = "Idle"
 	
-	if animation != $Sprite/AnimationPlayer.current_animation:
-		$Sprite/AnimationPlayer.play(animation)
+	if animation != $AnimationPlayer.current_animation:
+		$AnimationPlayer.play(animation)
 
 func _change_direction():
 	direction *= -1

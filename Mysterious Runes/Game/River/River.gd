@@ -10,18 +10,18 @@ var color = Color.aqua
 var sprite : Sprite
 
 func change_type(_type):
-	type = _type
-	if type == 0: color = Color.aqua
-	elif type == 1 : color = Color.greenyellow
-	else: color = Color.yellow
 	if Engine.is_editor_hint():
+		type = _type
+		if type == 0: color = Color.aqua
+		elif type == 1 : color = Color.greenyellow
+		else: color = Color.yellow
+		
 		set_color()
 
 func change_dimensions(_dimensions):
 	if _dimensions.y > 4: _dimensions.y = 4
 	dimensions = _dimensions
-	if Engine.is_editor_hint():
-		setup()
+	setup()
 
 func setup():
 	
@@ -56,7 +56,8 @@ func create_sprite():
 	sprite.set_material(shader)
 
 func set_color():
-	sprite.modulate = color
+	if sprite != null:
+		sprite.modulate = color
 	$Particles2D.modulate = color
 
 func _ready():

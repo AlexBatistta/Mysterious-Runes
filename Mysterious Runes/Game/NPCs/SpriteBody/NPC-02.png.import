@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Enemy-01.png-58194a6150b053498da39dd32c9cb687.stex"
+path="res://.import/NPC-02.png-44951b1c81e9beebd5fe31b6b4b44040.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game/Enemies/SpriteBody/Enemy-01.png"
-dest_files=[ "res://.import/Enemy-01.png-58194a6150b053498da39dd32c9cb687.stex" ]
+source_file="res://Game/NPCs/SpriteBody/NPC-02.png"
+dest_files=[ "res://.import/NPC-02.png-44951b1c81e9beebd5fe31b6b4b44040.stex" ]
 
 [params]
 

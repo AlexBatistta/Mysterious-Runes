@@ -1,14 +1,24 @@
+tool
 extends Node2D
 
+export (int, 1, 5) var level = 1 setget change_level
 var current_level
 var player
 
-func setup(_level, _color, _player):
+func change_level(_level):
+	level = _level
 	current_level = "Level" + str(_level)
-	
-	player = _player
-	spawn_characters()
-	spawn_objects()
+	if Engine.is_editor_hint():
+		set_color(Color.white)
+		var levels = get_children()
+		for level in levels:
+			if level.name != "TileMapColor":
+				level.visible = false
+			if level.name == current_level:
+				level.visible = true
+
+func set_color(_color):
+	$TileMapColor.clear()
 	
 	var tilemap = get_node(current_level).get_used_cells()
 	for tile in tilemap:
@@ -16,17 +26,16 @@ func setup(_level, _color, _player):
 		if id < 19:
 			$TileMapColor.set_cell(tile.x, tile.y, id)
 	
-	match _color:
-		0:
-			$TileMapColor.modulate = Color.red
-		1:
-			$TileMapColor.modulate = Color.blue
-		2:
-			$TileMapColor.modulate = Color.red
-		3:
-			$TileMapColor.modulate = Color.blue
-		4:
-			$TileMapColor.modulate = Color.red
+	$TileMapColor.modulate = _color
+	
+
+func setup(_level, _color, _player):
+	current_level = "Level" + str(_level)
+	
+	player = _player
+	spawn_characters()
+	
+	set_color(_color)
 	
 	var levels = get_children()
 	for level in levels:
@@ -35,12 +44,10 @@ func setup(_level, _color, _player):
 
 func spawn_characters():
 	var posPlayer = get_node(current_level).get_used_cells_by_id(23)
-	posPlayer = posPlayer[0]
-	player.set_position(get_node(current_level).map_to_world(posPlayer))
-	get_node(current_level).set_cell(posPlayer.x, posPlayer.y, -1)
-
-func spawn_objects():
-	pass
+	if !posPlayer.empty():
+		posPlayer = posPlayer[0]
+		player.set_position(get_node(current_level).map_to_world(posPlayer))
+		get_node(current_level).set_cell(posPlayer.x, posPlayer.y, -1)
 
 func get_limits():
 	var used = get_node(current_level).get_used_rect()

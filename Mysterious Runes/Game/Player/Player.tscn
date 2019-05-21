@@ -5,7 +5,11 @@
 [ext_resource path="res://Game/Player/Player.png" type="Texture" id=3]
 [ext_resource path="res://Game/Player/Fly Particle.png" type="Texture" id=4]
 [ext_resource path="res://Game/Player/Power.gd" type="Script" id=5]
-[ext_resource path="res://Game/Invoked/Invoked.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=6]
+
+
+
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"

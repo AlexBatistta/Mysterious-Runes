@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Invoked.png-4c484da229ce03b9fc3e7bc32556218e.stex"
+path="res://.import/NPC-01.png-f5849b21313630f8b1678f2ceb9f519a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game/Invoked/Invoked.png"
-dest_files=[ "res://.import/Invoked.png-4c484da229ce03b9fc3e7bc32556218e.stex" ]
+source_file="res://Game/NPCs/SpriteColor/NPC-01.png"
+dest_files=[ "res://.import/NPC-01.png-f5849b21313630f8b1678f2ceb9f519a.stex" ]
 
 [params]
 
