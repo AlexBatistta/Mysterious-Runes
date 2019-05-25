@@ -52,7 +52,7 @@ func _move(delta):
 	
 	if shooting && !jumping: velocity.x = 0
 	if wait: velocity.x = 0
-	move_and_slide(velocity, Vector2(0, -1))
+	velocity = move_and_slide(velocity, Vector2(0, -1))
 
 func _animate():
 	if velocity.x != 0:

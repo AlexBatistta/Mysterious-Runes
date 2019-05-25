@@ -54,14 +54,15 @@ anims/Fade = SubResource( 1 )
 [node name="Levels" parent="." instance=ExtResource( 2 )]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 2400, 1728 )
 wait = false
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
 limit_left = 0
 limit_top = 0
-limit_right = 2976
-limit_bottom = 1632
+limit_right = 4704
+limit_bottom = 2016
 drag_margin_v_enabled = false
 smoothing_enabled = true
 drag_margin_left = 0.4
