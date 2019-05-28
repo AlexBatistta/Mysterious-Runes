@@ -105,5 +105,13 @@ func check_life():
 	if health == 0:
 		dying = true
 
+func _in_river():
+	$Power.swimming = true
+	print("Entra")
+
+func _out_river():
+	$Power.swimming = false
+	print("Sale")
+
 func _on_Area2D_body_entered(body):
-	pass # Replace with function body.
+	pass

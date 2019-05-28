@@ -18,11 +18,11 @@ func _ready():
 	setup_level()
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		_pass_level()
+	pass
+	#if Input.is_action_just_pressed("ui_accept"):
+	#	_pass_level()
 
 func _pass_level():
 	if current_level < 5:
 		current_level += 1;
 		setup_level()
-

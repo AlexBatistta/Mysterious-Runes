@@ -83,6 +83,10 @@ move_down={
 2d_physics/layer_4="Runes"
 2d_render/layer_5="Bullet"
 2d_physics/layer_5="Bullet"
+2d_render/layer_6="Spawn"
+2d_physics/layer_6="Spawn"
+2d_render/layer_7="River"
+2d_physics/layer_7="River"
 
 [rendering]
 

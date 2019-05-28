@@ -6,6 +6,7 @@ var Player
 var Animation
 
 var flying = false
+var swimming = false
 var velocity = Vector2()
 var direction = Vector2()
 
@@ -16,7 +17,9 @@ func _ready():
 func _process(delta):
 	if flying:
 		_flying(delta)
-		$FlyMagic.position = Player.position
+	
+	if swimming:
+		_swimming(delta)
 
 func _damage():
 	Player.hit_power *= 2
@@ -85,6 +88,7 @@ func _flying(delta):
 	
 	if velocity.x != 0:
 		Player.get_node("Sprite").scale.x = 0.5 if velocity.x > 0 else -0.5
+		get_parent().get_node("Damage").scale.x = 1 if velocity.x > 0 else -1
 
 func _on_FlyTimer_timeout():
 	if !Player.shooting:
@@ -95,6 +99,10 @@ func _on_FlyTimer_timeout():
 func fly_out():
 	if $FlyTimer.is_stopped():
 		_on_FlyTimer_timeout()
+
+func _swimming(delta):
+	print("Nadando")
+
 
 func _on_DamageTimer_timeout():
 	Player.hit_power /= 2

@@ -30,7 +30,7 @@ func set_color():
 	var children = newLevel.get_children()
 	if !children.empty():
 		for child in children:
-			if child.is_in_group("NPC"):
+			if child.is_in_group("Spawn"):
 				child.change_color(_color())
 
 

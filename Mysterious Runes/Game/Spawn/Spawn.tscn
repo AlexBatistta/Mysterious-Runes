@@ -1,0 +1,139 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Spawn.gd" type="Script" id=1]
+[ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Game/Spawn/Spawn.png" type="Texture" id=3]
+[ext_resource path="res://Game/Particles/Fly Particle.png" type="Texture" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 50.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "Disappear"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../Particles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Particles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="ParticlesMaterial" id=4]
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 116.67
+angular_velocity = 132.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.1
+scale_random = 0.3
+
+[node name="Spawn" type="Area2D" groups=[
+"Spawn",
+]]
+collision_layer = 32
+collision_mask = 16
+script = ExtResource( 1 )
+NPCs = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 1 )
+
+[node name="Vortex" type="Sprite" parent="."]
+rotation = 0.495372
+scale = Vector2( 0.921159, 0.921159 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Vortex"]
+anims/Disappear = SubResource( 2 )
+anims/Vortex = SubResource( 3 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+process_material = SubResource( 4 )
+texture = ExtResource( 4 )
+
+[node name="SpawnNPC" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+visible = false
+rect = Rect2( -175, -175, 350, 350 )
+
+[connection signal="body_entered" from="." to="." method="_on_Spawn_body_entered"]
+[connection signal="timeout" from="SpawnNPC" to="." method="_on_SpawnNPC_timeout"]
+[connection signal="screen_entered" from="VisibilityEnabler2D" to="." method="_on_VisibilityEnabler2D_screen_entered"]
+[connection signal="screen_exited" from="VisibilityEnabler2D" to="." method="_on_VisibilityEnabler2D_screen_exited"]

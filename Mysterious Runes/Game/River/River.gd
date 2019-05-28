@@ -1,32 +1,34 @@
 tool
 extends Node2D
 
-export (int, "Water", "Acid", "Poison") var type = 0 setget change_type
+export (int, "Water", "Acid", "Poison") var type = 0
 export (Vector2) var dimensions = Vector2(1, 1) setget change_dimensions
 export var tileSize = 96
 
 var rectSprite = Vector2()
-var color = Color.aqua
-var sprite : Sprite
-
-func change_type(_type):
-	if Engine.is_editor_hint():
-		type = _type
-		if type == 0: color = Color.aqua
-		elif type == 1 : color = Color.greenyellow
-		else: color = Color.yellow
-		
-		set_color()
+var color
+var backWaves : Sprite
+var frontWaves : Sprite
 
 func change_dimensions(_dimensions):
 	if _dimensions.y > 4: _dimensions.y = 4
 	dimensions = _dimensions
-	setup()
+	
+	if backWaves != null:
+		backWaves.queue_free()
+	backWaves = create_sprite(1)
+	add_child(backWaves)
+	
+	if frontWaves != null:
+		frontWaves.queue_free()
+	frontWaves = create_sprite(3)
+	frontWaves.region_rect = Rect2(35, 0, rectSprite.x, rectSprite.y - 20)
+	frontWaves.position += Vector2(0, 10)
+	frontWaves.material.set_shader_param("speed", 0.2)
+	add_child(frontWaves)
+	set_color()
 
 func setup():
-	
-	create_sprite()
-	
 	$Area2D.scale = dimensions
 	$Area2D.position = rectSprite / 2
 	
@@ -34,18 +36,13 @@ func setup():
 	$Particles2D.process_material.emission_box_extents = Vector3(40 * dimensions.x, 40 * dimensions.y, 1)
 	$Particles2D.position = rectSprite / 2
 	$Particles2D.emitting = true
-	
-	set_color()
 
-func create_sprite():
+func create_sprite(zIndex):
 	rectSprite = Vector2(tileSize * dimensions.x, tileSize * dimensions.y)
 	
-	if sprite != null:
-		sprite.queue_free()
-	
-	sprite = Sprite.new()
+	var sprite = Sprite.new()
 	sprite.texture = load("res://Game/River/River.png")
-	add_child(sprite)
+	sprite.z_index = zIndex
 	
 	sprite.region_enabled = true
 	sprite.region_rect = Rect2(Vector2(0, 0), rectSprite)
@@ -54,15 +51,30 @@ func create_sprite():
 	var shader = ShaderMaterial.new()
 	shader.set_shader(load("res://Game/River/SpriteShader.shader"))
 	sprite.set_material(shader)
+	
+	return sprite
 
 func set_color():
-	if sprite != null:
-		sprite.modulate = color
+	if type == 0: color = Color.aqua
+	elif type == 1 : color = Color.greenyellow
+	else: color = Color.yellow
+	
+	if backWaves != null:
+		backWaves.modulate = color
+	
+	if frontWaves != null:
+		frontWaves.modulate = color
+		frontWaves.modulate.a = 0.65
+	
 	$Particles2D.modulate = color
 
 func _ready():
 	setup()
 
 func _on_Area2D_body_entered(body):
-	pass # Replace with function body.
+	if body.name == "Player":
+		body._in_river()
 
+func _on_Area2D_body_exited(body):
+	if body.name == "Player":
+		body._out_river()

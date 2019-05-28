@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Spawn.png-aa6d5370d9b5f7c28fca5a51fa3a9989.stex"
+path="res://.import/Fly Particle.png-7633115fe046e9f7cb2116e3aa008ba3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game/NPCs/Spawn.png"
-dest_files=[ "res://.import/Spawn.png-aa6d5370d9b5f7c28fca5a51fa3a9989.stex" ]
+source_file="res://Game/Particles/Fly Particle.png"
+dest_files=[ "res://.import/Fly Particle.png-7633115fe046e9f7cb2116e3aa008ba3.stex" ]
 
 [params]
 
