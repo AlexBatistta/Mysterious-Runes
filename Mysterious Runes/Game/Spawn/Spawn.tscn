@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Spawn.gd" type="Script" id=1]
+[ext_resource path="res://Game/Spawn/Spawn.gd" type="Script" id=1]
 [ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Spawn/Spawn.png" type="Texture" id=3]
 [ext_resource path="res://Game/Particles/Fly Particle.png" type="Texture" id=4]
@@ -113,8 +113,8 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="Vortex" type="Sprite" parent="."]
-rotation = 0.495372
-scale = Vector2( 0.921159, 0.921159 )
+rotation = 0.468279
+scale = Vector2( 0.925471, 0.925471 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Vortex"]

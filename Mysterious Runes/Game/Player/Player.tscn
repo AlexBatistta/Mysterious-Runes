@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Game/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Game/Bullet/Bullet.tscn" type="PackedScene" id=2]
@@ -24,6 +24,23 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=2]
+resource_name = "Fall"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 37, 38, 39, 38 ]
+}
+
+[sub_resource type="Animation" id=3]
 length = 0.72
 loop = true
 step = 0.09
@@ -40,7 +57,7 @@ tracks/0/keys = {
 "values": [ 75, 76, 77, 78, 79, 78, 77, 76 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -81,7 +98,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 0.72
 loop = true
 step = 0.09
@@ -98,7 +115,7 @@ tracks/0/keys = {
 "values": [ 70, 71, 72, 73, 74, 73, 72, 71 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 length = 0.45
 step = 0.09
 tracks/0/type = "value"
@@ -114,7 +131,7 @@ tracks/0/keys = {
 "values": [ 80, 81, 82, 83, 84 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.45
 step = 0.09
 tracks/0/type = "value"
@@ -130,7 +147,7 @@ tracks/0/keys = {
 "values": [ 84, 83, 82, 81, 80 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -143,22 +160,6 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 20, 21, 22, 23, 24, 23, 22, 21, 20 ]
-}
-
-[sub_resource type="Animation" id=8]
-length = 0.8
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 3, 2, 1 ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -174,10 +175,12 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 30, 31, 32, 33, 34, 33, 32, 31 ]
+"values": [ 0, 1, 2, 3, 4, 3, 2, 1 ]
 }
 
 [sub_resource type="Animation" id=10]
+length = 0.8
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -185,10 +188,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 35, 36, 37, 38, 39, 38, 39, 38, 39, 38 ]
+"values": [ 30, 31, 32, 33, 34, 33, 32, 31 ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -398,6 +401,15 @@ scale = 0.1
 scale_random = 0.3
 color = Color( 1, 1, 1, 0.588235 )
 
+[sub_resource type="ParticlesMaterial" id=21]
+flag_disable_z = true
+spread = 90.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 25.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 5.0
+
 [node name="Player" type="KinematicBody2D"]
 z_index = 2
 collision_mask = 4
@@ -413,18 +425,19 @@ texture = ExtResource( 3 )
 offset = Vector2( -54.4896, -165.819 )
 vframes = 9
 hframes = 10
+frame = 72
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Die = SubResource( 1 )
-"anims/Fly Down" = SubResource( 2 )
-"anims/Fly Shoot" = SubResource( 3 )
-"anims/Fly Up" = SubResource( 4 )
-"anims/Fly to Down" = SubResource( 5 )
-"anims/Fly to Up" = SubResource( 6 )
-anims/Hurt = SubResource( 7 )
-anims/Idle = SubResource( 8 )
-anims/Jump = SubResource( 9 )
-"anims/Jump End" = SubResource( 10 )
+anims/Fall = SubResource( 2 )
+"anims/Fly Down" = SubResource( 3 )
+"anims/Fly Shoot" = SubResource( 4 )
+"anims/Fly Up" = SubResource( 5 )
+"anims/Fly to Down" = SubResource( 6 )
+"anims/Fly to Up" = SubResource( 7 )
+anims/Hurt = SubResource( 8 )
+anims/Idle = SubResource( 9 )
+anims/Jump = SubResource( 10 )
 "anims/Power 0" = SubResource( 11 )
 "anims/Power 1" = SubResource( 12 )
 anims/Shoot = SubResource( 13 )
@@ -479,6 +492,15 @@ texture = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Splash" type="Particles2D" parent="Power"]
+rotation = -1.5708
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource( 21 )
 
 [node name="Damage" type="Area2D" parent="."]
 position = Vector2( 0, -56 )

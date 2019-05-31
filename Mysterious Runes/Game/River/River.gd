@@ -32,10 +32,10 @@ func setup():
 	$Area2D.scale = dimensions
 	$Area2D.position = rectSprite / 2
 	
-	$Particles2D.process_material = load("res://Game/River/ParticlesMaterial.tres").duplicate()
-	$Particles2D.process_material.emission_box_extents = Vector3(40 * dimensions.x, 40 * dimensions.y, 1)
-	$Particles2D.position = rectSprite / 2
-	$Particles2D.emitting = true
+	$Bubbles.process_material = load("res://Game/River/ParticlesMaterial.tres").duplicate()
+	$Bubbles.process_material.emission_box_extents = Vector3(40 * dimensions.x, 40 * dimensions.y, 1)
+	$Bubbles.position = rectSprite / 2
+	$Bubbles.emitting = true
 
 func create_sprite(zIndex):
 	rectSprite = Vector2(tileSize * dimensions.x, tileSize * dimensions.y)
@@ -66,15 +66,15 @@ func set_color():
 		frontWaves.modulate = color
 		frontWaves.modulate.a = 0.65
 	
-	$Particles2D.modulate = color
+	$Bubbles.modulate = color
 
 func _ready():
 	setup()
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
-		body._in_river()
+		body._river(true, position.y)
 
 func _on_Area2D_body_exited(body):
 	if body.name == "Player":
-		body._out_river()
+		body._river(false)

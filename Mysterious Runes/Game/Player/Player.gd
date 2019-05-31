@@ -39,8 +39,7 @@ func _move(delta):
 	velocity.y += delta * gravity
 	
 	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
-	
-	velocity.x = (direction.x * (speed * delta)) / delta
+	velocity.x = direction.x * speed
 	
 	if is_on_floor():
 		velocity.y = 0
@@ -52,6 +51,7 @@ func _move(delta):
 	
 	if shooting && !jumping: velocity.x = 0
 	if wait: velocity.x = 0
+	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 
 func _animate():
@@ -63,13 +63,13 @@ func _animate():
 	
 	if jumping: 
 		animation = "Jump"
-		if velocity.y > 0:
-			animation += " End"
+	if velocity.y > 0:
+			animation = "Fall"
 	
 	if shooting:
 		animation = "Shoot"
 		if jumping:
-			animation += " Jump"
+			animation += " Jump"	
 	
 	if animation != $Sprite/AnimationPlayer.current_animation:
 		$Sprite/AnimationPlayer.play(animation)
@@ -105,13 +105,9 @@ func check_life():
 	if health == 0:
 		dying = true
 
-func _in_river():
-	$Power.swimming = true
-	print("Entra")
-
-func _out_river():
-	$Power.swimming = false
-	print("Sale")
+func _river(_active, _top = 0):
+	power_active = _active
+	$Power._swim(_active, _top)
 
 func _on_Area2D_body_entered(body):
 	pass

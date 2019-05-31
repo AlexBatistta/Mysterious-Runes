@@ -18,6 +18,7 @@ tile_data = PoolIntArray( 0, 0, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262
 
 [node name="Runes" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1450, 1920 )
+treeType = 1
 runeType = 1
 permanent = "Fly"
 
