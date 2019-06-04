@@ -71,8 +71,12 @@ func _animate():
 
 func _change_direction():
 	direction *= -1
-	#$RayCast2D.position.x *= -1
-	#emit_signal("attack_reposition", direction)
+	$RayCast2D.position.x *= -1
 
 func _die():
 	pass
+
+func _geyser(_orientation):
+	velocity.y = -600 * _orientation
+	velocity.x = 0
+	spawning = true

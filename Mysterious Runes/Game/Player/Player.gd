@@ -109,5 +109,10 @@ func _river(_active, _top = 0):
 	power_active = _active
 	$Power._swim(_active, _top)
 
+func _geyser(_orientation):
+	velocity.y = -600 * _orientation
+	velocity.x = 0
+	jumping = true
+
 func _on_Area2D_body_entered(body):
 	pass

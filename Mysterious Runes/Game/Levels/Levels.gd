@@ -35,7 +35,7 @@ func set_color():
 
 
 func position_player():
-	var posPlayer = newLevel.get_used_cells_by_id(23)
+	var posPlayer = newLevel.get_used_cells_by_id(19)
 	if !posPlayer.empty():
 		posPlayer = posPlayer[0]
 		newLevel.set_cell(posPlayer.x, posPlayer.y, -1)
