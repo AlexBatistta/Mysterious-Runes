@@ -3,6 +3,10 @@ extends KinematicBody2D
 
 export (bool) var long = false setget change_size
 export (Vector2) var final_position = Vector2.ZERO
+export (float, 0.1, 1) var speed = 1 setget change_speed 
+
+func change_color(_color):
+	$Sprite.modulate = _color
 
 func change_size(_long):
 	long = _long
@@ -12,6 +16,11 @@ func change_size(_long):
 	else:
 		$Sprite.region_rect = Rect2(0, 48, 96, 48)
 		$CollisionShape2D.scale.x = 1
+
+func change_speed(_speed):
+	if Engine.is_editor_hint():
+		speed = stepify(_speed, 0.1)
+		$Sprite/AnimationPlayer.playback_speed = speed
 
 func _draw():
 	if Engine.is_editor_hint():
@@ -29,4 +38,5 @@ func _ready():
 func update_movement():
 	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 0, position)
 	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 1, final_position + position)
-	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 2, position)
+	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 2, final_position + position)
+	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 3, position)

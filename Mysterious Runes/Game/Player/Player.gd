@@ -20,6 +20,7 @@ var maxLife = 0
 var jumping = false
 var dying = false
 var specialPower = false
+var snap = Vector2(0, 32)
 
 func _ready():
 	$Sprite/AnimationPlayer.animation_set_next("Fly to Up", "Fly Up")
@@ -52,7 +53,10 @@ func _move(delta):
 	if shooting && !jumping: velocity.x = 0
 	if wait: velocity.x = 0
 	
-	velocity = move_and_slide(velocity, Vector2(0, -1))
+	snap = Vector2(0, 32)
+	if jumping: snap = Vector2.ZERO
+	
+	velocity = move_and_slide_with_snap(velocity, snap, Vector2(0, -1))
 
 func _animate():
 	if velocity.x != 0:
@@ -113,6 +117,7 @@ func _geyser(_orientation):
 	velocity.y = -600 * _orientation
 	velocity.x = 0
 	jumping = true
+	move_and_slide(velocity, Vector2(0, -1))
 
 func _on_Area2D_body_entered(body):
 	pass

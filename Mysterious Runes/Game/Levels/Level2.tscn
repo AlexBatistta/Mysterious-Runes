@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Game/Tileset/Tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Game/Levels/Level.gd" type="Script" id=2]
+[ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=3]
 
 [node name="Level2" type="TileMap" groups=[
 "Level",
@@ -12,7 +13,8 @@ collision_layer = 4
 collision_mask = 3
 format = 1
 tile_data = PoolIntArray( 917534, 23, 0, 1048600, 2, 0, 1048601, 2, 0, 1048602, 2, 0, 1048603, 2, 0, 1048604, 2, 0, 1048605, 2, 0, 1048606, 2, 0, 1376283, 1, 0, 1376284, 1, 0, 1376285, 1, 0, 1376286, 1, 0, 1376287, 1, 0, 1376288, 1, 0, 1376289, 1, 0, 1441815, 1, 0, 1441816, 1, 0, 1441826, 1, 0, 1441827, 1, 0, 1441828, 1, 0, 1441829, 1, 0, 1441830, 1, 0, 1441831, 1, 0, 1441832, 1, 0, 1507353, 1, 0, 1507354, 1, 0, 1507355, 1, 0, 1507356, 1, 0, 1507357, 1, 0, 1507358, 1, 0, 1507359, 1, 0, 1507360, 1, 0, 1507361, 1, 0, 1507362, 1, 0, 1507363, 1, 0, 1507364, 1, 0, 1507365, 1, 0, 1507366, 1, 0, 1507367, 1, 0, 1507368, 1, 0, 1507369, 1, 0, 1507370, 1, 0, 1507371, 1, 0, 1507372, 1, 0, 1507373, 1, 0, 1507374, 1, 0, 1507375, 1, 0, 1507376, 1, 0, 1507377, 1, 0, 1507378, 1, 0, 1507379, 1, 0 )
+script = ExtResource( 2 )
 
-[node name="NPCs" parent="." instance=ExtResource( 2 )]
+[node name="NPCs" parent="." instance=ExtResource( 3 )]
 position = Vector2( 2600, 1300 )
 

@@ -30,9 +30,8 @@ func set_color():
 	var children = newLevel.get_children()
 	if !children.empty():
 		for child in children:
-			if child.is_in_group("Spawn"):
+			if child.is_in_group("Spawn") || child.is_in_group("Platform"):
 				child.change_color(_color())
-
 
 func position_player():
 	var posPlayer = newLevel.get_used_cells_by_id(19)
