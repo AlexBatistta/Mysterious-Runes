@@ -13,7 +13,7 @@ func _process(delta):
 func _on_Portals_body_entered(body):
 	if body.name == "Player":
 		$"Portal-01/AnimationPlayer".play("Activate")
-		if body.specialPower:
+		if body.levelKey:
 			teleport = true
 		
 

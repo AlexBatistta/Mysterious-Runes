@@ -26,10 +26,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 2 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true, false ]
 }
 
 [node name="Game" type="Node2D"]
@@ -53,8 +53,7 @@ anims/Fade = SubResource( 1 )
 [node name="Levels" parent="." instance=ExtResource( 2 )]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 672, 1728 )
-wait = false
+position = Vector2( 864, 1824 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true

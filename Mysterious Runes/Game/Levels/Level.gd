@@ -3,7 +3,14 @@ extends TileMap
 
 var Geyser = load("res://Game/Geyser/Geyser.tscn")
 
-func _ready():
+onready var usedTiles = get_used_cells()
+
+func create_nodes():
+	var children = get_children()
+	for child in children:
+		if child.is_in_group("Geyser"):
+			child.queue_free()
+	
 	var geyserUp = get_used_cells_by_id(13)
 	for posGeyser in geyserUp:
 		var geyser = Geyser.instance()
@@ -16,3 +23,12 @@ func _ready():
 		geyser.setup(map_to_world(posGeyser), true)
 		add_child(geyser)
 
+func _ready():
+	create_nodes()
+	set_process(true)
+
+func _process(delta):
+	if Engine.is_editor_hint():
+		if usedTiles != get_used_cells():
+			usedTiles = get_used_cells()
+			create_nodes()

@@ -20,6 +20,7 @@ func _ready():
 func _process(delta):
 	pass
 	#if Input.is_action_just_pressed("ui_accept"):
+		#Engine.time_scale = 0.05
 	#	_pass_level()
 
 func _pass_level():

@@ -10,6 +10,7 @@ var swimming = false
 var velocity = Vector2()
 var direction = Vector2()
 var topRiver = 0
+var damageRiver = 0
 
 func _ready():
 	Animation = get_parent().get_node("Sprite/AnimationPlayer")
@@ -47,6 +48,9 @@ func _swimming(delta):
 	if Player.is_on_wall() && Player.position.y < topRiver + 5:
 		velocity.x = Player.speed * direction.x
 		velocity.y = -Player.jump_speed / 2
+	
+	if damageRiver > 0:
+		Player._hurt(damageRiver)
 
 func _damage():
 	Player.hit_power *= 2
@@ -105,22 +109,33 @@ func fly_out():
 	if $FlyTimer.is_stopped():
 		_on_FlyTimer_timeout()
 
-func _swim(_active, _top):
+func _swim(_active, _top, _damage):
 	swimming = _active
 	topRiver = _top + 75
 	$Splash.emitting = true
 	velocity = Vector2()
+	damageRiver = _damage
 
 func _animate():
+	var animation = Animation.current_animation
+	
 	if !Player.shooting:
 		if direction.y == -1 && Animation.current_animation != "Fly Up":
-			Animation.play("Fly to Up")
+			animation = "Fly to Up"
 		if direction.y == 1 && Animation.current_animation != "Fly Down":
-			Animation.play("Fly to Down")
+			animation = "Fly to Down"
 	elif Animation.current_animation != "Fly Shoot":
 		var anim = Animation.current_animation
 		Animation.animation_set_next("Fly Shoot", anim)
-		Animation.play("Fly Shoot")
+		animation = "Fly Shoot"
+	
+	if Player.hurting:
+		animation = "Fly Hurt"
+		if Player.check_life():
+			animation = "Die"
+	
+	if animation != Animation.current_animation:
+		Animation.play(animation)
 	
 	if velocity.x != 0:
 		Player.get_node("Sprite").scale.x = 0.5 if velocity.x > 0 else -0.5
@@ -128,3 +143,4 @@ func _animate():
 
 func _on_DamageTimer_timeout():
 	Player.hit_power /= 2
+

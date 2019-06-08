@@ -1,9 +1,10 @@
 tool
 extends Node2D
 
-export (int, "Water", "Acid", "Poison") var type = 0
+export (int, "Water", "Poison", "Acid") var type = 0
 export (Vector2) var dimensions = Vector2(1, 1) setget change_dimensions
 export var tileSize = 96
+export var damage = 5
 
 var rectSprite = Vector2()
 var color
@@ -56,8 +57,8 @@ func create_sprite(zIndex):
 
 func set_color():
 	if type == 0: color = Color.aqua
-	elif type == 1 : color = Color.greenyellow
-	else: color = Color.yellow
+	elif type == 1 : color = Color.yellow
+	else: color = Color.greenyellow
 	
 	if backWaves != null:
 		backWaves.modulate = color
@@ -73,7 +74,7 @@ func _ready():
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
-		body._river(true, position.y)
+		body._river(true, position.y, damage * type)
 
 func _on_Area2D_body_exited(body):
 	if body.name == "Player":

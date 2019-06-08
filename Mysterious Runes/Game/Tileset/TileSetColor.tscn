@@ -147,3 +147,21 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="Tile17" type="Sprite" parent="."]
+position = Vector2( 96, 288 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 96, 288, 96, 96 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Tile18" type="Sprite" parent="."]
+position = Vector2( 192, 288 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 192, 288, 96, 96 )
+__meta__ = {
+"_edit_group_": true
+}
+
