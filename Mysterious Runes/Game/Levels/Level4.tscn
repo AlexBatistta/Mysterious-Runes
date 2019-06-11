@@ -11,6 +11,6 @@ cell_size = Vector2( 96, 96 )
 collision_layer = 4
 collision_mask = 3
 format = 1
-tile_data = PoolIntArray( 327708, 23, 0, 458780, 10, 0, 524316, 10, 0, 589852, 10, 0 )
+tile_data = PoolIntArray( 262149, 19, 0, 327683, 6, 0, 327684, 6, 0, 327685, 6, 0, 327686, 6, 0, 327687, 6, 0, 327708, 23, 0, 458780, 10, 0, 524316, 10, 0, 589852, 10, 0 )
 script = ExtResource( 2 )
 

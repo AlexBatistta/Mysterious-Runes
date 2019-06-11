@@ -73,5 +73,5 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 4 )]
-scroll_offset = Vector2( -327, 0 )
+scroll_offset = Vector2( -63162, 0 )
 

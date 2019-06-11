@@ -23,10 +23,11 @@ func _ready():
 	setup_level()
 
 func _process(delta):
-	if !Engine.is_editor_hint():
-		if Input.is_action_just_pressed("ui_accept"):
+	pass
+	#if !Engine.is_editor_hint():
+		#if Input.is_action_just_pressed("ui_accept"):
 		#Engine.time_scale = 0.05
-			_pass_level()
+		#	_pass_level()
 
 func _pass_level():
 	if current_level < 5:
