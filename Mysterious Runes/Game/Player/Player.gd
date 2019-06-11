@@ -9,6 +9,7 @@ export var hit_power = 25
 export var jump_speed = 450
 
 export var shooting = false
+export var shootUp = false
 export var hurting = false
 export var wait = true
 export var power_active = false
@@ -38,6 +39,8 @@ func _physics_process(delta):
 	if !wait:
 		if $ShootTimer.is_stopped() && Input.is_action_pressed("shoot"):
 			shooting = true
+			if Input.is_action_pressed("move_up"):
+				shootUp = true
 
 func _move(delta):
 	snap = Vector2(0, 32)
@@ -74,6 +77,8 @@ func _animate():
 		animation = "Shoot"
 		if !is_on_floor():
 			animation += " Jump"
+		elif shootUp:
+			animation += " Up"
 	
 	if hurting:
 		animation = "Hurt"
@@ -84,10 +89,12 @@ func _animate():
 		$Sprite/AnimationPlayer.play(animation)
 
 func _shoot():
-	var bullet = Bullet.instance()
-	bullet.setup(position + $BulletSpawn.position, $Sprite.scale.x, "Player")
-	get_parent().add_child(bullet)
-	$ShootTimer.start(attack_wait)
+	if $ShootTimer.is_stopped():
+		var bullet = Bullet.instance()
+		$BulletSpawn.position.x = abs($BulletSpawn.position.x) * $Damage.scale.x
+		bullet.setup(position + $BulletSpawn.position, $Sprite.scale.x, "Player", shootUp)
+		get_parent().add_child(bullet)
+		$ShootTimer.start(attack_wait)
 
 func _hurt(hit):
 	if $ImmunityTimer.is_stopped():
@@ -123,7 +130,6 @@ func _geyser(_orientation):
 func change_direction():
 	$Sprite.scale.x = abs($Sprite.scale.x) * direction.x
 	$Damage.scale.x = abs($Damage.scale.x) * direction.x
-	$BulletSpawn.position.x = abs($BulletSpawn.position.x) * direction.x
 
 func _on_Area2D_body_entered(body):
 	pass

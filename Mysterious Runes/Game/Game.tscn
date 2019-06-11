@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://Game/Levels/Levels.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Player/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Game/Background/Background.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
-resource_name = "Fade"
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:color")
@@ -44,6 +44,8 @@ __meta__ = {
 [node name="FadeOut" type="ColorRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 1.0
+margin_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/FadeOut"]
@@ -51,20 +53,25 @@ pause_mode = 2
 anims/Fade = SubResource( 1 )
 
 [node name="Levels" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 864, 1824 )
+wait = false
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
 limit_left = 0
 limit_top = 0
 limit_right = 3840
-limit_bottom = 2112
+limit_bottom = 2016
 drag_margin_v_enabled = false
 smoothing_enabled = true
 drag_margin_left = 0.4
 drag_margin_right = 0.4
 editor_draw_limits = true
 editor_draw_drag_margin = true
+
+[node name="ParallaxBackground" parent="." instance=ExtResource( 4 )]
+scroll_offset = Vector2( -327, 0 )
 

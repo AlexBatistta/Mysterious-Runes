@@ -41,3 +41,6 @@ visibility_rect = Rect2( -25, -25, 50, 50 )
 local_coords = false
 process_material = SubResource( 2 )
 
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
