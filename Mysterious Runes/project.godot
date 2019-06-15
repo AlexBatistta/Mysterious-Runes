@@ -16,8 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Mysterious Runes"
-run/main_scene="res://Game/Game.tscn"
+run/main_scene="res://Menus/Menus.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://Global.gd"
 
 [debug]
 

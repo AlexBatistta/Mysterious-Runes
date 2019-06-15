@@ -85,6 +85,9 @@ func _animate():
 		if check_life():
 			animation = "Die"
 	
+	if wait:
+		animation = "Spawn"
+	
 	if animation != $Sprite/AnimationPlayer.current_animation:
 		$Sprite/AnimationPlayer.play(animation)
 

@@ -5,25 +5,24 @@
 [ext_resource path="res://Game/Portals/Portal-02.png" type="Texture" id=3]
 [ext_resource path="res://Game/Particles/Fly Particle.png" type="Texture" id=4]
 
-
 [sub_resource type="Animation" id=1]
 resource_name = "Activate"
 length = 0.65
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
+tracks/0/path = NodePath("Portal-02:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"times": PoolRealArray( 0.4, 0.45, 0.5, 0.55, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../Portal-02:visible")
+tracks/1/path = NodePath("Portal-02:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -35,19 +34,19 @@ tracks/1/keys = {
 "values": [ false, false, true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../Portal-02:frame")
+tracks/2/path = NodePath("Portal-01:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.4, 0.45, 0.5, 0.55, 0.6 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath(".:scale")
+tracks/3/path = NodePath("Portal-01:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -59,7 +58,7 @@ tracks/3/keys = {
 "values": [ Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("../Particles2D:emitting")
+tracks/4/path = NodePath("Particles2D:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -73,43 +72,30 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "Teleport"
-length = 1.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("../Portal-02:frame")
+tracks/0/path = NodePath("Portal-02:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 5, 6, 7, 8, 9, 8, 7, 6, 5, 4 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("..:teleport")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath("..")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 1.1 ),
+"times": PoolRealArray( 0.1 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [  ],
-"method": "_next_level"
+"args": [ "teleport" ],
+"method": "emit_signal"
 } ]
 }
 
@@ -138,7 +124,9 @@ scale = 0.2
 scale_random = 0.3
 color_ramp = SubResource( 5 )
 
-[node name="Portals" type="Area2D"]
+[node name="Portals" type="Area2D" groups=[
+"Portal",
+]]
 collision_layer = 32
 script = ExtResource( 1 )
 
@@ -148,10 +136,6 @@ texture = ExtResource( 2 )
 offset = Vector2( 0, -137.5 )
 hframes = 5
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Portal-01"]
-anims/Activate = SubResource( 1 )
-anims/Teleport = SubResource( 2 )
-
 [node name="Portal-02" type="Sprite" parent="."]
 visible = false
 z_index = 10
@@ -159,6 +143,11 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -109.938 )
 vframes = 2
 hframes = 5
+frame = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Activate = SubResource( 1 )
+anims/Teleport = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -10 )
@@ -173,3 +162,4 @@ texture = ExtResource( 4 )
 
 [connection signal="body_entered" from="." to="." method="_on_Portals_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_Portals_body_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

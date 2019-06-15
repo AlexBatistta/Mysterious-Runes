@@ -1,26 +1,33 @@
+tool
 extends Area2D
 
-export var teleport = false
+export (bool) var spawn
 
-func _ready():
-	pass # Replace with function body.
+#warning-ignore:unused_signal
+signal teleport
 
-func _process(delta):
-	if teleport:
-		if !$"Portal-01/AnimationPlayer".is_playing():
-			$"Portal-01/AnimationPlayer".play("Teleport")
+func reset():
+	if spawn:
+		$AnimationPlayer.animation_set_next("Activate", "Teleport")
+		$AnimationPlayer.play("Activate")
 
 func _on_Portals_body_entered(body):
-	if body.name == "Player":
-		$"Portal-01/AnimationPlayer".play("Activate")
-		if body.levelKey:
-			teleport = true
-		
+	if !spawn:
+		if body.name == "Player":
+			if body.levelKey:
+				$AnimationPlayer.animation_set_next("Activate", "Teleport")
+			$AnimationPlayer.play("Activate")
 
 func _on_Portals_body_exited(body):
-	if body.name == "Player":
-		if !teleport:
-			$"Portal-01/AnimationPlayer".play_backwards("Activate")
+	if !spawn:
+		if body.name == "Player":
+			$AnimationPlayer.play_backwards("Activate")
 
-func _next_level():
-	$"Portal-01/AnimationPlayer".play_backwards("Activate")
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "Teleport":
+		if spawn:
+			$AnimationPlayer.animation_set_next("Activate", "")
+			$AnimationPlayer.play_backwards("Activate")
+	else:
+		$AnimationPlayer.stop(true)
+	

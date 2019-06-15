@@ -1,20 +1,44 @@
 tool
 extends Node2D
 
-export (int, 1, 5) var level = 1 setget change_level
-var player
-var newLevel = load("res://Game/Levels/Level1.tscn").instance()
+export (int, 1, 5) var level = 1 setget load_level
 
-func change_level(_level):
+var newLevel = null
+
+func load_level(_level):
 	level = _level
+	Global.current_level = level
+	change_level()
+
+func change_level():
+	if newLevel != null:
+		newLevel.queue_free()
 	
-	newLevel.queue_free()
-	var levelScene = load("res://Game/Levels/Level" + str(_level) + ".tscn")
+	var levelScene = load("res://Game/Levels/Level" + str(level) + ".tscn")
 	newLevel = levelScene.instance()
 	newLevel.visible = true
 	add_child(newLevel)
 	
+	$ParallaxBackground.scroll_limit_end = get_limits()
+	$ParallaxBackground.set_color(_color())
+	
 	set_color()
+	
+	var portals = newLevel.get_used_cells_by_id(19)
+	for portal in portals:
+		newLevel.set_cell(portal.x, portal.y, -1)
+	
+	$Portal.position = newLevel.map_to_world(portals[0]) + Vector2(48, 96)
+	$Portal2.position = newLevel.map_to_world(portals[1]) + Vector2(48, 96)
+	$Portal.reset()
+	
+	$Camera2D.position = $Portal.position
+	$Camera2D.limit_right = get_limits().x
+	$Camera2D.limit_bottom = get_limits().y
+	
+	$Player.position = $Portal.position
+	$Player.visible = false
+	$Player.levelKey = false
 
 func set_color():
 	$TileMapColor.clear()
@@ -33,14 +57,9 @@ func set_color():
 			if child.is_in_group("Spawn") || child.is_in_group("Platform") || child.is_in_group("Stalactite"):
 				child.change_color(_color())
 
-func position_player():
-	var posPlayer = newLevel.get_used_cells_by_id(19)
-	if !posPlayer.empty():
-		posPlayer = posPlayer[0]
-		newLevel.set_cell(posPlayer.x, posPlayer.y, -1)
-		return newLevel.map_to_world(posPlayer)
-	else:
-		return Vector2(0, 0)
+func spawn_player():
+	$Player.visible = true
+	$Player/Sprite/AnimationPlayer.play("Spawn")
 
 func get_limits():
 	var used = newLevel.get_used_rect()
@@ -48,7 +67,7 @@ func get_limits():
 	return Vector2 (used.end.x * sizeTile, used.end.y * sizeTile)
 
 func _color():
-	match level:
+	match Global.current_level:
 		1:	return Color.red
 		2:	return Color.blue
 		3:	return Color.green
@@ -56,4 +75,14 @@ func _color():
 		5:	return Color.purple
 
 func _ready():
-	change_level(level)
+	load_level(Global.current_level)
+	if !Engine.is_editor_hint():
+		$Portal.connect("teleport", self, "spawn_player")
+		$Portal2.connect("teleport", Global, "pass_level")
+
+func _process(delta):
+	if $Player.visible:
+		$Camera2D.position = $Player.position
+	
+	if Input.is_action_just_pressed("ui_cancel"):
+		Global.change_scene("Menu")

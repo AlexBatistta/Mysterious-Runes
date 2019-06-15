@@ -7,7 +7,6 @@ export (bool) var flip = false setget set_flip
 func set_flip(_flip):
 	flip = _flip
 	rotation_degrees = 180 if flip else 0
-	
 
 func change_color(_color):
 	$SpriteColor.modulate = _color
