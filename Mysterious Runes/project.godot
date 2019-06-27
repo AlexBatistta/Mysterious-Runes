@@ -91,6 +91,12 @@ move_down={
 2d_physics/layer_6="Spawn"
 2d_render/layer_7="River"
 2d_physics/layer_7="River"
+2d_render/layer_8="Geyser"
+2d_physics/layer_8="Geyser"
+2d_render/layer_9="Melee Attack"
+2d_physics/layer_9="Melee Attack"
+2d_render/layer_10="Stalactite"
+2d_physics/layer_10="Stalactite"
 
 [rendering]
 

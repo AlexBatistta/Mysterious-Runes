@@ -39,8 +39,8 @@ func _physics_process(delta):
 	if !wait:
 		if $ShootTimer.is_stopped() && Input.is_action_pressed("shoot"):
 			shooting = true
-			if Input.is_action_pressed("move_up"):
-				shootUp = true
+			if Input.is_action_pressed("move_up"): shootUp = true
+			else: shootUp = false
 
 func _move(delta):
 	snap = Vector2(0, 32)
@@ -94,8 +94,8 @@ func _animate():
 func _shoot():
 	if $ShootTimer.is_stopped():
 		var bullet = Bullet.instance()
-		$BulletSpawn.position.x = abs($BulletSpawn.position.x) * $Damage.scale.x
-		bullet.setup(position + $BulletSpawn.position, $Sprite.scale.x, "Player", shootUp)
+		$BulletSpawn.position.x = abs($BulletSpawn.position.x) * ($Sprite.scale.x * 2)
+		bullet.setup(position + $BulletSpawn.position, $Sprite.scale.x, "Player", shootUp, hit_power)
 		get_parent().add_child(bullet)
 		$ShootTimer.start(attack_wait)
 
@@ -104,7 +104,6 @@ func _hurt(hit):
 		health -= hit
 		$ImmunityTimer.start(2)
 		hurting = true
-		print(health)
 
 func rune(power, type):
 	power_active = true
@@ -132,7 +131,5 @@ func _geyser(_orientation):
 
 func change_direction():
 	$Sprite.scale.x = abs($Sprite.scale.x) * direction.x
-	$Damage.scale.x = abs($Damage.scale.x) * direction.x
+	$Power/Shield.scale.x = abs($Power/Shield.scale.x) * direction.x 
 
-func _on_Area2D_body_entered(body):
-	pass

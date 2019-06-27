@@ -41,16 +41,22 @@ damage = 10
 
 [node name="Spawn" parent="." instance=ExtResource( 5 )]
 position = Vector2( 2180, 1700 )
+NpcType = 2
 
 [node name="Platform" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1257, 1829 )
 final_position = Vector2( 0, -200 )
 
 [node name="Stalactite2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1634.85, 1919.85 )
+position = Vector2( 754.773, 1920.05 )
 rotation = 3.14159
 flip = true
 
 [node name="Stalactite" parent="." instance=ExtResource( 7 )]
 position = Vector2( 623.644, 1536.38 )
+
+[node name="Spawn2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1611.63, 1583.6 )
+NpcType = 3
+randomSpawn = true
 

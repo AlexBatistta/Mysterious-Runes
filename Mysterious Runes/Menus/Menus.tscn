@@ -1,8 +1,27 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Menus/Menus.gd" type="Script" id=1]
+[ext_resource path="res://Game/Background/Background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Menus/Button-Normal.png" type="Texture" id=3]
+[ext_resource path="res://Menus/Button-Hover.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
+resource_name = "FadeIn"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "FadeOut"
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:color")
@@ -14,7 +33,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
 [node name="Menus" type="Control"]
@@ -22,27 +41,34 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
-[node name="FadeOut" type="ColorRect" parent="."]
+[node name="ParallaxBackground" parent="." instance=ExtResource( 2 )]
+layer = -2
+scroll_offset = Vector2( -294806, 0 )
+
+[node name="Fade" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 1.0
 margin_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FadeOut"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Fade"]
 pause_mode = 2
-anims/Fade = SubResource( 1 )
+anims/FadeIn = SubResource( 1 )
+anims/FadeOut = SubResource( 2 )
 
-[node name="PlayButton" type="Button" parent="."]
+[node name="PlayButton" type="TextureButton" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -52.0
-margin_top = -35.0
-margin_right = 52.0
-margin_bottom = 35.0
-rect_pivot_offset = Vector2( 52, 35 )
-text = "press"
+margin_left = -50.0
+margin_top = -65.0
+margin_right = 438.0
+margin_bottom = 195.0
+texture_normal = ExtResource( 3 )
+texture_hover = ExtResource( 4 )
+stretch_mode = 3
 
+[connection signal="animation_finished" from="Fade/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]

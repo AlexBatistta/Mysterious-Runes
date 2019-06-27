@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Game/Tileset/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Game/Levels/Level.gd" type="Script" id=2]
+[ext_resource path="res://Game/Spawn/Spawn.tscn" type="PackedScene" id=3]
 
 [node name="Level2" type="TileMap" groups=[
 "Level",
@@ -13,4 +14,8 @@ collision_mask = 3
 format = 1
 tile_data = PoolIntArray( 327683, 6, 0, 327684, 6, 0, 327685, 6, 0, 327686, 6, 0, 327687, 6, 0, 917534, 23, 0, 1638415, 19, 0, 1638440, 19, 0, 1703942, 6, 0, 1703943, 6, 0, 1703944, 6, 0, 1703945, 6, 0, 1703946, 6, 0, 1703947, 6, 0, 1703948, 6, 0, 1703949, 6, 0, 1703950, 6, 0, 1703951, 6, 0, 1703952, 6, 0, 1703953, 6, 0, 1703954, 6, 0, 1703955, 6, 0, 1703956, 6, 0, 1703957, 6, 0, 1703958, 6, 0, 1703959, 6, 0, 1703960, 6, 0, 1703961, 6, 0, 1703962, 6, 0, 1703963, 6, 0, 1703964, 6, 0, 1703965, 6, 0, 1703966, 6, 0, 1703967, 6, 0, 1703968, 6, 0, 1703969, 6, 0, 1703970, 6, 0, 1703971, 6, 0, 1703972, 6, 0, 1703973, 6, 0, 1703974, 6, 0, 1703975, 6, 0, 1703976, 6, 0, 1703977, 6, 0, 1703978, 6, 0, 1703979, 6, 0, 1703980, 6, 0, 1703981, 6, 0, 1703982, 6, 0, 1703983, 6, 0, 1703984, 6, 0, 1703985, 6, 0, 1703986, 6, 0 )
 script = ExtResource( 2 )
+
+[node name="Spawn" parent="." instance=ExtResource( 3 )]
+position = Vector2( 2630, 2310 )
+NPCtype = 3
 

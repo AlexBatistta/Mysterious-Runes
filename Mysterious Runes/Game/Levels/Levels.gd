@@ -7,7 +7,7 @@ var newLevel = null
 
 func load_level(_level):
 	level = _level
-	Global.current_level = level
+	Global.change_level(level)
 	change_level()
 
 func change_level():
@@ -20,7 +20,6 @@ func change_level():
 	add_child(newLevel)
 	
 	$ParallaxBackground.scroll_limit_end = get_limits()
-	$ParallaxBackground.set_color(_color())
 	
 	set_color()
 	
@@ -38,7 +37,7 @@ func change_level():
 	
 	$Player.position = $Portal.position
 	$Player.visible = false
-	$Player.levelKey = false
+	#$Player.levelKey = false
 
 func set_color():
 	$TileMapColor.clear()
@@ -49,13 +48,7 @@ func set_color():
 		if id < 19:
 			$TileMapColor.set_cell(tile.x, tile.y, id)
 	
-	$TileMapColor.modulate = _color()
-	
-	var children = newLevel.get_children()
-	if !children.empty():
-		for child in children:
-			if child.is_in_group("Spawn") || child.is_in_group("Platform") || child.is_in_group("Stalactite"):
-				child.change_color(_color())
+	$TileMapColor.modulate = Global.color()
 
 func spawn_player():
 	$Player.visible = true
@@ -66,17 +59,11 @@ func get_limits():
 	var sizeTile = newLevel.cell_size.x
 	return Vector2 (used.end.x * sizeTile, used.end.y * sizeTile)
 
-func _color():
-	match Global.current_level:
-		1:	return Color.red
-		2:	return Color.blue
-		3:	return Color.green
-		4:	return Color.yellow
-		5:	return Color.purple
-
 func _ready():
-	load_level(Global.current_level)
-	if !Engine.is_editor_hint():
+	if Engine.is_editor_hint():
+		load_level(1)
+	else:
+		load_level(Global.current_level)
 		$Portal.connect("teleport", self, "spawn_player")
 		$Portal2.connect("teleport", Global, "pass_level")
 
@@ -86,3 +73,4 @@ func _process(delta):
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		Global.change_scene("Menu")
+		Global.change_level(0)

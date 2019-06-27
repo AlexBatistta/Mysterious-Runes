@@ -5,12 +5,15 @@ export (PackedScene) var Invoked
 var Player
 var Animation
 
+var power = ""
 var flying = false
 var swimming = false
 var velocity = Vector2()
 var direction = Vector2()
 var topRiver = 0
 var damageRiver = 0
+var NPCs = Array()
+var hits = 0
 
 func _ready():
 	Animation = get_parent().get_node("Sprite/AnimationPlayer")
@@ -20,15 +23,21 @@ func _process(delta):
 	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
 	direction.y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
 	
-	if flying:
+	if power == "Fly":
 		_flying(delta)
 		
-	if swimming:
+	if power == "Swim":
 		_swimming(delta)
 	
-	if flying || swimming:
+	if power == "Fly" || power == "Swim":
 		_animate()
 		Player.move_and_slide(velocity)
+		Player.shootUp = false
+	
+	if power == "Poison":
+		if !$PowerTimer.is_stopped() && $PowerTimer.time_left < hits:
+			hits -= 2
+			for NPC in NPCs: NPC._power_player("Poison", true)
 
 func _flying(delta):
 	velocity = lerp(velocity, direction * Player.speed, delta * 2)
@@ -54,41 +63,59 @@ func _swimming(delta):
 
 func _damage():
 	Player.hit_power *= 2
+	power = "Damage"
+	$PowerTimer.start(10)
 	print("Damage")
 	pass
 
 func _shield():
 	Player.get_node("ImmunityTimer").start(5)
-	
+	$Shield.visible = true
+	$PowerTimer.start(10)
+	$AnimationPower.play("Shield")
+	power = "Shield"
 	print("Shield")
 	pass
 
 func _regeneration():
 	Player.health += 50  
 	Player.check_life()
-	
 	print("Regeneration")
 	pass
 
 func _slow_down():
+	power = "Slow Down"
+	$PowerTimer.start(10)
+	NPCs = get_tree().get_nodes_in_group("NPC")
+	for NPC in NPCs: NPC._power_player("Slow Down", true)
 	print("Slow Down")
-	print(Player.health)
 	pass
 
 func _poison():
+	power = "Poison"
+	$PowerTimer.start(10)
+	hits = 8
+	NPCs = get_tree().get_nodes_in_group("NPC")
 	print("Poison")
 	pass
 
 func _paralyze():
+	power = "Paralyze"
+	$PowerTimer.start(10)
+	NPCs = get_tree().get_nodes_in_group("NPC")
+	for NPC in NPCs: NPC._power_player("Paralyze", true)
 	print("Paralyze")
 	pass
 
 func _invoke():
-	var invoked_01 = Invoked.instance()
-	var _direction = Player.get_node("Sprite").scale.x * 2
-	var _position = Player.position + Vector2 (200 * _direction, -150)
-	invoked_01.get_node("InvokedBody").setup(_position, _direction)
-	call_deferred("add_child",invoked_01)
+	var newInvoked_01 = Invoked.instance()
+	newInvoked_01.setup(-1, Player.position - Vector2(150, 200))
+	Player.get_parent().call_deferred("add_child", newInvoked_01)
+	
+	var newInvoked_02 = Invoked.instance()
+	newInvoked_02.setup(-1, Player.position - Vector2(-150, 200))
+	Player.get_parent().call_deferred("add_child", newInvoked_02)
+	
 	print("Invoke")
 	pass
 
@@ -98,16 +125,6 @@ func _fly():
 	$FlyMagic.emitting = true
 	velocity = Vector2(0, -1)
 	Animation.play("Fly to Up")
-
-func _on_FlyTimer_timeout():
-	if !Player.shooting:
-		flying = false
-		Player.power_active = false
-		$FlyMagic.emitting = false
-
-func fly_out():
-	if $FlyTimer.is_stopped():
-		_on_FlyTimer_timeout()
 
 func _swim(_active, _top, _damage):
 	swimming = _active
@@ -141,6 +158,21 @@ func _animate():
 		Player.get_node("Sprite").scale.x = 0.5 if velocity.x > 0 else -0.5
 		Player.get_node("Damage").scale.x = 1 if velocity.x > 0 else -1
 
-func _on_DamageTimer_timeout():
-	Player.hit_power /= 2
-
+func _on_PowerTimer_timeout():
+	Player.power_active = false
+	NPCs = get_tree().get_nodes_in_group("NPC")
+	match power:
+		"Damage":
+			Player.hit_power /= 2
+		"Fly":
+			if !Player.shooting:
+				flying = false
+				$FlyMagic.emitting = false
+		"Shield":
+			$Shield.visible = false
+			$AnimationPower.stop()
+		"Paralyze":
+			for NPC in NPCs: NPC._power_player("Paralyze", false)
+		"Slow Down":
+			for NPC in NPCs: NPC._power_player("Slow Down", false)
+	power = ""

@@ -7,11 +7,10 @@
 [ext_resource path="res://Game/Background/Background.tscn" type="PackedScene" id=5]
 
 [node name="Levels" type="Node2D"]
-position = Vector2( 40, 40 )
 script = ExtResource( 1 )
 
 [node name="TileMapColor" type="TileMap" parent="."]
-modulate = Color( 1, 0, 0, 1 )
+modulate = Color( 0, 0, 1, 1 )
 z_index = 1
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 96, 96 )
@@ -32,11 +31,17 @@ visible = false
 position = Vector2( 1104, 1920 )
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 5 )]
-scroll_offset = Vector2( -2237.5, 0 )
+scroll_offset = Vector2( -2441.5, 0 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 1104, 1920 )
 current = true
+zoom = Vector2( 1.25, 1.25 )
+limit_left = 0
+limit_top = 0
 limit_right = 3840
 limit_bottom = 2016
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
+editor_draw_limits = true
 

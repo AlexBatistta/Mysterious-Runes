@@ -2,11 +2,13 @@ tool
 extends Node
 
 var current_scene = null
-var current_level = 1
+var current_level = 0
 var maxLevels = 5
 
 onready var Game = preload("res://Game/Levels/Levels.tscn")
 onready var Menu = preload("res://Menus/Menus.tscn")
+
+signal change_color
 
 func _ready():
 	var root = get_tree().get_root()
@@ -26,6 +28,8 @@ func new_scene(_scene):
 	get_tree().get_root().add_child(current_scene)
 	
 	get_tree().set_current_scene(current_scene)
+	
+	emit_signal("change_color")
 
 func change_level(_level):
 	if _level < maxLevels:
@@ -35,3 +39,12 @@ func pass_level():
 	if current_level < 5:
 		current_level += 1;
 		change_scene("Game")
+
+func color():
+	match current_level:
+		0:	return Color.magenta
+		1:	return Color.blue
+		2:	return Color.red
+		3:	return Color.green
+		4:	return Color.yellow
+		5:	return Color.purple

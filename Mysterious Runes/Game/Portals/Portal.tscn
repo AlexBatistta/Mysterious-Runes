@@ -3,7 +3,7 @@
 [ext_resource path="res://Game/Portals/Portal.gd" type="Script" id=1]
 [ext_resource path="res://Game/Portals/Portal-01.png" type="Texture" id=2]
 [ext_resource path="res://Game/Portals/Portal-02.png" type="Texture" id=3]
-[ext_resource path="res://Game/Particles/Fly Particle.png" type="Texture" id=4]
+[ext_resource path="res://Game/Player/Fly Particle.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Activate"

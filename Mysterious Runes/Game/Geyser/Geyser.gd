@@ -20,8 +20,5 @@ func change_orientation(_flip):
 		$Particles2D.position.y = 24
 		$CollisionShape2D.position.y = -90
 
-func _process(delta):
-	var bodies = get_overlapping_bodies()
-	
-	for body in bodies:
-		body._geyser($Particles2D.scale.y)
+func _on_Geyser_body_entered(body):
+	body._geyser($Particles2D.scale.y)

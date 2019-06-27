@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Game/River/River.gd" type="Script" id=1]
-[ext_resource path="res://Game/Particles/Bubble.png" type="Texture" id=2]
+[ext_resource path="res://Game/River/Bubble.png" type="Texture" id=2]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -9,7 +9,7 @@ particles_anim_h_frames = 5
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="ParticlesMaterial" id=4]
+[sub_resource type="ParticlesMaterial" id=2]
 emission_shape = 2
 emission_box_extents = Vector3( 40, 40, 1 )
 flag_disable_z = true
@@ -36,7 +36,7 @@ z_index = 4
 lifetime = 3.0
 randomness = 1.0
 visibility_rect = Rect2( -50, -10, 100, 20 )
-process_material = SubResource( 4 )
+process_material = SubResource( 2 )
 texture = ExtResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]

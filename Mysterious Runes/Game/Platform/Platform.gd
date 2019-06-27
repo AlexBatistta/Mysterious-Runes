@@ -5,9 +5,6 @@ export (bool) var long = false setget change_size
 export (Vector2) var final_position = Vector2.ZERO
 export (float, 0.1, 1) var speed = 1 setget change_speed 
 
-func change_color(_color):
-	$Sprite.modulate = _color
-
 func change_size(_long):
 	long = _long
 	if long:
@@ -30,6 +27,7 @@ func _process(delta):
 	update()
 
 func _ready():
+	$Sprite.modulate = Global.color()
 	set_process(true)
 	if !Engine.is_editor_hint():
 		update_movement()
