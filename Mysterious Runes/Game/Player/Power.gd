@@ -120,16 +120,15 @@ func _invoke():
 	pass
 
 func _fly():
-	flying = true;
-	$FlyTimer.start(10)
+	power = "Fly"
+	$PowerTimer.start(10)
 	$FlyMagic.emitting = true
 	velocity = Vector2(0, -1)
 	Animation.play("Fly to Up")
 
 func _swim(_active, _top, _damage):
-	swimming = _active
+	power = "Swim"
 	topRiver = _top + 75
-	$Splash.emitting = true
 	velocity = Vector2()
 	damageRiver = _damage
 
@@ -156,7 +155,6 @@ func _animate():
 	
 	if velocity.x != 0:
 		Player.get_node("Sprite").scale.x = 0.5 if velocity.x > 0 else -0.5
-		Player.get_node("Damage").scale.x = 1 if velocity.x > 0 else -1
 
 func _on_PowerTimer_timeout():
 	Player.power_active = false

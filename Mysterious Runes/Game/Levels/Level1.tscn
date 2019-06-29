@@ -60,3 +60,4 @@ position = Vector2( 1611.63, 1583.6 )
 NpcType = 3
 randomSpawn = true
 
+[connection signal="body_entered" from="Geyser" to="Geyser" method="_on_Geyser_body_entered"]

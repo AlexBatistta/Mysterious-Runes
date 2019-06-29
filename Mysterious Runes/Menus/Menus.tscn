@@ -1,12 +1,15 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Menus/Menus.gd" type="Script" id=1]
 [ext_resource path="res://Game/Background/Background.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Menus/Button-Normal.png" type="Texture" id=3]
-[ext_resource path="res://Menus/Button-Hover.png" type="Texture" id=4]
+[ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=3]
+[ext_resource path="res://Menus/MainMenu.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Menus/CreditsMenu.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Menus/LevelsMenu.tscn" type="PackedScene" id=6]
 
-[sub_resource type="Animation" id=1]
-resource_name = "FadeIn"
+[sub_resource type="Animation" id=2]
+length = 0.75
+step = 0.75
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:color")
 tracks/0/interp = 1
@@ -14,15 +17,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.75 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "FadeOut"
-length = 1.5
+[sub_resource type="Animation" id=3]
+length = 0.75
+step = 0.75
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:color")
 tracks/0/interp = 1
@@ -30,11 +33,51 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.5 ),
+"times": PoolRealArray( 0, 0.75 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 300, 0, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 300, 100, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 500, 0, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 500, 100, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 300, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 200, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 200, 300, 100, 100 )
 
 [node name="Menus" type="Control"]
 anchor_right = 1.0
@@ -43,32 +86,91 @@ script = ExtResource( 1 )
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 2 )]
 layer = -2
-scroll_offset = Vector2( -294806, 0 )
+scroll_offset = Vector2( -3583, 0 )
 
 [node name="Fade" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 1.0
-margin_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Fade"]
 pause_mode = 2
-anims/FadeIn = SubResource( 1 )
-anims/FadeOut = SubResource( 2 )
+anims/FadeIn = SubResource( 2 )
+anims/FadeOut = SubResource( 3 )
 
-[node name="PlayButton" type="TextureButton" parent="."]
+[node name="CreditsButton" type="TextureButton" parent="."]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 115.0
+margin_bottom = 115.0
+rect_min_size = Vector2( 75, 75 )
+rect_scale = Vector2( 0.75, 0.75 )
+texture_normal = SubResource( 4 )
+texture_hover = SubResource( 5 )
+expand = true
+stretch_mode = 5
+
+[node name="BackButton" type="TextureButton" parent="."]
+visible = false
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 115.0
+margin_bottom = 115.0
+rect_min_size = Vector2( 75, 75 )
+rect_scale = Vector2( 0.75, 0.75 )
+texture_normal = SubResource( 6 )
+texture_hover = SubResource( 7 )
+
+[node name="SoundsButtons" type="HBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -175.0
+margin_top = 15.0
+margin_right = 29.0
+margin_bottom = 115.0
+rect_min_size = Vector2( 75, 75 )
+rect_scale = Vector2( 0.75, 0.75 )
+alignment = 1
+
+[node name="MusicButton" type="TextureButton" parent="SoundsButtons"]
+margin_right = 100.0
+margin_bottom = 100.0
+texture_normal = SubResource( 8 )
+texture_hover = SubResource( 9 )
+
+[node name="SoundButton" type="TextureButton" parent="SoundsButtons"]
+margin_left = 104.0
+margin_right = 204.0
+margin_bottom = 100.0
+texture_normal = SubResource( 10 )
+texture_hover = SubResource( 11 )
+
+[node name="ListMenus" type="Control" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -50.0
-margin_top = -65.0
-margin_right = 438.0
-margin_bottom = 195.0
-texture_normal = ExtResource( 3 )
-texture_hover = ExtResource( 4 )
-stretch_mode = 3
+margin_left = -350.0
+margin_top = -360.0
+margin_right = 350.0
+margin_bottom = 360.0
+rect_min_size = Vector2( 700, 0 )
+
+[node name="MainMenu" parent="ListMenus" instance=ExtResource( 4 )]
+
+[node name="CreditsMenu" parent="ListMenus" instance=ExtResource( 5 )]
+visible = false
+
+[node name="LevelsMenu" parent="ListMenus" instance=ExtResource( 6 )]
+visible = false
+
+[node name="HelpMenu" type="Control" parent="ListMenus"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
 
 [connection signal="animation_finished" from="Fade/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="CreditsButton" to="." method="_on_CreditsButton_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="SoundsButtons/MusicButton" to="." method="_on_MusicButton_pressed"]
+[connection signal="pressed" from="SoundsButtons/SoundButton" to="." method="_on_SoundButton_pressed"]

@@ -14,6 +14,7 @@ func change_tree(_type):
 	treeType = _type
 	$Tree.frame = treeType
 	$Rune.position.x = 5 if treeType == 1 else -15
+	$CollisionShape2D.position = $Rune.position
 
 func _ready():
 	$Rune/Label.visible = false
@@ -25,7 +26,6 @@ func _ready():
 		power = temporary[randi() % 3]
 	else:
 		power = permanent
-	power = "Invoke"
 	animation()
 	$Rune/Label.text = power
 
@@ -47,7 +47,7 @@ func _hurt(_hit):
 	$Rune/AnimationPlayer.play("Drop")
 
 func disabled_collision(_disabled):
-	$Rune/CollisionShape2D.disabled = _disabled
+	$CollisionShape2D.disabled = _disabled
 
 func _on_Runes_body_entered(body):
 	if body.name == "Player" && dropped:

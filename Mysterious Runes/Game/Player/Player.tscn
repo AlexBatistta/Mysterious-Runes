@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Game/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Game/Bullet/Bullet.tscn" type="PackedScene" id=2]
@@ -559,16 +559,6 @@ scale = 0.1
 scale_random = 0.3
 color = Color( 1, 1, 1, 0.588235 )
 
-[sub_resource type="ParticlesMaterial" id=23]
-flag_disable_z = true
-spread = 90.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 25.0
-angular_velocity = 1.62225e-007
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 5.0
-
 [sub_resource type="Animation" id=24]
 resource_name = "Shield"
 loop = true
@@ -671,15 +661,6 @@ texture = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="Splash" type="Particles2D" parent="Power"]
-rotation = -1.5708
-emitting = false
-amount = 20
-one_shot = true
-explosiveness = 1.0
-local_coords = false
-process_material = SubResource( 23 )
 
 [node name="Shield" type="Sprite" parent="Power"]
 visible = false

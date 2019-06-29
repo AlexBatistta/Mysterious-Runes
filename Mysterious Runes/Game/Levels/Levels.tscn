@@ -31,7 +31,8 @@ visible = false
 position = Vector2( 1104, 1920 )
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 5 )]
-scroll_offset = Vector2( -2441.5, 0 )
+scroll_offset = Vector2( -204, 0 )
+scroll_limit_end = Vector2( 3840, 2016 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 1104, 1920 )
@@ -45,3 +46,4 @@ drag_margin_h_enabled = false
 drag_margin_v_enabled = false
 editor_draw_limits = true
 
+[connection signal="body_entered" from="Level1/Geyser2" to="Level1/Geyser2" method="_on_Geyser_body_entered"]
