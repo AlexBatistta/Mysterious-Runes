@@ -1,15 +1,19 @@
 tool
 extends Node
 
+const maxLevels = 5
+const timePower = 10
+
 var current_scene = null
 var current_level = 0
 var current_menu = "MainMenu"
-var maxLevels = 5
+var current_state = "Menus"
+var levelKey = false
 var sound = true
 var music = true
 var levelsUnlock = 1
 
-onready var Game = preload("res://Game/Levels/Levels.tscn")
+onready var Game = preload("res://Game/Game.tscn")
 onready var Menu = preload("res://Menus/Menus.tscn")
 
 signal change_color
@@ -26,10 +30,13 @@ func new_scene(_scene):
 	current_scene.free()
 	
 	if _scene == "Game":
+		levelKey = false
 		current_scene = Game.instance()
+		current_state = "Game"
+		get_tree().paused = false
 	else:
 		current_scene = Menu.instance()
-		current_menu = "MainMenu"
+		current_state = "Menus"
 	
 	get_tree().get_root().add_child(current_scene)
 	
@@ -37,7 +44,7 @@ func new_scene(_scene):
 	
 	emit_signal("change_color")
 	
-	Persistence.save_data()
+	Data.save_data()
 
 func change_level(_level):
 	if _level < maxLevels:
@@ -47,10 +54,13 @@ func change_menu(_menu):
 	current_menu = _menu
 	emit_signal("transition")
 
+func try_again():
+	change_scene("Game")
+
 func pass_level():
 	if current_level < 5:
 		current_level += 1;
-		levelsUnlock += 1;
+		levelsUnlock = current_level;
 		change_scene("Game")
 
 func color():
@@ -64,8 +74,6 @@ func color():
 
 func set_sound():
 	sound = !sound
-	print(sound)
 
 func set_music():
 	music = !music
-	print(music)

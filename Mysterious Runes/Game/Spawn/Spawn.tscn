@@ -3,7 +3,7 @@
 [ext_resource path="res://Game/Spawn/Spawn.gd" type="Script" id=1]
 [ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Spawn/Spawn.png" type="Texture" id=3]
-[ext_resource path="res://Game/Player/Fly Particle.png" type="Texture" id=4]
+[ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=4]
 
 
 
@@ -130,7 +130,7 @@ scale_random = 0.3
 "Spawn",
 ]]
 collision_layer = 32
-collision_mask = 16
+collision_mask = 0
 script = ExtResource( 1 )
 NPCs = ExtResource( 2 )
 
@@ -139,8 +139,8 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="Vortex" type="Sprite" parent="."]
-rotation = 3.64096
-scale = Vector2( 0.579477, 0.579477 )
+rotation = 1.8198
+scale = Vector2( 0.710371, 0.710371 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Vortex"]

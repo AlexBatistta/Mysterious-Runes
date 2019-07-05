@@ -19,13 +19,14 @@ func change_tree(_type):
 func _ready():
 	$Rune/Label.visible = false
 	$Rune/Power.visible = false
-	$Particles2D.emitting = true
+	$Rune/Particles2D.emitting = true
 	
 	randomize()
 	if runeType == 0:
 		power = temporary[randi() % 3]
 	else:
 		power = permanent
+	power = "Regeneration"
 	animation()
 	$Rune/Label.text = power
 

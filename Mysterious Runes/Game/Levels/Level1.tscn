@@ -22,11 +22,12 @@ script = ExtResource( 2 )
 [node name="Runes" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1450, 1920 )
 treeType = 1
-runeType = 1
 permanent = "Fly"
 
 [node name="Runes2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1900, 1920 )
+runeType = 1
+permanent = "Poison"
 
 [node name="River2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 2784, 1920 )

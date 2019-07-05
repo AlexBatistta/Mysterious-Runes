@@ -20,7 +20,7 @@ var power_player = ""
 var paralyze = false
 var custom_speed = 0
 
-const speed = 175
+const speed = 150
 
 func setup(_type, _position):
 	type = _type
@@ -75,6 +75,8 @@ func _physics_process(delta):
 		velocity = Vector2(0, gravity / 3)
 	
 	var collisions = move_and_slide(velocity, Vector2(0, -1))
+	
+	if power_player == "Poison": _hurt(5)
 	
 	_animate()
 
@@ -164,13 +166,12 @@ func _change_direction():
 	$RayCast2D.position.x *= -1
 
 func _hurt(hit):
-	health -= hit
-	hurting = true
-	$LifeBar.value -= hit
-	print(health)
-
-func _die():
-	queue_free()
+	if $ImmunityTimer.is_stopped():
+		health -= hit
+		hurting = true
+		$LifeBar.value -= hit
+		$ImmunityTimer.start(2)
+		print(health)
 
 func _geyser(_orientation):
 	if health > 0:
@@ -180,20 +181,24 @@ func _geyser(_orientation):
 		$AttackTimer.start(2)
 		shooting = false
 
-func _power_player(_power, _active):
+func _power_player(_power):
+	power_player = _power
+	var _frame
 	if _power == "Poison":
 		_hurt(5)
+		_frame = 4
 	if _power == "Paralyze":
-		paralyze = _active
+		paralyze = true
+		_frame = 5
 	if _power == "Slow Down":
-		if _active:
-			$AnimationPlayer.playback_speed = 0.5
-			custom_speed = 0.5
-			if type == 2: custom_speed = 0.25
-		else:
-			$AnimationPlayer.playback_speed = 1
-			custom_speed = 1
-			if type == 2: custom_speed = 0.5
+		$AnimationPlayer.playback_speed = 0.5
+		custom_speed = 0.5
+		if type == 2: custom_speed = 0.25
+		_frame = 3
+	
+	$PowerPlayer/RuneTimer.start(Global.timePower)
+	$PowerPlayer/SpriteRune.frame = _frame
+	$PowerPlayer/AnimationPlayer.play("Power")
 
 func _on_VisibilityNotifier2D_screen_exited():
 	if type == 2:
@@ -204,3 +209,18 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _on_DespawnTimer_timeout():
 	if !$VisibilityNotifier2D.is_on_screen():
 		queue_free()
+
+func _on_RuneTimer_timeout():
+	match power_player:
+		"Paralyze":
+			paralyze = false
+		"Slow Down":
+			$AnimationPlayer.playback_speed = 1
+			custom_speed = 1
+			if type == 2: custom_speed = 0.5
+	power_player = ""
+	$PowerPlayer/AnimationPlayer.stop()
+	$PowerPlayer.visible = false
+
+func _on_AttackArea_body_entered(body):
+	body._hurt(hit_power)

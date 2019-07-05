@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Game/Tileset/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Game/Levels/Level.gd" type="Script" id=2]
 [ext_resource path="res://Game/Spawn/Spawn.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Game/Runes/Runes.tscn" type="PackedScene" id=4]
 
 [node name="Level2" type="TileMap" groups=[
 "Level",
@@ -17,5 +18,9 @@ script = ExtResource( 2 )
 
 [node name="Spawn" parent="." instance=ExtResource( 3 )]
 position = Vector2( 2630, 2310 )
-NPCtype = 3
+
+[node name="Runes" parent="." instance=ExtResource( 4 )]
+position = Vector2( 2960, 2496 )
+runeType = 1
+permanent = "Paralyze"
 

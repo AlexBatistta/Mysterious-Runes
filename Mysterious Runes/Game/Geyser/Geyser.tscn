@@ -1,7 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Game/Geyser/Geyser.gd" type="Script" id=1]
-[ext_resource path="res://Game/Player/Fly Particle.png" type="Texture" id=2]
+[ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=2]
+
+
+
 
 
 

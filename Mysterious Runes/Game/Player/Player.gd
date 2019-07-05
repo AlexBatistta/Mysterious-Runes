@@ -1,10 +1,12 @@
 extends KinematicBody2D
 
+signal change_life
+
 const gravity = 900
 const attack_wait = 1
 
 export var health = 100
-export var speed = 250
+export var speed = 200
 export var hit_power = 25
 export var jump_speed = 450
 
@@ -22,7 +24,7 @@ var direction = Vector2()
 var currentDirection = 0
 var maxLife = 0
 var snap = Vector2(0, 32)
-var levelKey = false
+var portal = false
 
 func _ready():
 	$Sprite/AnimationPlayer.animation_set_next("Fly to Up", "Fly Up")
@@ -31,10 +33,19 @@ func _ready():
 	maxLife = health
 	pass
 
+func _spawn():
+	$Sprite.modulate = Color(0, 0, 0, 0)
+	visible = true
+	wait = true
+	$Sprite/AnimationPlayer.play("Spawn")
+
 func _physics_process(delta):
 	if !power_active:
 		_move(delta)
-		_animate()
+		if !portal:
+			_animate()
+		else:
+			$Sprite/AnimationPlayer.play_backwards("Spawn")
 	
 	if !wait:
 		if $ShootTimer.is_stopped() && Input.is_action_pressed("shoot"):
@@ -60,6 +71,9 @@ func _move(delta):
 		if shooting && is_on_floor(): velocity.x = 0
 		
 		if direction.x != 0: change_direction()
+	else:
+		velocity.x = 0
+		$Sprite.frame = 0
 	
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2(0, -1))
 
@@ -102,13 +116,14 @@ func _shoot():
 func _hurt(hit):
 	if $ImmunityTimer.is_stopped():
 		health -= hit
+		emit_signal("change_life", health)
 		$ImmunityTimer.start(2)
 		hurting = true
 
 func rune(power, type):
 	power_active = true
 	if type == 1:
-		levelKey = true
+		Global.levelKey = true
 	$Power.call("_" + power.to_lower())
 	$PowerMagic.emitting = true
 	$PowerMagic.restart()
@@ -116,9 +131,9 @@ func rune(power, type):
 		$Sprite/AnimationPlayer.play("Power " + str(type))
 
 func check_life():
+	health = ceil(health)
 	health = clamp(health, 0, maxLife)
 	if health == 0:
-		wait = true
 		return true
 
 func _river(_active, _top = 0, _damage = 0):
@@ -133,3 +148,9 @@ func change_direction():
 	$Sprite.scale.x = abs($Sprite.scale.x) * direction.x
 	$Power/Shield.scale.x = abs($Power/Shield.scale.x) * direction.x 
 
+func _die():
+	Global.change_menu("MenuLose")
+	health = maxLife
+
+func _on_Player_visibility_changed():
+	set_process_input(visible)

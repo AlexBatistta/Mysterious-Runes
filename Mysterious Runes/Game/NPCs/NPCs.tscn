@@ -1,9 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Game/NPCs/NPCs.gd" type="Script" id=1]
 [ext_resource path="res://Game/Bullet/Bullet.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/NPCs/SpriteBody/NPC-03.png" type="Texture" id=3]
 [ext_resource path="res://Game/NPCs/SpriteColor/NPC-03.png" type="Texture" id=4]
+[ext_resource path="res://Game/NPCs/PowerRune.png" type="Texture" id=5]
+[ext_resource path="res://Game/Runes/Runes-03.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 length = 0.63
@@ -147,7 +149,7 @@ tracks/5/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "_die"
+"method": "queue_free"
 } ]
 }
 tracks/6/type = "value"
@@ -346,6 +348,59 @@ corner_radius_bottom_left = 6
 shadow_color = Color( 1, 1, 1, 0.341176 )
 shadow_size = 2
 
+[sub_resource type="Animation" id=11]
+resource_name = "Power"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteRune:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 2.5, 2.5 ), Vector2( 2.5, 2.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteRune:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.947042 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PowerRune:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
 [node name="NPCs" type="KinematicBody2D" groups=[
 "NPC",
 ]]
@@ -411,6 +466,9 @@ position = Vector2( 40, -50 )
 enabled = true
 cast_to = Vector2( 45, 0 )
 
+[node name="ImmunityTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="InvokerTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
@@ -436,5 +494,30 @@ step = 1.0
 value = 100.0
 percent_visible = false
 
+[node name="PowerPlayer" type="Node2D" parent="."]
+
+[node name="PowerRune" type="Sprite" parent="PowerPlayer"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -65 )
+z_index = 1
+texture = ExtResource( 5 )
+
+[node name="SpriteRune" type="Sprite" parent="PowerPlayer"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -65 )
+scale = Vector2( 2.5, 2.5 )
+z_index = 1
+texture = ExtResource( 6 )
+vframes = 2
+hframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PowerPlayer"]
+anims/Power = SubResource( 11 )
+
+[node name="RuneTimer" type="Timer" parent="PowerPlayer"]
+one_shot = true
+
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_AttackArea_body_entered"]
 [connection signal="timeout" from="DespawnTimer" to="." method="_on_DespawnTimer_timeout"]
+[connection signal="timeout" from="PowerPlayer/RuneTimer" to="." method="_on_RuneTimer_timeout"]

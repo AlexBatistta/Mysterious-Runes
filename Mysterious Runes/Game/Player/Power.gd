@@ -23,6 +23,10 @@ func _process(delta):
 	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
 	direction.y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
 	
+	if power == "Regeneration":
+		Player.health = lerp(Player.health, Player.maxLife, delta)
+		Player.emit_signal("change_life", Player.health)
+	
 	if power == "Fly":
 		_flying(delta)
 		
@@ -33,11 +37,6 @@ func _process(delta):
 		_animate()
 		Player.move_and_slide(velocity)
 		Player.shootUp = false
-	
-	if power == "Poison":
-		if !$PowerTimer.is_stopped() && $PowerTimer.time_left < hits:
-			hits -= 2
-			for NPC in NPCs: NPC._power_player("Poison", true)
 
 func _flying(delta):
 	velocity = lerp(velocity, direction * Player.speed, delta * 2)
@@ -64,48 +63,38 @@ func _swimming(delta):
 func _damage():
 	Player.hit_power *= 2
 	power = "Damage"
-	$PowerTimer.start(10)
+	$PowerTimer.start(Global.timePower)
 	print("Damage")
-	pass
 
 func _shield():
-	Player.get_node("ImmunityTimer").start(5)
+	Player.get_node("ImmunityTimer").start(Global.timePower)
 	$Shield.visible = true
-	$PowerTimer.start(10)
+	$PowerTimer.start(Global.timePower)
 	$AnimationPower.play("Shield")
 	power = "Shield"
-	print("Shield")
-	pass
 
 func _regeneration():
-	Player.health += 50  
+	$PowerTimer.start(Global.timePower)
+	Player.get_node("ImmunityTimer").start(Global.timePower)
+	$Regeneration.visible = true
+	$AnimationPower.play("Regeneration")
 	Player.check_life()
-	print("Regeneration")
-	pass
+	power = "Regeneration"
 
 func _slow_down():
 	power = "Slow Down"
-	$PowerTimer.start(10)
-	NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._power_player("Slow Down", true)
-	print("Slow Down")
-	pass
+	var NPCs = get_tree().get_nodes_in_group("NPC")
+	for NPC in NPCs: NPC._power_player("Slow Down")
 
 func _poison():
 	power = "Poison"
-	$PowerTimer.start(10)
-	hits = 8
-	NPCs = get_tree().get_nodes_in_group("NPC")
-	print("Poison")
-	pass
+	var NPCs = get_tree().get_nodes_in_group("NPC")
+	for NPC in NPCs: NPC._power_player("Poison")
 
 func _paralyze():
 	power = "Paralyze"
-	$PowerTimer.start(10)
-	NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._power_player("Paralyze", true)
-	print("Paralyze")
-	pass
+	var NPCs = get_tree().get_nodes_in_group("NPC")
+	for NPC in NPCs: NPC._power_player("Paralyze")
 
 func _invoke():
 	var newInvoked_01 = Invoked.instance()
@@ -115,9 +104,6 @@ func _invoke():
 	var newInvoked_02 = Invoked.instance()
 	newInvoked_02.setup(-1, Player.position - Vector2(-150, 200))
 	Player.get_parent().call_deferred("add_child", newInvoked_02)
-	
-	print("Invoke")
-	pass
 
 func _fly():
 	power = "Fly"
@@ -158,19 +144,17 @@ func _animate():
 
 func _on_PowerTimer_timeout():
 	Player.power_active = false
-	NPCs = get_tree().get_nodes_in_group("NPC")
 	match power:
+		"Regeneration":
+			Player.check_life()
+			$Regeneration.visible = false
+			$AnimationPower.stop()
 		"Damage":
 			Player.hit_power /= 2
 		"Fly":
-			if !Player.shooting:
-				flying = false
-				$FlyMagic.emitting = false
+			flying = false
+			$FlyMagic.emitting = false
 		"Shield":
 			$Shield.visible = false
 			$AnimationPower.stop()
-		"Paralyze":
-			for NPC in NPCs: NPC._power_player("Paralyze", false)
-		"Slow Down":
-			for NPC in NPCs: NPC._power_player("Slow Down", false)
 	power = ""

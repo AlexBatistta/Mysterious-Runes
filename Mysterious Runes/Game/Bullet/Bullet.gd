@@ -24,8 +24,8 @@ func setup(_position, _direction, _type, _up_down, _power):
 		set_collision_mask_bit(5, true)
 		set_collision_mask_bit(9, true)
 	else:
-		$Bullet.modulate = Global.color()
-		$Particles2D.modulate = Global.color()
+		$Bullet.modulate = Color("#e93842")
+		$Particles2D.modulate = Color("#e93842")
 		if _up_down:
 			velocity.x /= 2
 			velocity.y = speed

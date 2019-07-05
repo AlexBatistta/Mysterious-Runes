@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Game/Runes/Runes.gd" type="Script" id=1]
 [ext_resource path="res://Game/Runes/Runes-01.png" type="Texture" id=2]
 [ext_resource path="res://Game/Runes/Runes-02.png" type="Texture" id=3]
 [ext_resource path="res://Game/Runes/Runes-03.png" type="Texture" id=4]
+[ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Drop"
@@ -69,21 +70,21 @@ tracks/4/keys = {
 "values": [ Vector2( -50, -11 ), Vector2( -50, -75 ) ]
 }
 
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 49.6802
-height = 7.09314
-
-[sub_resource type="ParticlesMaterial" id=3]
+[sub_resource type="ParticlesMaterial" id=2]
 flag_disable_z = true
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 10.0
+initial_velocity = 100.0
 angular_velocity = 120.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 tangential_accel = 25.0
-scale = 3.0
-scale_random = 1.0
+scale = 0.2
+scale_random = 0.3
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 49.6802
+height = 7.09314
 
 [node name="Runes" type="Area2D" groups=[
 "Runes",
@@ -111,7 +112,7 @@ visible = false
 texture = ExtResource( 4 )
 vframes = 2
 hframes = 4
-frame = 6
+frame = 2
 
 [node name="Label" type="Label" parent="Rune"]
 visible = false
@@ -122,22 +123,22 @@ margin_right = 9.5
 margin_bottom = 14.0
 rect_scale = Vector2( 2, 2 )
 rect_pivot_offset = Vector2( 50, 12 )
-text = "Invoke"
+text = "Regeneration"
 align = 1
 valign = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -15, -85 )
-scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 2 )
-
-[node name="Particles2D" type="Particles2D" parent="."]
-position = Vector2( -15, -85 )
-scale = Vector2( 2, 2 )
-amount = 5
+[node name="Particles2D" type="Particles2D" parent="Rune"]
+amount = 3
 lifetime = 2.0
 visibility_rect = Rect2( -25, -25, 50, 50 )
-process_material = SubResource( 3 )
+process_material = SubResource( 2 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( -15, -85 )
+scale = Vector2( 0.5, 0.5 )
+shape = SubResource( 3 )
 
 [node name="Drop" type="Timer" parent="."]
 one_shot = true
