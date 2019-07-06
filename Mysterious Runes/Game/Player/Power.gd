@@ -4,18 +4,15 @@ export (PackedScene) var Invoked
 
 var Player
 var Animation
-
 var power = ""
-var flying = false
-var swimming = false
 var velocity = Vector2()
 var direction = Vector2()
 var topRiver = 0
 var damageRiver = 0
-var NPCs = Array()
 var hits = 0
 
 func _ready():
+	$RuneActive.connect("power_out", self, "_power_out")
 	Animation = get_parent().get_node("Sprite/AnimationPlayer")
 	Player = get_parent()
 
@@ -61,25 +58,20 @@ func _swimming(delta):
 		Player._hurt(damageRiver)
 
 func _damage():
-	Player.hit_power *= 2
 	power = "Damage"
-	$PowerTimer.start(Global.timePower)
-	print("Damage")
+	Player.hit_power *= 2
+	$RuneActive._set_power("Damage")
 
 func _shield():
-	Player.get_node("ImmunityTimer").start(Global.timePower)
-	$Shield.visible = true
-	$PowerTimer.start(Global.timePower)
-	$AnimationPower.play("Shield")
 	power = "Shield"
+	Player.get_node("ImmunityTimer").start(Global.timePower)
+	$RuneActive._set_power("Shield")
+	$AnimationPower.play("Shield")
 
 func _regeneration():
-	$PowerTimer.start(Global.timePower)
-	Player.get_node("ImmunityTimer").start(Global.timePower)
-	$Regeneration.visible = true
-	$AnimationPower.play("Regeneration")
-	Player.check_life()
 	power = "Regeneration"
+	Player.get_node("ImmunityTimer").start(Global.timePower)
+	$RuneActive._set_power("Regeneration")
 
 func _slow_down():
 	power = "Slow Down"
@@ -89,12 +81,12 @@ func _slow_down():
 func _poison():
 	power = "Poison"
 	var NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._power_player("Poison")
+	for NPC in NPCs: NPC._rune_active("Poison")
 
 func _paralyze():
 	power = "Paralyze"
 	var NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._power_player("Paralyze")
+	for NPC in NPCs: NPC._rune_power("Paralyze")
 
 func _invoke():
 	var newInvoked_01 = Invoked.instance()
@@ -104,13 +96,15 @@ func _invoke():
 	var newInvoked_02 = Invoked.instance()
 	newInvoked_02.setup(-1, Player.position - Vector2(-150, 200))
 	Player.get_parent().call_deferred("add_child", newInvoked_02)
+	
+	$RuneActive._set_power("Invoke")
 
 func _fly():
 	power = "Fly"
-	$PowerTimer.start(10)
 	$FlyMagic.emitting = true
 	velocity = Vector2(0, -1)
 	Animation.play("Fly to Up")
+	$RuneActive._set_power("Fly")
 
 func _swim(_active, _top, _damage):
 	power = "Swim"
@@ -142,17 +136,14 @@ func _animate():
 	if velocity.x != 0:
 		Player.get_node("Sprite").scale.x = 0.5 if velocity.x > 0 else -0.5
 
-func _on_PowerTimer_timeout():
+func _power_out():
 	Player.power_active = false
 	match power:
 		"Regeneration":
 			Player.check_life()
-			$Regeneration.visible = false
-			$AnimationPower.stop()
 		"Damage":
 			Player.hit_power /= 2
 		"Fly":
-			flying = false
 			$FlyMagic.emitting = false
 		"Shield":
 			$Shield.visible = false

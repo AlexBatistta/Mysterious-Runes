@@ -26,7 +26,7 @@ func _ready():
 		power = temporary[randi() % 3]
 	else:
 		power = permanent
-	power = "Regeneration"
+	
 	animation()
 	$Rune/Label.text = power
 

@@ -7,6 +7,7 @@
 [ext_resource path="res://Game/Player/Power.gd" type="Script" id=5]
 [ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game/Player/Shield.png" type="Texture" id=7]
+[ext_resource path="res://Game/Runes/RuneActive.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=1]
 length = 0.7
@@ -573,24 +574,6 @@ scale = 0.1
 scale_random = 0.3
 color = Color( 1, 1, 1, 0.588235 )
 
-[sub_resource type="Animation" id=23]
-resource_name = "Regeneration"
-length = 1.5
-loop = true
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("Regeneration:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.75, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0.75 ), Vector2( 1.25, 0.75 ), Vector2( 0, 0.75 ) ]
-}
-
 [sub_resource type="Animation" id=24]
 loop = true
 tracks/0/type = "value"
@@ -604,6 +587,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0.588235 ), Color( 1, 1, 1, 0.980392 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Shield:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [node name="Player" type="KinematicBody2D"]
@@ -678,9 +673,6 @@ __meta__ = {
 }
 Invoked = ExtResource( 6 )
 
-[node name="PowerTimer" type="Timer" parent="Power"]
-one_shot = true
-
 [node name="FlyMagic" type="Particles2D" parent="Power"]
 emitting = false
 amount = 15
@@ -699,18 +691,11 @@ modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( 0, -95 )
 texture = ExtResource( 7 )
 
-[node name="Regeneration" type="Sprite" parent="Power"]
+[node name="RuneActive" parent="Power" instance=ExtResource( 8 )]
 visible = false
-modulate = Color( 1, 1, 1, 0.72549 )
-position = Vector2( 0, -215 )
-rotation = -1.5708
-scale = Vector2( 1e-005, 0.75 )
-texture = ExtResource( 7 )
-offset = Vector2( -92.5, 3.75509e-006 )
+position = Vector2( 0, -10 )
 
 [node name="AnimationPower" type="AnimationPlayer" parent="Power"]
-anims/Regeneration = SubResource( 23 )
 anims/Shield = SubResource( 24 )
 
 [connection signal="visibility_changed" from="." to="." method="_on_Player_visibility_changed"]
-[connection signal="timeout" from="Power/PowerTimer" to="Power" method="_on_PowerTimer_timeout"]

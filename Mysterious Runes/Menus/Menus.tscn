@@ -58,7 +58,7 @@ anims/FadeOut = SubResource( 2 )
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 2 )]
 layer = -2
-scroll_offset = Vector2( -398, 0 )
+scroll_offset = Vector2( -3018.5, 0 )
 
 [node name="KeyboardController" type="Control" parent="."]
 anchor_right = 1.0

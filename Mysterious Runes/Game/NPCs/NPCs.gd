@@ -16,7 +16,7 @@ var spawning = true
 var health = 0
 var hit_power = 0
 var type
-var power_player = ""
+var rune_power = ""
 var paralyze = false
 var custom_speed = 0
 
@@ -34,6 +34,7 @@ func setup(_type, _position):
 		set_collision_layer_bit(1, true)
 		health = SetHealth[type]
 		hit_power = SetHitPower[type]
+		$RuneActive.connect("power_out", self, "_power_out")
 	else:
 		$SpriteBody.texture = load ("res://Game/NPCs/Invoked.png")
 		$SpriteColor.texture = null
@@ -76,7 +77,7 @@ func _physics_process(delta):
 	
 	var collisions = move_and_slide(velocity, Vector2(0, -1))
 	
-	if power_player == "Poison": _hurt(5)
+	if rune_power == "Poison": _hurt(5)
 	
 	_animate()
 
@@ -171,7 +172,6 @@ func _hurt(hit):
 		hurting = true
 		$LifeBar.value -= hit
 		$ImmunityTimer.start(2)
-		print(health)
 
 func _geyser(_orientation):
 	if health > 0:
@@ -181,24 +181,18 @@ func _geyser(_orientation):
 		$AttackTimer.start(2)
 		shooting = false
 
-func _power_player(_power):
-	power_player = _power
-	var _frame
+func _rune_active(_power):
+	rune_power = _power
 	if _power == "Poison":
 		_hurt(5)
-		_frame = 4
 	if _power == "Paralyze":
 		paralyze = true
-		_frame = 5
 	if _power == "Slow Down":
 		$AnimationPlayer.playback_speed = 0.5
 		custom_speed = 0.5
 		if type == 2: custom_speed = 0.25
-		_frame = 3
 	
-	$PowerPlayer/RuneTimer.start(Global.timePower)
-	$PowerPlayer/SpriteRune.frame = _frame
-	$PowerPlayer/AnimationPlayer.play("Power")
+	$RuneActive._set_power(rune_power)
 
 func _on_VisibilityNotifier2D_screen_exited():
 	if type == 2:
@@ -210,17 +204,15 @@ func _on_DespawnTimer_timeout():
 	if !$VisibilityNotifier2D.is_on_screen():
 		queue_free()
 
-func _on_RuneTimer_timeout():
-	match power_player:
+func _power_out():
+	match rune_power:
 		"Paralyze":
 			paralyze = false
 		"Slow Down":
 			$AnimationPlayer.playback_speed = 1
 			custom_speed = 1
 			if type == 2: custom_speed = 0.5
-	power_player = ""
-	$PowerPlayer/AnimationPlayer.stop()
-	$PowerPlayer.visible = false
+	rune_power = ""
 
 func _on_AttackArea_body_entered(body):
 	body._hurt(hit_power)
