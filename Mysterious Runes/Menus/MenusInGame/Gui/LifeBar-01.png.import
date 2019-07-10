@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/GuiPlayer.png-01bd7540124b1ab9f3da0c9bbedf476b.stex"
+path="res://.import/LifeBar-01.png-80b7e57dd38a381b8eeeac72c28e1b83.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Menus/MenusInGame/GuiPlayer.png"
-dest_files=[ "res://.import/GuiPlayer.png-01bd7540124b1ab9f3da0c9bbedf476b.stex" ]
+source_file="res://Menus/MenusInGame/Gui/LifeBar-01.png"
+dest_files=[ "res://.import/LifeBar-01.png-80b7e57dd38a381b8eeeac72c28e1b83.stex" ]
 
 [params]
 

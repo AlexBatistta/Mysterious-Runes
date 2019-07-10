@@ -1,31 +1,30 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Menus/MenusInGame/MenuInGame.gd" type="Script" id=1]
-[ext_resource path="res://Menus/KeyboardController.gd" type="Script" id=2]
-[ext_resource path="res://Menus/BasicMenu.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Menus/MenusInGame/Title-Menus-Game.png" type="Texture" id=4]
-[ext_resource path="res://Menus/Button-Normal.png" type="Texture" id=5]
-[ext_resource path="res://Menus/Button-Hover.png" type="Texture" id=6]
-[ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=7]
+[ext_resource path="res://Menus/BasicMenu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Menus/MenusInGame/Title-Menus-Game.png" type="Texture" id=3]
+[ext_resource path="res://Menus/Button-Normal.png" type="Texture" id=4]
+[ext_resource path="res://Menus/Button-Hover.png" type="Texture" id=5]
+[ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=6]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 575, 150 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 100, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 100, 0, 100, 100 )
 
 [node name="MenuInGame" type="Control"]
@@ -34,12 +33,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
-[node name="KeyboardController" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 2 )
-
-[node name="BasicMenu" parent="." instance=ExtResource( 3 )]
+[node name="BasicMenu" parent="." instance=ExtResource( 2 )]
 
 [node name="TitlePause" type="TextureRect" parent="."]
 anchor_left = 0.5
@@ -64,8 +58,8 @@ margin_left = 204.0
 margin_right = 380.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 176, 200 )
-texture_normal = ExtResource( 5 )
-texture_hover = ExtResource( 6 )
+texture_normal = ExtResource( 4 )
+texture_hover = ExtResource( 5 )
 expand = true
 stretch_mode = 3
 
@@ -85,8 +79,8 @@ margin_left = 430.0
 margin_right = 650.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 220, 250 )
-texture_normal = ExtResource( 5 )
-texture_hover = ExtResource( 6 )
+texture_normal = ExtResource( 4 )
+texture_hover = ExtResource( 5 )
 expand = true
 stretch_mode = 5
 
@@ -108,8 +102,8 @@ margin_left = 700.0
 margin_right = 876.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 176, 200 )
-texture_normal = ExtResource( 5 )
-texture_hover = ExtResource( 6 )
+texture_normal = ExtResource( 4 )
+texture_hover = ExtResource( 5 )
 expand = true
 stretch_mode = 3
 
@@ -124,7 +118,6 @@ margin_right = 50.0
 margin_bottom = 50.0
 texture = SubResource( 4 )
 
-[connection signal="visibility_changed" from="." to="." method="_on_MenuInGame_visibility_changed"]
 [connection signal="pressed" from="HBoxContainer/HomeButton" to="." method="_on_HomeButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/LevelsButton" to="." method="_on_LevelsButton_pressed"]

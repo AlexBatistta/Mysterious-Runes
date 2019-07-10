@@ -23,7 +23,7 @@ func _draw():
 	if Engine.is_editor_hint():
 		draw_line(Vector2.ZERO, final_position, Color.red, 10)
 
-func _process(delta):
+func _physics_process(delta):
 	update()
 
 func _ready():

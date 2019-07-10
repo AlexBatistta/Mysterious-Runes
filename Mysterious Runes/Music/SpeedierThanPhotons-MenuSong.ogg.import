@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SpeedierThanPhotons-MenuSong.ogg-6a33f831452f1b43ca84daf2d772149c.oggstr"
+
+[deps]
+
+source_file="res://Music/SpeedierThanPhotons-MenuSong.ogg"
+dest_files=[ "res://.import/SpeedierThanPhotons-MenuSong.ogg-6a33f831452f1b43ca84daf2d772149c.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

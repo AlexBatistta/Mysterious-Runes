@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Game/Stalactite/Stalactite.gd" type="Script" id=1]
 [ext_resource path="res://Game/Stalactite/Stalactite-01.png" type="Texture" id=2]
 [ext_resource path="res://Game/Stalactite/Stalactite-02.png" type="Texture" id=3]
+[ext_resource path="res://Sound/Stalactite.ogg" type="AudioStream" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Break"
@@ -73,7 +74,7 @@ hframes = 3
 region_rect = Rect2( 0, 0, 96, 96 )
 
 [node name="SpriteColor" type="Sprite" parent="."]
-modulate = Color( 1, 0, 1, 1 )
+modulate = Color( 0, 0, 1, 1 )
 position = Vector2( 0, 48 )
 texture = ExtResource( 3 )
 hframes = 3
@@ -95,5 +96,10 @@ one_shot = true
 speed_scale = 3.0
 explosiveness = 1.0
 process_material = SubResource( 2 )
+
+[node name="BreakSound" type="AudioStreamPlayer" parent="." groups=[
+"Sound",
+]]
+stream = ExtResource( 4 )
 
 [connection signal="body_entered" from="." to="." method="_on_Stalactite_body_entered"]

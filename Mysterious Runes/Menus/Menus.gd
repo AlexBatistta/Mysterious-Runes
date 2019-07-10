@@ -1,6 +1,7 @@
 extends Control
 
 func _ready():
+	if Global.music: $MusicMenus.play()
 	Global.change_level(0)
 	$ParallaxBackground.set_color()
 	_hide_nodes()
@@ -11,13 +12,6 @@ func _ready():
 func _transition():
 	$Fade/AnimationPlayer.play("FadeOut")
 	_hide_nodes()
-
-func _input(event):
-	if event.is_action_pressed("ui_cancel"):
-		if Global.current_menu != "MainMenu":
-			Global.change_menu("MainMenu")
-		else:
-			get_tree().quit()
 
 func _hide_nodes():
 	var menus = $ListMenus.get_children()

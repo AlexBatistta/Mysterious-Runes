@@ -31,9 +31,8 @@ func change_level():
 	$Levels/Portal2.position = newLevel.map_to_world(portals[1]) + Vector2(48, 96)
 	$Levels/Portal.reset()
 	
-	$Camera2D.position = $Levels/Portal.position
-	$Camera2D.limit_right = get_limits().x
-	$Camera2D.limit_bottom = get_limits().y
+	$Levels/Player/Camera2D.limit_right = get_limits().x
+	$Levels/Player/Camera2D.limit_bottom = get_limits().y
 	
 	$Levels/Player.position = $Levels/Portal.position
 	$Levels/Player.visible = false
@@ -60,31 +59,28 @@ func _ready():
 	else:
 		load_level(Global.current_level)
 		$Levels/Portal.connect("teleport", $Levels/Player, "_spawn")
-		$Levels/Player.connect("change_life", $MenuLayer/Gui, "change_LifeBar")
-		$MenuLayer/Gui.set_LifeBar($Levels/Player.maxLife)
+		$Levels/Player.connect("change_life", $MenuLayer/UI/Gui, "change_LifeBar")
 		Global.connect("transition", self, "_transition")
-
-func _process(delta):
-	if $Levels/Player.visible:
-		$Camera2D.position = $Levels/Player.position
+		
+		if Global.music: $MusicGame.play()
 
 func _transition():
 	$MenuLayer/Fade/AnimationPlayer.play("FadeInOut")
 	_hide_nodes()
 	if Global.current_menu != "Game":
-		$MenuLayer/MenuInGame.set_menu(Global.current_menu)
+		$MenuLayer/UI/MenuInGame.set_menu(Global.current_menu)
 		get_tree().paused = true
 	else:
 		get_tree().paused = false
 
 func _hide_nodes():
 	$Levels.visible = false
-	$MenuLayer/Gui.visible = false
-	$MenuLayer/MenuInGame.visible = false
+	$MenuLayer/UI/Gui.visible = false
+	$MenuLayer/UI/MenuInGame.visible = false
 
 func _draw_current_state():
 	if Global.current_menu != "Game":
-		$MenuLayer/MenuInGame.visible = true
+		$MenuLayer/UI/MenuInGame.visible = true
 	else:
 		$Levels.visible = true
-		$MenuLayer/Gui.visible = true
+		$MenuLayer/UI/Gui.visible = true

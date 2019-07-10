@@ -1,12 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Game/Tileset/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Game/Levels/Level.gd" type="Script" id=2]
-[ext_resource path="res://Game/Runes/Runes.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Game/River/River.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Game/Spawn/Spawn.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Game/Platform/Platform.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Game/Stalactite/Stalactite.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Game/Platform/Platform.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Game/Spawn/Spawn.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Game/Stalactite/Stalactite.tscn" type="PackedScene" id=5]
 
 [node name="Level1" type="TileMap" groups=[
 "Level",
@@ -16,49 +14,19 @@ cell_size = Vector2( 96, 96 )
 collision_layer = 4
 collision_mask = 3
 format = 1
-tile_data = PoolIntArray( 327682, 6, 0, 327683, 6, 0, 327684, 6, 0, 327685, 6, 0, 327686, 6, 0, 327687, 6, 0, 983046, 16, 0, 1245195, 19, 0, 1245209, 19, 0, 1245216, 6, 0, 1245223, 6, 0, 1310725, 6, 0, 1310726, 6, 0, 1310727, 6, 0, 1310728, 6, 0, 1310729, 6, 0, 1310730, 6, 0, 1310731, 6, 0, 1310732, 6, 0, 1310733, 6, 0, 1310734, 6, 0, 1310735, 6, 0, 1310736, 6, 0, 1310737, 6, 0, 1310738, 6, 0, 1310739, 6, 0, 1310740, 6, 0, 1310741, 6, 0, 1310742, 6, 0, 1310743, 6, 0, 1310744, 6, 0, 1310745, 6, 0, 1310746, 6, 0, 1310747, 13, 0, 1310748, 6, 0, 1310752, 6, 0, 1310759, 6, 0 )
+tile_data = PoolIntArray( 0, 5, 0, 1, 6, 0, 2, 6, 0, 3, 6, 0, 4, 6, 0, 5, 6, 0, 6, 6, 0, 7, 6, 0, 8, 6, 0, 9, 6, 0, 10, 6, 0, 11, 6, 0, 12, 6, 0, 13, 6, 0, 14, 6, 0, 15, 6, 0, 16, 6, 0, 17, 6, 0, 18, 6, 0, 19, 6, 0, 20, 6, 0, 21, 6, 0, 65536, 10, 0, 65537, 3, 0, 65538, 16, 0, 65539, 16, 0, 65540, 16, 0, 65541, 16, 0, 65542, 16, 0, 65543, 16, 0, 65544, 16, 0, 65545, 16, 0, 65546, 16, 0, 65547, 16, 0, 65548, 16, 0, 65549, 16, 0, 65550, 4, 0, 65551, 11, 0, 65552, 11, 0, 65553, 11, 0, 65554, 11, 0, 65555, 11, 0, 65556, 3, 0, 65557, 16, 0, 131072, 10, 0, 131073, 12, 0, 131086, 10, 0, 131087, 11, 0, 131088, 11, 0, 131089, 11, 0, 131090, 11, 0, 131091, 11, 0, 131092, 12, 0, 196608, 10, 0, 196609, 12, 0, 196622, 15, 0, 196623, 16, 0, 196624, 16, 0, 196625, 16, 0, 196626, 16, 0, 196627, 16, 0, 196628, 17, 0, 262144, 10, 0, 262145, 12, 0, 327680, 10, 0, 327681, 12, 0, 393216, 10, 0, 393217, 12, 0, 458752, 10, 0, 458753, 12, 0, 524288, 10, 0, 524289, 12, 0, 524295, 19, 0, 524318, 19, 0, 589824, 10, 0, 589825, 8, 0, 589826, 6, 0, 589827, 6, 0, 589828, 6, 0, 589829, 6, 0, 589830, 6, 0, 589831, 6, 0, 589832, 6, 0, 589833, 6, 0, 589834, 6, 0, 589835, 6, 0, 589836, 6, 0, 589837, 7, 0, 589845, 5, 0, 589846, 6, 0, 589847, 6, 0, 589848, 6, 0, 589849, 6, 0, 589850, 6, 0, 589851, 6, 0, 589852, 6, 0, 589853, 6, 0, 589854, 6, 0, 589855, 6, 0, 655360, 15, 0, 655361, 16, 0, 655362, 16, 0, 655363, 16, 0, 655364, 16, 0, 655365, 16, 0, 655366, 16, 0, 655367, 16, 0, 655368, 16, 0, 655369, 16, 0, 655370, 16, 0, 655371, 16, 0, 655372, 16, 0, 655373, 17, 0, 655381, 15, 0, 655382, 16, 0, 655383, 16, 0, 655384, 16, 0, 655385, 16, 0, 655386, 16, 0, 655387, 16, 0, 655388, 16, 0, 655389, 16, 0, 655390, 16, 0, 655391, 16, 0, 851989, 5, 0, 851990, 6, 0, 851991, 6, 0, 917518, 6, 0, 917519, 6, 0, 917520, 6, 0, 917521, 6, 0, 917522, 6, 0, 917523, 6, 0, 917524, 6, 0, 917525, 9, 0, 1245216, 6, 0, 1245223, 6, 0, 1310752, 6, 0, 1310759, 6, 0 )
 script = ExtResource( 2 )
 
-[node name="Runes" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1450, 1920 )
-treeType = 1
-permanent = "Fly"
+[node name="Platform" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1440, 886.705 )
+final_position = Vector2( 500, 0 )
 
-[node name="Runes2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1900, 1920 )
-runeType = 1
-permanent = "Poison"
+[node name="Spawn" parent="." instance=ExtResource( 4 )]
+position = Vector2( 2580, 510 )
 
-[node name="River2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 2784, 1920 )
-type = 1
-dimensions = Vector2( 3, 1 )
-damage = 10
+[node name="Stalactite" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1550, 384 )
 
-[node name="River" parent="." instance=ExtResource( 4 )]
-position = Vector2( 3168, 1824 )
-dimensions = Vector2( 6, 2 )
-damage = 10
+[node name="Stalactite2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1820, 384 )
 
-[node name="Spawn" parent="." instance=ExtResource( 5 )]
-position = Vector2( 2180, 1700 )
-NpcType = 2
-
-[node name="Platform" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1257, 1829 )
-final_position = Vector2( 0, -200 )
-
-[node name="Stalactite2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 754.773, 1920.05 )
-rotation = 3.14159
-flip = true
-
-[node name="Stalactite" parent="." instance=ExtResource( 7 )]
-position = Vector2( 623.644, 1536.38 )
-
-[node name="Spawn2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1611.63, 1583.6 )
-NpcType = 3
-randomSpawn = true
-
-[connection signal="body_entered" from="Geyser" to="Geyser" method="_on_Geyser_body_entered"]

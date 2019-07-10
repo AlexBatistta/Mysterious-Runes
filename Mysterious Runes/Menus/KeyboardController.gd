@@ -1,5 +1,7 @@
 extends Control
 
+signal pause
+
 var buttons = []
 var button_active = 0
 var mouse = false
@@ -18,13 +20,14 @@ func _get_buttons():
 			buttons.push_back(get_parent().get_node(button))
 		button_active = 1
 	
-	var node2 = get_parent().get_node("BasicMenu")
-	for button in node2.buttons:
-		if node2.get_node(button).visible:
-			buttons.push_back(node2.get_node(button))
+	if get_parent().has_node("BasicMenu"):
+		var node2 = get_parent().get_node("BasicMenu")
+		for button in node2.buttons:
+			if node2.get_node(button).visible:
+				buttons.push_back(node2.get_node(button))
 
 func _process(delta):
-	if get_parent().visible:
+	if get_parent().visible && !buttons.empty():
 		if mouse:
 			buttons[button_active].release_focus()
 		else:
@@ -37,10 +40,20 @@ func _input(event):
 		if event.is_action_released("move_down") || event.is_action_released("move_right"):
 			button_active += 1
 		
-		if button_active < 0:
-			button_active = buttons.size() - 1
-		if button_active > buttons.size() - 1:
-			button_active = 0
+		if event.is_action_pressed("ui_cancel"):
+			_sound()
+			if Global.current_state == "Menus":
+				if Global.current_menu != "MainMenu":
+					Global.change_menu("MainMenu")
+				else:
+					get_tree().quit()
+			else:
+				if Global.current_menu == "MenuPause":
+					emit_signal("pause")
+		
+		if event.is_action_pressed("ui_pause"):
+			_sound()
+			emit_signal("pause")
 		
 		if event is InputEventMouseMotion:
 			mouse = true
@@ -51,3 +64,17 @@ func _input(event):
 					if Global.current_state == "Menus": button_active = 0
 					else: button_active = 1
 				mouse = false
+		
+		if event is InputEventMouseButton && event.is_pressed() || event.is_action_pressed("ui_accept"):
+			for button in buttons:
+				if button.is_hovered(): 
+					_sound()
+		
+		if button_active < 0:
+			button_active = buttons.size() - 1
+		if button_active > buttons.size() - 1:
+			button_active = 0
+
+func _sound():
+	if !$ButtonPressedSound.playing:
+		$ButtonPressedSound.play()

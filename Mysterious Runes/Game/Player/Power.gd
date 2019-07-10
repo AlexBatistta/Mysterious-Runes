@@ -15,6 +15,7 @@ func _ready():
 	$RuneActive.connect("power_out", self, "_power_out")
 	Animation = get_parent().get_node("Sprite/AnimationPlayer")
 	Player = get_parent()
+	set_process_input(false)
 
 func _process(delta):
 	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
@@ -76,7 +77,7 @@ func _regeneration():
 func _slow_down():
 	power = "Slow Down"
 	var NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._power_player("Slow Down")
+	for NPC in NPCs: NPC._rune_active("Slow_Down")
 
 func _poison():
 	power = "Poison"
@@ -86,7 +87,7 @@ func _poison():
 func _paralyze():
 	power = "Paralyze"
 	var NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._rune_power("Paralyze")
+	for NPC in NPCs: NPC._rune_active("Paralyze")
 
 func _invoke():
 	var newInvoked_01 = Invoked.instance()
@@ -105,12 +106,14 @@ func _fly():
 	velocity = Vector2(0, -1)
 	Animation.play("Fly to Up")
 	$RuneActive._set_power("Fly")
+	set_process_input(true)
 
 func _swim(_active, _top, _damage):
 	power = "Swim"
 	topRiver = _top + 75
 	velocity = Vector2()
 	damageRiver = _damage
+	set_process_input(true)
 
 func _animate():
 	var animation = Animation.current_animation
@@ -137,7 +140,7 @@ func _animate():
 		Player.get_node("Sprite").scale.x = 0.5 if velocity.x > 0 else -0.5
 
 func _power_out():
-	Player.power_active = false
+	Global.rune_active = false
 	match power:
 		"Regeneration":
 			Player.check_life()
@@ -149,3 +152,4 @@ func _power_out():
 			$Shield.visible = false
 			$AnimationPower.stop()
 	power = ""
+	Player.set_physics_process(true)

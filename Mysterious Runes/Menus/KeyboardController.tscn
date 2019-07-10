@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Menus/KeyboardController.gd" type="Script" id=1]
+[ext_resource path="res://Sound/Button.ogg" type="AudioStream" id=2]
+
+[node name="KeyboardController" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1080.0
+margin_bottom = -720.0
+script = ExtResource( 1 )
+
+[node name="ButtonPressedSound" type="AudioStreamPlayer" parent="." groups=[
+"Sound",
+]]
+stream = ExtResource( 2 )
+

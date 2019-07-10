@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Game/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Game/Bullet/Bullet.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game/Player/Shield.png" type="Texture" id=7]
 [ext_resource path="res://Game/Runes/RuneActive.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Sound/Jump.ogg" type="AudioStream" id=9]
 
 [sub_resource type="Animation" id=1]
 length = 0.7
@@ -506,17 +507,19 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("..:wait")
+tracks/1/type = "method"
+tracks/1/path = NodePath("..")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "set_physics_process"
+} ]
 }
 
 [sub_resource type="Animation" id=17]
@@ -574,7 +577,7 @@ scale = 0.1
 scale_random = 0.3
 color = Color( 1, 1, 1, 0.588235 )
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=23]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Shield:modulate")
@@ -616,6 +619,7 @@ texture = ExtResource( 3 )
 offset = Vector2( -54.4896, -165.819 )
 vframes = 9
 hframes = 10
+frame = 50
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Die = SubResource( 1 )
@@ -646,7 +650,7 @@ __meta__ = {
 }
 
 [node name="BulletSpawn" type="Position2D" parent="."]
-position = Vector2( 75, -57 )
+position = Vector2( 32, -105 )
 
 [node name="ShootTimer" type="Timer" parent="."]
 one_shot = true
@@ -696,6 +700,17 @@ visible = false
 position = Vector2( 0, -10 )
 
 [node name="AnimationPower" type="AnimationPlayer" parent="Power"]
-anims/Shield = SubResource( 24 )
+anims/Shield = SubResource( 23 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+visible = false
+position = Vector2( -10, -66 )
+scale = Vector2( 8, 7.4 )
+
+[node name="PlayerSounds" type="AudioStreamPlayer" parent="." groups=[
+"Sound",
+]]
+stream = ExtResource( 9 )
 
 [connection signal="visibility_changed" from="." to="." method="_on_Player_visibility_changed"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Game/Portals/Portal.gd" type="Script" id=1]
 [ext_resource path="res://Game/Portals/Portal-01.png" type="Texture" id=2]
 [ext_resource path="res://Game/Portals/Portal-02.png" type="Texture" id=3]
 [ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=4]
+[ext_resource path="res://Sound/Portal.ogg" type="AudioStream" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Activate"
@@ -94,8 +95,8 @@ tracks/1/keys = {
 "times": PoolRealArray( 0.1 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ "teleport" ],
-"method": "emit_signal"
+"args": [  ],
+"method": "_teleport"
 } ]
 }
 
@@ -143,7 +144,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -109.938 )
 vframes = 2
 hframes = 5
-frame = 4
+frame = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Activate = SubResource( 1 )
@@ -159,6 +160,11 @@ emitting = false
 visibility_rect = Rect2( -100, -125, 200, 250 )
 process_material = SubResource( 6 )
 texture = ExtResource( 4 )
+
+[node name="TeleportSound" type="AudioStreamPlayer" parent="." groups=[
+"Sound",
+]]
+stream = ExtResource( 5 )
 
 [connection signal="body_entered" from="." to="." method="_on_Portals_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_Portals_body_exited"]

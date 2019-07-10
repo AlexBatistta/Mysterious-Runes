@@ -38,3 +38,5 @@ func _spawn_invoked(_position):
 	var newInvoked_02 = NPCs.instance()
 	newInvoked_02.setup(randi() % 2, _position - Vector2(-150, 200))
 	get_parent().add_child(newInvoked_02)
+	
+	$SpawnSound.play()

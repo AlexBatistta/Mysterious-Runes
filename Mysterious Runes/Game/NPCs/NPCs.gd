@@ -52,8 +52,12 @@ func _ready():
 		$AttackArea/AttackRayCast.position = Vector2(40, -50)
 	
 	if type == 2:
-		$RayCast2D.cast_to = Vector2(0, 350)
-		$RayCast2D.position = Vector2.ZERO
+		$AttackArea/AttackRayCast.cast_to = Vector2(0, 350)
+		$AttackArea/AttackRayCast.position = Vector2.ZERO
+		$AttackArea/AttackRayCast.set_collision_mask_bit(0, false)
+		$AttackArea/AttackRayCast.set_collision_mask_bit(2, true)
+		$RayCast2D.cast_to = Vector2(20, 0)
+		$RayCast2D.position = Vector2(40, -25)
 	
 	if type == 5:
 		$InvokerTimer.start(7)
@@ -87,7 +91,7 @@ func _move(delta):
 	
 	velocity.x = direction * (speed * custom_speed)
 	
-	if shooting: velocity.x = 0
+	if shooting || hurting: velocity.x = 0
 	
 	if !spawning && type != 2:
 		if is_on_wall() || !$RayCast2D.is_colliding():
@@ -112,11 +116,14 @@ func _shoot():
 		var bullet_02 = Bullet.instance()
 		bullet_02.setup(_position, -$SpriteBody.scale.x, "NPC", true, hit_power)
 		get_parent().add_child(bullet_02)
+	
+	$NPCSound.stream = load("res://Sound/Shoot.ogg")
+	$NPCSound.play()
 
 func _magic_flyer():
 	if type == 2:
 		if spawning:
-			if $RayCast2D.is_colliding():
+			if $AttackArea/AttackRayCast.is_colliding():
 				velocity.y = -(speed * custom_speed)
 			else:
 				spawning = false
@@ -126,7 +133,7 @@ func _magic_flyer():
 		$AttackTimer.start(4)
 		shooting = true
 	
-	if is_on_wall():
+	if $RayCast2D.is_colliding():
 		_change_direction()
 
 func _invoker_boss():
@@ -172,6 +179,8 @@ func _hurt(hit):
 		hurting = true
 		$LifeBar.value -= hit
 		$ImmunityTimer.start(2)
+		$NPCSound.stream = load("res://Sound/Hurt.ogg")
+		$NPCSound.play()
 
 func _geyser(_orientation):
 	if health > 0:
@@ -180,6 +189,8 @@ func _geyser(_orientation):
 		spawning = true
 		$AttackTimer.start(2)
 		shooting = false
+		$NPCSound.stream = load("res://Sound/Geyser.ogg")
+		$NPCSound.play()
 
 func _rune_active(_power):
 	rune_power = _power

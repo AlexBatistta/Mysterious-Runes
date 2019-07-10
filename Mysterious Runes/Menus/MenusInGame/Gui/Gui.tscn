@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Menus/MenusInGame/Gui/Gui.gd" type="Script" id=1]
 [ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=2]
-[ext_resource path="res://Menus/MenusInGame/GuiPlayer.png" type="Texture" id=3]
-[ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=4]
+[ext_resource path="res://Menus/MenusInGame/Gui/LifeBar-01.png" type="Texture" id=3]
+[ext_resource path="res://Menus/MenusInGame/Gui/LifeBar-Icon.png" type="Texture" id=4]
+[ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=5]
+[ext_resource path="res://Menus/MenusInGame/Runes/RunesMenu.tscn" type="PackedScene" id=6]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -17,10 +19,10 @@ region = Rect2( 400, 300, 100, 100 )
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.886275, 0.0901961, 0.372549, 1 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color( 1, 1, 1, 0 )
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -29,25 +31,52 @@ corner_radius_bottom_right = 5
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.2, 0.694118, 0.901961, 1 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color( 1, 1, 1, 0 )
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 
 [sub_resource type="StyleBoxEmpty" id=6]
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.662745, 0.117647, 0.133333, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 130, 130 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 130, 0, 130, 130 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 130, 130 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+emission_shape = 2
+emission_box_extents = Vector3( 50, 50, 1 )
 flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 50.0
+gravity = Vector3( 0, 25, 0 )
+angular_velocity = 2.06518e-038
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale = 0.1
-scale_random = 0.3
+scale = 0.2
 
 [node name="Gui" type="Control"]
 pause_mode = 2
@@ -95,17 +124,50 @@ custom_styles/bg = SubResource( 6 )
 max_value = 1.0
 percent_visible = false
 
-[node name="Particles2D" type="Particles2D" parent="GuiPlayer"]
+[node name="SpecialBar" type="ProgressBar" parent="GuiPlayer"]
+margin_left = 558.0
+margin_top = 100.0
+margin_right = 633.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 75, 25 )
+custom_styles/fg = SubResource( 7 )
+custom_styles/bg = SubResource( 6 )
+max_value = 1.0
+percent_visible = false
+
+[node name="RuneMenuButton" type="TextureButton" parent="GuiPlayer"]
+margin_left = 19.0
+margin_top = 30.0
+margin_right = 130.0
+margin_bottom = 130.0
+texture_normal = SubResource( 8 )
+texture_hover = SubResource( 9 )
+texture_disabled = SubResource( 10 )
+stretch_mode = 5
+
+[node name="ParticlesRune" type="Particles2D" parent="GuiPlayer"]
 position = Vector2( 85, 95 )
-scale = Vector2( 1.33333, 1.33333 )
 emitting = false
+amount = 5
+process_material = SubResource( 11 )
+texture = ExtResource( 5 )
+
+[node name="TimerPower" type="Timer" parent="."]
 one_shot = true
-explosiveness = 1.0
-process_material = SubResource( 7 )
-texture = ExtResource( 4 )
-__meta__ = {
-"_edit_lock_": true
-}
+
+[node name="TimerRune" type="Timer" parent="."]
+one_shot = true
+
+[node name="RunesMenu" parent="." instance=ExtResource( 6 )]
+margin_top = -212.5
+margin_bottom = 212.5
+
+[node name="GuiAudio" type="AudioStreamPlayer" parent="." groups=[
+"Sound",
+]]
 
 [connection signal="visibility_changed" from="." to="." method="_on_Gui_visibility_changed"]
 [connection signal="pressed" from="PauseButton" to="." method="_on_PauseButton_pressed"]
+[connection signal="pressed" from="GuiPlayer/RuneMenuButton" to="." method="_on_RuneMenuButton_pressed"]
+[connection signal="timeout" from="TimerRune" to="." method="_on_TimerRune_timeout"]
+[connection signal="popup_hide" from="RunesMenu" to="." method="_on_RunesMenu_popup_hide"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Stalactite.ogg-6fd46608c8d0d86a9a28a1e9ae89bc32.oggstr"
+
+[deps]
+
+source_file="res://Sound/Stalactite.ogg"
+dest_files=[ "res://.import/Stalactite.ogg-6fd46608c8d0d86a9a28a1e9ae89bc32.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

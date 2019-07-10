@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Game/Spawn/Spawn.gd" type="Script" id=1]
 [ext_resource path="res://Game/NPCs/NPCs.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Spawn/Spawn.png" type="Texture" id=3]
 [ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=4]
-
-
+[ext_resource path="res://Sound/Spawn.ogg" type="AudioStream" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 50.0
@@ -139,8 +138,8 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="Vortex" type="Sprite" parent="."]
-rotation = 1.8198
-scale = Vector2( 0.710371, 0.710371 )
+rotation = 2.86313
+scale = Vector2( 0.544318, 0.544318 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Vortex"]
@@ -158,6 +157,11 @@ one_shot = true
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
 visible = false
 rect = Rect2( -175, -175, 350, 350 )
+
+[node name="SpawnSound" type="AudioStreamPlayer" parent="." groups=[
+"Sound",
+]]
+stream = ExtResource( 5 )
 
 [connection signal="body_entered" from="." to="." method="_on_Spawn_body_entered"]
 [connection signal="timeout" from="SpawnNPC" to="." method="_on_SpawnNPC_timeout"]

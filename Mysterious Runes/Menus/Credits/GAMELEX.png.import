@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Numbers-Levels.png-5a0395f2e1dc0ccc0dd63958ec74af65.stex"
+path="res://.import/GAMELEX.png-98650a7387655f7006876961f33f769c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Menus/Levels/Numbers-Levels.png"
-dest_files=[ "res://.import/Numbers-Levels.png-5a0395f2e1dc0ccc0dd63958ec74af65.stex" ]
+source_file="res://Menus/Credits/GAMELEX.png"
+dest_files=[ "res://.import/GAMELEX.png-98650a7387655f7006876961f33f769c.stex" ]
 
 [params]
 

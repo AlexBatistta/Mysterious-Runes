@@ -1,10 +1,13 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Game/Runes/Runes.gd" type="Script" id=1]
 [ext_resource path="res://Game/Runes/Runes-01.png" type="Texture" id=2]
 [ext_resource path="res://Game/Runes/Runes-02.png" type="Texture" id=3]
 [ext_resource path="res://Game/Runes/Runes-03.png" type="Texture" id=4]
-[ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=5]
+[ext_resource path="res://Menus/Font (immortal).ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=6]
+[ext_resource path="res://Sound/Rune.ogg" type="AudioStream" id=7]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Drop"
@@ -46,7 +49,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Label:visible")
+tracks/3/path = NodePath("Name:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -58,7 +61,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Label:rect_position")
+tracks/4/path = NodePath("Name:rect_position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -67,10 +70,36 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -50, -11 ), Vector2( -50, -75 ) ]
+"values": [ Vector2( -63.5, -27.5 ), Vector2( -63.5, -110 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Name:percent_visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
 }
 
-[sub_resource type="ParticlesMaterial" id=2]
+[sub_resource type="StyleBoxFlat" id=2]
+content_margin_left = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.941176, 0.403922, 0.607843, 0.470588 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFont" id=3]
+size = 35
+font_data = ExtResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=4]
 flag_disable_z = true
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
@@ -82,7 +111,7 @@ tangential_accel = 25.0
 scale = 0.2
 scale_random = 0.3
 
-[sub_resource type="CapsuleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=5]
 radius = 49.6802
 height = 7.09314
 
@@ -112,18 +141,20 @@ visible = false
 texture = ExtResource( 4 )
 vframes = 2
 hframes = 4
-frame = 2
 
-[node name="Label" type="Label" parent="Rune"]
+[node name="Name" type="Label" parent="Rune"]
 visible = false
-anchor_right = 0.45
-margin_left = -50.0
-margin_top = -11.0
-margin_right = 9.5
-margin_bottom = 14.0
-rect_scale = Vector2( 2, 2 )
-rect_pivot_offset = Vector2( 50, 12 )
-text = "Regeneration"
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -108.5
+margin_top = -165.0
+margin_right = 63.5
+margin_bottom = -110.0
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+text = "Damage"
 align = 1
 valign = 1
 
@@ -131,16 +162,16 @@ valign = 1
 amount = 3
 lifetime = 2.0
 visibility_rect = Rect2( -25, -25, 50, 50 )
-process_material = SubResource( 2 )
-texture = ExtResource( 5 )
+process_material = SubResource( 4 )
+texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( -15, -85 )
 scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 
-[node name="Drop" type="Timer" parent="."]
-one_shot = true
+[node name="RuneAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
 
 [connection signal="body_entered" from="." to="." method="_on_Runes_body_entered"]

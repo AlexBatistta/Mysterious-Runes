@@ -1,22 +1,28 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Menus/Credits/CreditsMenu.gd" type="Script" id=1]
 [ext_resource path="res://Menus/Title-Menus.png" type="Texture" id=2]
-[ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=3]
+[ext_resource path="res://Menus/Font (immortal).ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=4]
+[ext_resource path="res://Menus/Credits/GAMELEX.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 0, 300, 400, 150 )
 
+[sub_resource type="DynamicFont" id=4]
+size = 45
+font_data = ExtResource( 3 )
+
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 400, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 400, 100, 100, 100 )
 
 [node name="CreditsMenu" type="Control"]
@@ -35,49 +41,65 @@ texture = SubResource( 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -200.0
-margin_top = -127.0
-margin_right = 200.0
-margin_bottom = 127.0
+anchor_bottom = 1.0
+margin_left = -436.5
+margin_top = -497.0
+margin_right = 436.5
+custom_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_top = 21.0
-margin_right = 400.0
-margin_bottom = 71.0
-rect_min_size = Vector2( 100, 50 )
+margin_top = 36.0
+margin_right = 873.0
+margin_bottom = 93.0
+rect_pivot_offset = Vector2( 328, 37 )
+custom_fonts/font = SubResource( 4 )
 custom_constants/shadow_as_outline = 3
 text = "Designed and developed by"
 align = 1
 valign = 1
 
-[node name="GamelexLogo" type="TextureRect" parent="VBoxContainer"]
-margin_top = 75.0
-margin_right = 400.0
-margin_bottom = 75.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 108.0
+margin_right = 873.0
+margin_bottom = 208.0
+alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer"]
-margin_top = 79.0
-margin_right = 400.0
-margin_bottom = 129.0
-rect_min_size = Vector2( 100, 50 )
-custom_constants/shadow_as_outline = 3
-text = "Music by "
-align = 1
-valign = 1
-
-[node name="TwitterButton" type="TextureButton" parent="VBoxContainer"]
-margin_top = 133.0
-margin_right = 400.0
-margin_bottom = 233.0
+[node name="TwitterButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+margin_left = 234.0
+margin_right = 334.0
+margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 texture_normal = SubResource( 2 )
 texture_hover = SubResource( 3 )
 expand = true
 stretch_mode = 5
 
+[node name="GamelexLogo" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+margin_left = 338.0
+margin_right = 638.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 300, 78 )
+rect_pivot_offset = Vector2( 150, 39 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+margin_top = 223.0
+margin_right = 873.0
+margin_bottom = 460.0
+rect_pivot_offset = Vector2( 436, 118 )
+custom_fonts/font = SubResource( 4 )
+custom_constants/shadow_as_outline = 3
+text = "
+Music:  
+opengameart.org/users/joth
+"
+align = 1
+valign = 1
+
 [connection signal="visibility_changed" from="." to="." method="_on_CreditsMenu_visibility_changed"]
-[connection signal="pressed" from="VBoxContainer/TwitterButton" to="." method="_on_TwitterButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TwitterButton" to="." method="_on_TwitterButton_pressed"]

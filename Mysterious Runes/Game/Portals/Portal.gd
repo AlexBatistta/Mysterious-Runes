@@ -16,7 +16,7 @@ func _on_Portals_body_entered(body):
 		if body.name == "Player":
 			if Global.levelKey:
 				$AnimationPlayer.animation_set_next("Activate", "Teleport")
-				body.portal = true
+				body._portal()
 			$AnimationPlayer.play("Activate")
 
 func _on_Portals_body_exited(body):
@@ -33,3 +33,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			Global.change_menu("MenuWin")
 	else:
 		$AnimationPlayer.stop(true)
+
+func _teleport():
+	emit_signal("teleport")
+	$TeleportSound.play()

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/RuneActive.ogg-008fbbff8fac08861c85f990adf739ca.oggstr"
+
+[deps]
+
+source_file="res://Sound/RuneActive.ogg"
+dest_files=[ "res://.import/RuneActive.ogg-008fbbff8fac08861c85f990adf739ca.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

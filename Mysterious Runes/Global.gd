@@ -9,6 +9,7 @@ var current_level = 0
 var current_menu = "MainMenu"
 var current_state = "Menus"
 var levelKey = false
+var rune_active = false
 var sound = true
 var music = true
 var levelsUnlock = 1
@@ -74,6 +75,21 @@ func color():
 
 func set_sound():
 	sound = !sound
+	var sfx = get_tree().get_nodes_in_group("Sound")
+	for fx in sfx:
+		if !sound:
+			fx.volume_db = -80
+			fx.stop()
+		else:
+			fx.volume_db = 0
 
 func set_music():
 	music = !music
+	var current = "Music" + current_state
+	var songs = get_tree().get_nodes_in_group("Music")
+	for song in songs:
+		if !music:
+			song.stop()
+		else:
+			if song.name == current:
+				song.play(song.get_playback_position())

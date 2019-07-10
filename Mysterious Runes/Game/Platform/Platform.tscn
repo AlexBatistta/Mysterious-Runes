@@ -40,11 +40,10 @@ extents = Vector2( 48, 24 )
 ]]
 position = Vector2( 200, 0 )
 collision_layer = 4
-motion/sync_to_physics = true
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 1, 0, 1, 1 )
+modulate = Color( 0, 0, 1, 1 )
 texture = ExtResource( 2 )
 flip_h = true
 region_enabled = true

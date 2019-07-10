@@ -26,3 +26,4 @@ func _on_RuneTimer_timeout():
 	$AnimationPlayer.stop()
 	visible = false
 	emit_signal("power_out")
+	Global.rune_active = false

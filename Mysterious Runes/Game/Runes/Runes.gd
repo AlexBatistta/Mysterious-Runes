@@ -17,7 +17,9 @@ func change_tree(_type):
 	$CollisionShape2D.position = $Rune.position
 
 func _ready():
-	$Rune/Label.visible = false
+	$Rune.frame = 0
+	$Rune.scale = Vector2(0.5, 0.5)
+	$Rune/Name.visible = false
 	$Rune/Power.visible = false
 	$Rune/Particles2D.emitting = true
 	
@@ -28,7 +30,8 @@ func _ready():
 		power = permanent
 	
 	animation()
-	$Rune/Label.text = power
+	$Rune/Name.text = power
+	$Rune/Name.rect_size = Vector2($Rune/Name.get_total_character_count() * 5, 55)
 
 func animation():
 	var frame
@@ -46,12 +49,15 @@ func animation():
 func _hurt(_hit):
 	dropped = true
 	$Rune/AnimationPlayer.play("Drop")
+	$RuneAudio.play()
 
 func disabled_collision(_disabled):
 	$CollisionShape2D.disabled = _disabled
 
 func _on_Runes_body_entered(body):
-	if body.name == "Player" && dropped:
-		self.connect("rune", body, "rune", [power, runeType])
-		self.emit_signal("rune")
-		call_deferred("disabled_collision", true)
+	if !Global.rune_active:
+		if body.name == "Player" && dropped:
+			Global.rune_active = true
+			self.connect("rune", body, "rune", [power, runeType])
+			self.emit_signal("rune")
+			call_deferred("disabled_collision", true)

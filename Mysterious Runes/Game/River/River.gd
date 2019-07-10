@@ -75,7 +75,9 @@ func _ready():
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		body._river(true, position.y, damage * type)
+		$WavesSound.play()
 
 func _on_Area2D_body_exited(body):
 	if body.name == "Player":
 		body._river(false)
+		$WavesSound.stop()

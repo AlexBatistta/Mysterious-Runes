@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Geyser.ogg-3a3aac3b1c310c8e886d666f2f9761cd.oggstr"
+
+[deps]
+
+source_file="res://Sound/Geyser.ogg"
+dest_files=[ "res://.import/Geyser.ogg-3a3aac3b1c310c8e886d666f2f9761cd.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
