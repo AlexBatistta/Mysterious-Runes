@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Liquid.ogg-3cc506918c07d2c2bcd769e1a1d8e0c9.oggstr"
+
+[deps]
+
+source_file="res://Sound/Liquid.ogg"
+dest_files=[ "res://.import/Liquid.ogg-3cc506918c07d2c2bcd769e1a1d8e0c9.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

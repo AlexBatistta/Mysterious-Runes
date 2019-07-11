@@ -4,9 +4,10 @@ extends Node2D
 export (int, "WeakBasic", "StrongBasic", "MagicFlyer", "WeakArmored", "StrongArmored", "InvokerBoss") var NpcType
 export (bool) var randomSpawn = false
 export (PackedScene) var NPCs
-export (float) var timeSpawn = 5
+export (float) var timeSpawn = 10
 
 func _ready():
+	timeSpawn /= Global.current_level
 	$Vortex/AnimationPlayer.play("Vortex")
 
 func _on_SpawnNPC_timeout():
@@ -22,6 +23,7 @@ func _on_SpawnNPC_timeout():
 		newNPC.connect("spawn_invoked", self, "_spawn_invoked")
 
 func _hurt(_hit):
+	$SpawnSound.play()
 	$Vortex/AnimationPlayer.play("Disappear")
 
 func _on_VisibilityEnabler2D_screen_entered():

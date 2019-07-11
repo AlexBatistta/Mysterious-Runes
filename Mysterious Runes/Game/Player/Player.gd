@@ -8,12 +8,11 @@ const attack_wait = 1
 export var health = 100
 export var speed = 200
 export var hit_power = 25
-export var jump_speed = 450
+export var jump_speed = 600
 
 export var shooting = false
 export var shootUp = false
 export var hurting = false
-export var power_active = false
 
 export (PackedScene) var Bullet
 
@@ -144,12 +143,11 @@ func check_life():
 		return true
 
 func _river(_active, _top = 0, _damage = 0):
-	power_active = _active
 	$Power._swim(_active, _top, _damage)
-	set_physics_process(false)
+	set_physics_process(!_active)
 
 func _geyser(_orientation):
-	velocity.y = -600 * _orientation
+	velocity.y = -jump_speed * 2 * _orientation
 	move_and_slide(velocity, Vector2(0, -1))
 	$PlayerSounds.stream = load("res://Sound/Geyser.ogg")
 	$PlayerSounds.play()

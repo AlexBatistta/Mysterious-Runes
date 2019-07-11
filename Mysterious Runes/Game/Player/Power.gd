@@ -113,16 +113,18 @@ func _swim(_active, _top, _damage):
 	topRiver = _top + 75
 	velocity = Vector2()
 	damageRiver = _damage
-	set_process_input(true)
+	set_process_input(_active)
+	if !_active: power = ""
 
 func _animate():
 	var animation = Animation.current_animation
 	
 	if !Player.shooting:
-		if direction.y == -1 && Animation.current_animation != "Fly Up":
-			animation = "Fly to Up"
-		if direction.y == 1 && Animation.current_animation != "Fly Down":
-			animation = "Fly to Down"
+		if Player.position.y > topRiver:
+			if direction.y == -1 && Animation.current_animation != "Fly Up":
+				animation = "Fly to Up"
+			if direction.y == 1 && Animation.current_animation != "Fly Down":
+				animation = "Fly to Down"
 	elif Animation.current_animation != "Fly Shoot":
 		var anim = Animation.current_animation
 		Animation.animation_set_next("Fly Shoot", anim)

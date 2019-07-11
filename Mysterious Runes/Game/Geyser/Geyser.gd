@@ -13,12 +13,11 @@ func change_orientation(_flip):
 	if flip:
 		$Particles2D.scale.y = -1
 		$Particles2D.position.y = -24
-		$CollisionShape2D.position.y = 90
-		position.y += 96
+		#$CollisionShape2D.position.y = 40
 	else:
 		$Particles2D.scale.y = 1
 		$Particles2D.position.y = 24
-		$CollisionShape2D.position.y = -90
+		#$CollisionShape2D.position.y = -40
 
 func _on_Geyser_body_entered(body):
 	body._geyser($Particles2D.scale.y)

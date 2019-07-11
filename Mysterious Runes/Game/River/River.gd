@@ -75,9 +75,17 @@ func _ready():
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		body._river(true, position.y, damage * type)
-		$WavesSound.play()
+		if body.velocity.y > 45:
+			$SplashSound.play()
+		$LiquidSound.play()
+	
+	if body.is_in_group("NPC"):
+		body._hurt(body.health)
+	
+	if body.velocity.y > 45:
+		$SplashSound.play()
 
 func _on_Area2D_body_exited(body):
 	if body.name == "Player":
 		body._river(false)
-		$WavesSound.stop()
+		$LiquidSound.stop()

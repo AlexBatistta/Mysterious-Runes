@@ -11,7 +11,7 @@ var current_state = "Menus"
 var levelKey = false
 var rune_active = false
 var sound = true
-var music = true
+var music = false
 var levelsUnlock = 1
 
 onready var Game = preload("res://Game/Game.tscn")
@@ -81,6 +81,7 @@ func set_sound():
 			fx.volume_db = -80
 			fx.stop()
 		else:
+			print(fx.name)
 			fx.volume_db = 0
 
 func set_music():

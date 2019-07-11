@@ -2,8 +2,13 @@ tool
 extends KinematicBody2D
 
 export (bool) var long = false setget change_size
-export (Vector2) var final_position = Vector2.ZERO
-export (float, 0.1, 1) var speed = 1 setget change_speed 
+export (int, 1, 5) var speed = 1
+
+var points : Array
+var current_point = 1
+var next_point = Vector2()
+var global_pos = Vector2()
+var back = false
 
 func change_size(_long):
 	long = _long
@@ -14,27 +19,24 @@ func change_size(_long):
 		$Sprite.region_rect = Rect2(0, 48, 96, 48)
 		$CollisionShape2D.scale.x = 1
 
-func change_speed(_speed):
-	if Engine.is_editor_hint():
-		speed = stepify(_speed, 0.1)
-		$Sprite/AnimationPlayer.playback_speed = speed
-
-func _draw():
-	if Engine.is_editor_hint():
-		draw_line(Vector2.ZERO, final_position, Color.red, 10)
-
-func _physics_process(delta):
-	update()
-
 func _ready():
 	$Sprite.modulate = Global.color()
-	set_process(true)
-	if !Engine.is_editor_hint():
-		update_movement()
-		$Sprite/AnimationPlayer.play("Move")
+	global_pos = position
+	points = $Path2D.curve.get_baked_points()
+	next_point = points[current_point] + global_pos
 
-func update_movement():
-	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 0, position)
-	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 1, final_position + position)
-	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 2, final_position + position)
-	$Sprite/AnimationPlayer.get_animation("Move").track_set_key_value(0, 3, position)
+func _physics_process(delta):
+	if !Engine.is_editor_hint():
+		if position.distance_to(next_point) < 1:
+			if current_point + 1 > points.size() - 1:
+				back = true
+			elif current_point == 0:
+				back = false 
+			
+			if !back: current_point += 1
+			else: current_point -= 1
+			
+			$Sprite.scale.x = 1 if back else -1
+		
+		next_point = points[current_point] + global_pos
+		position += (next_point - position).normalized() * speed

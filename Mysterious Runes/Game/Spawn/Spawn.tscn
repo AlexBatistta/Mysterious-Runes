@@ -138,8 +138,8 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="Vortex" type="Sprite" parent="."]
-rotation = 2.86313
-scale = Vector2( 0.544318, 0.544318 )
+rotation = 3.23464
+scale = Vector2( 0.514809, 0.514809 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Vortex"]
@@ -155,8 +155,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
-visible = false
-rect = Rect2( -175, -175, 350, 350 )
+rect = Rect2( -50, -50, 100, 100 )
 
 [node name="SpawnSound" type="AudioStreamPlayer" parent="." groups=[
 "Sound",

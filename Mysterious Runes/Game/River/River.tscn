@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Game/River/River.gd" type="Script" id=1]
 [ext_resource path="res://Game/River/Bubble.png" type="Texture" id=2]
-[ext_resource path="res://Sound/Waves.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Sound/Splash.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Sound/Liquid.ogg" type="AudioStream" id=4]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -43,14 +44,20 @@ texture = ExtResource( 2 )
 [node name="Area2D" type="Area2D" parent="."]
 visible = false
 collision_layer = 64
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 3 )
 
-[node name="WavesSound" type="AudioStreamPlayer" parent="." groups=[
+[node name="SplashSound" type="AudioStreamPlayer" parent="." groups=[
 "Sound",
 ]]
 stream = ExtResource( 3 )
+
+[node name="LiquidSound" type="AudioStreamPlayer" parent="." groups=[
+"Sound",
+]]
+stream = ExtResource( 4 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

@@ -12,6 +12,7 @@ var animation = "Spawn"
 var velocity = Vector2()
 var direction = 1
 var gravity = 900
+var jump_speed = 600
 var spawning = true
 var health = 0
 var hit_power = 0
@@ -66,6 +67,10 @@ func _ready():
 	$LifeBar.value = health
 
 func _physics_process(delta):
+	if !spawning && type != 2:
+		if is_on_wall() || !$RayCast2D.is_colliding():
+			_change_direction()
+	
 	if health > 0 && !paralyze:
 		if !spawning && type != 2:
 			if $AttackArea/AttackRayCast.is_colliding() && $AttackTimer.is_stopped():
@@ -92,19 +97,17 @@ func _move(delta):
 	velocity.x = direction * (speed * custom_speed)
 	
 	if shooting || hurting: velocity.x = 0
-	
-	if !spawning && type != 2:
-		if is_on_wall() || !$RayCast2D.is_colliding():
-			_change_direction()
-
 func _shoot():
 	if type >= 3:
 		var bullet = Bullet.instance()
 		var _position = position + $AttackArea/AttackDetector.position 
 		bullet.setup(_position, $SpriteBody.scale.x, "NPC", false, hit_power)
 		get_parent().add_child(bullet)
+		
+		$NPCSound.stream = load("res://Sound/Shoot.ogg")
 	else:
 		$AttackArea/AttackDetector.disabled = false
+		$NPCSound.stream = load("res://Sound/Attack.ogg")
 	
 	if type == 2:
 		var _position = position - Vector2(0, 50)
@@ -116,8 +119,9 @@ func _shoot():
 		var bullet_02 = Bullet.instance()
 		bullet_02.setup(_position, -$SpriteBody.scale.x, "NPC", true, hit_power)
 		get_parent().add_child(bullet_02)
+		
+		$NPCSound.stream = load("res://Sound/Shoot.ogg")
 	
-	$NPCSound.stream = load("res://Sound/Shoot.ogg")
 	$NPCSound.play()
 
 func _magic_flyer():
@@ -160,11 +164,11 @@ func _animate():
 			animation = "Attack"
 		else:
 			$AttackArea/AttackDetector.disabled = true
-		
-		if hurting:
-			animation = "Hurt"
-			if health <= 0:
-				animation = "Die"
+	
+	if hurting:
+		animation = "Hurt"
+		if health <= 0:
+			animation = "Die"
 	
 	if animation != $AnimationPlayer.current_animation:
 		$AnimationPlayer.play(animation)
@@ -172,6 +176,9 @@ func _animate():
 func _change_direction():
 	direction *= -1
 	$RayCast2D.position.x *= -1
+	$AttackArea/AttackDetector.position.x *= -1
+	$AttackArea/AttackRayCast.position.x *= -1
+	$AttackArea/AttackRayCast.cast_to.x *= -1
 
 func _hurt(hit):
 	if $ImmunityTimer.is_stopped():
@@ -184,7 +191,7 @@ func _hurt(hit):
 
 func _geyser(_orientation):
 	if health > 0:
-		velocity.y = -600 * _orientation
+		velocity.y = -jump_speed * 2 * _orientation
 		velocity.x = 0
 		spawning = true
 		$AttackTimer.start(2)
