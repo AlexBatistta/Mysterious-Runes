@@ -3,8 +3,8 @@ extends Area2D
 
 export (int, "Big", "Small") var treeType = 0 setget change_tree
 export (int, "Temporary", "Permanent") var runeType = 0 
-export (String, "Slow_Down", "Poison", "Paralyze", "Invoke", "Fly") var permanent = "Slow_Down"
-var temporary = ["Damage", "Shield", "Regeneration"]
+export (String, "Damage", "Shield", "Regeneration") var temporary = "Damage"
+var permanent = ["Slow", "Poison", "Paralyze", "Invoke", "Fly"]
 var power = ""
 var dropped = false
 
@@ -23,27 +23,27 @@ func _ready():
 	$Rune/Power.visible = false
 	$Rune/Particles2D.emitting = true
 	
-	randomize()
-	if runeType == 0:
-		power = temporary[randi() % 3]
-	else:
-		power = permanent
-	
 	animation()
+	
 	$Rune/Name.text = power
 	$Rune/Name.rect_size = Vector2($Rune/Name.get_total_character_count() * 5, 55)
 
 func animation():
 	var frame
+	
+	if runeType == 0: power = temporary
+	else: power = permanent[Global.current_level - 1]
+	
 	match power:
 		"Damage": frame = 0
 		"Shield": frame = 1
 		"Regeneration": frame = 2
-		"Slow_Down": frame = 3
+		"Slow": frame = 3
 		"Poison": frame = 4
 		"Paralyze": frame = 5
 		"Invoke": frame = 6
 		"Fly": frame = 7
+	
 	$Rune/Power.frame = frame
 
 func _hurt(_hit):

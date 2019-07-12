@@ -4,12 +4,12 @@ export (PackedScene) var Invoked
 
 var Player
 var Animation
-var power = ""
 var velocity = Vector2()
 var direction = Vector2()
 var topRiver = 0
 var damageRiver = 0
 var hits = 0
+var swimming = false
 
 func _ready():
 	$RuneActive.connect("power_out", self, "_power_out")
@@ -21,23 +21,23 @@ func _process(delta):
 	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
 	direction.y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
 	
-	if power == "Regeneration":
+	if Global.power_rune == "Regeneration":
 		Player.health = lerp(Player.health, Player.maxLife, delta)
 		Player.emit_signal("change_life", Player.health)
 	
-	if power == "Fly":
+	if Global.power_rune == "Fly":
 		_flying(delta)
 		
-	if power == "Swim":
+	if swimming:
 		_swimming(delta)
 	
-	if power == "Fly" || power == "Swim":
+	if Global.power_rune == "Fly" || swimming:
 		_animate()
 		Player.move_and_slide(velocity)
 		Player.shootUp = false
 
 func _flying(delta):
-	velocity = lerp(velocity, direction * Player.speed, delta * 2)
+	velocity = lerp(velocity, direction * Player.SPEED, delta * 2)
 
 func _swimming(delta):
 	if direction.y == 0:
@@ -46,48 +46,48 @@ func _swimming(delta):
 	if direction.y == -1 && Player.position.y < topRiver:
 		direction.y = 1
 	
-	velocity = lerp(velocity, direction * (Player.speed / 2), delta * 2)
+	velocity = lerp(velocity, direction * (Player.SPEED / 2), delta * 2)
 	
 	if direction.x == 0:
 		velocity.x = 0
 	
 	if Player.is_on_wall() && Player.position.y < topRiver + 5:
-		velocity.x = Player.speed * direction.x
-		velocity.y = -Player.jump_speed / 2
+		velocity.x = Player.SPEED * direction.x
+		velocity.y = -Player.JUMP_SPEED / 2
 	
 	if damageRiver > 0:
 		Player._hurt(damageRiver)
 
 func _damage():
-	power = "Damage"
+	Global.power_rune = "Damage"
 	Player.hit_power *= 2
-	$RuneActive._set_power("Damage")
+	$RuneActive._set_power()
 
 func _shield():
-	power = "Shield"
+	Global.power_rune = "Shield"
 	Player.get_node("ImmunityTimer").start(Global.timePower)
-	$RuneActive._set_power("Shield")
+	$RuneActive._set_power()
 	$AnimationPower.play("Shield")
 
 func _regeneration():
-	power = "Regeneration"
+	Global.power_rune = "Regeneration"
 	Player.get_node("ImmunityTimer").start(Global.timePower)
-	$RuneActive._set_power("Regeneration")
+	$RuneActive._set_power()
 
-func _slow_down():
-	power = "Slow Down"
+func _slow():
+	Global.power_rune = "Slow"
 	var NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._rune_active("Slow_Down")
+	for NPC in NPCs: NPC._rune_active()
 
 func _poison():
-	power = "Poison"
+	Global.power_rune = "Poison"
 	var NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._rune_active("Poison")
+	for NPC in NPCs: NPC._rune_active()
 
 func _paralyze():
-	power = "Paralyze"
+	Global.power_rune = "Paralyze"
 	var NPCs = get_tree().get_nodes_in_group("NPC")
-	for NPC in NPCs: NPC._rune_active("Paralyze")
+	for NPC in NPCs: NPC._rune_active()
 
 func _invoke():
 	var newInvoked_01 = Invoked.instance()
@@ -98,23 +98,22 @@ func _invoke():
 	newInvoked_02.setup(-1, Player.position - Vector2(-150, 200))
 	Player.get_parent().call_deferred("add_child", newInvoked_02)
 	
-	$RuneActive._set_power("Invoke")
+	$RuneActive._set_power()
 
 func _fly():
-	power = "Fly"
+	Global.power_rune = "Fly"
 	$FlyMagic.emitting = true
 	velocity = Vector2(0, -1)
 	Animation.play("Fly to Up")
-	$RuneActive._set_power("Fly")
+	$RuneActive._set_power()
 	set_process_input(true)
 
 func _swim(_active, _top, _damage):
-	power = "Swim"
+	swimming = _active
 	topRiver = _top + 75
 	velocity = Vector2()
 	damageRiver = _damage
 	set_process_input(_active)
-	if !_active: power = ""
 
 func _animate():
 	var animation = Animation.current_animation
@@ -143,15 +142,15 @@ func _animate():
 
 func _power_out():
 	Global.rune_active = false
-	match power:
+	match Global.power_rune:
 		"Regeneration":
 			Player.check_life()
 		"Damage":
 			Player.hit_power /= 2
 		"Fly":
 			$FlyMagic.emitting = false
+			Player.set_physics_process(true)
 		"Shield":
 			$Shield.visible = false
 			$AnimationPower.stop()
-	power = ""
-	Player.set_physics_process(true)
+	Global.power_rune = ""

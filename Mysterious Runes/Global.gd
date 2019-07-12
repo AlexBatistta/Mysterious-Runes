@@ -2,17 +2,20 @@ tool
 extends Node
 
 const maxLevels = 5
-const timePower = 10
+const timePower = 20
 
 var current_scene = null
 var current_level = 0
 var current_menu = "MainMenu"
 var current_state = "Menus"
+
 var levelKey = false
 var rune_active = false
+var power_rune = ""
+var levelsUnlock = 1
+
 var sound = true
 var music = false
-var levelsUnlock = 1
 
 onready var Game = preload("res://Game/Game.tscn")
 onready var Menu = preload("res://Menus/Menus.tscn")

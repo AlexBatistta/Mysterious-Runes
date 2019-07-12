@@ -22,5 +22,4 @@ position = Vector2( 2630, 2310 )
 [node name="Runes" parent="." instance=ExtResource( 4 )]
 position = Vector2( 2960, 2496 )
 runeType = 1
-permanent = "Paralyze"
 

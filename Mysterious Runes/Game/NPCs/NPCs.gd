@@ -1,5 +1,11 @@
 extends KinematicBody2D
 
+const GRAVITY = 900
+const IMMUNITY = 0.5
+const JUMP_SPEED = 600
+const SPEED = 150
+const DESPAWN = 5
+
 export (Array, int) var SetHealth = [50, 75, 75, 100, 150, 200]
 export (Array, int) var SetHitPower = [5, 10, 15, 20, 25, 30]
 export (PackedScene) var Bullet
@@ -11,17 +17,13 @@ signal spawn_invoked
 var animation = "Spawn"
 var velocity = Vector2()
 var direction = 1
-var gravity = 900
-var jump_speed = 600
 var spawning = true
 var health = 0
 var hit_power = 0
 var type
-var rune_power = ""
 var paralyze = false
 var custom_speed = 0
-
-const speed = 150
+var rune = false
 
 func setup(_type, _position):
 	type = _type
@@ -31,16 +33,22 @@ func setup(_type, _position):
 		$SpriteBody.texture = load("res://Game/NPCs/SpriteBody/NPC-0" + str(type + 1) + ".png")
 		$SpriteColor.texture = load("res://Game/NPCs/SpriteColor/NPC-0" + str(type + 1) + ".png")
 		$SpriteColor.modulate = Global.color()
+		
 		$AttackArea.set_collision_mask_bit(0, true)
 		set_collision_layer_bit(1, true)
+		
 		health = SetHealth[type]
 		hit_power = SetHitPower[type]
+		
 		$RuneActive.connect("power_out", self, "_power_out")
+		if Global.rune_active: _rune_active()
 	else:
 		$SpriteBody.texture = load ("res://Game/NPCs/Invoked.png")
 		$SpriteColor.texture = null
+		
 		$AttackArea.set_collision_mask_bit(1, true)
 		set_collision_layer_bit(0, true)
+		
 		health = 100
 		hit_power = 10
 
@@ -82,21 +90,23 @@ func _physics_process(delta):
 		if type == 2: _magic_flyer()
 		if type == 5: _invoker_boss()
 	else:
-		velocity = Vector2(0, gravity / 3)
+		#warning-ignore:integer_division
+		velocity = Vector2(0, GRAVITY / 3)
 	
 	var collisions = move_and_slide(velocity, Vector2(0, -1))
 	
-	if rune_power == "Poison": _hurt(5)
+	if Global.power_rune == "Poison": _hurt(5)
 	
 	_animate()
 
 func _move(delta):
 	
-	velocity.y += delta * gravity
+	velocity.y += delta * GRAVITY
 	
-	velocity.x = direction * (speed * custom_speed)
+	velocity.x = direction * (SPEED * custom_speed)
 	
 	if shooting || hurting: velocity.x = 0
+
 func _shoot():
 	if type >= 3:
 		var bullet = Bullet.instance()
@@ -128,7 +138,7 @@ func _magic_flyer():
 	if type == 2:
 		if spawning:
 			if $AttackArea/AttackRayCast.is_colliding():
-				velocity.y = -(speed * custom_speed)
+				velocity.y = -(SPEED * custom_speed)
 			else:
 				spawning = false
 		else: velocity.y = 0
@@ -152,7 +162,8 @@ func _animate():
 		animation = "Spawn"
 		if is_on_floor():
 			spawning = false
-			custom_speed = 1
+			if !rune:
+				custom_speed = 1
 	else:
 		if velocity.x != 0:
 			animation = "Run"
@@ -183,54 +194,64 @@ func _change_direction():
 func _hurt(hit):
 	if $ImmunityTimer.is_stopped():
 		health -= hit
-		hurting = true
 		$LifeBar.value -= hit
-		$ImmunityTimer.start(2)
+		
+		hurting = true
+		
+		$ImmunityTimer.start(IMMUNITY)
+		if Global.power_rune == "Poison":
+			$ImmunityTimer.start(IMMUNITY * 4)
+		
+		$AttackTimer.start($AttackTimer.time_left + 1)
+		
 		$NPCSound.stream = load("res://Sound/Hurt.ogg")
 		$NPCSound.play()
 
 func _geyser(_orientation):
 	if health > 0:
-		velocity.y = -jump_speed * 2 * _orientation
+		velocity.y = -JUMP_SPEED * 2 * _orientation
 		velocity.x = 0
-		spawning = true
-		$AttackTimer.start(2)
+		
 		shooting = false
+		spawning = true
+		$AttackTimer.start($AttackTimer.time_left + 1)
+		
 		$NPCSound.stream = load("res://Sound/Geyser.ogg")
 		$NPCSound.play()
 
-func _rune_active(_power):
-	rune_power = _power
-	if _power == "Poison":
+func _rune_active():
+	if Global.power_rune == "Poison":
 		_hurt(5)
-	if _power == "Paralyze":
+		rune = true
+	
+	if Global.power_rune == "Paralyze":
 		paralyze = true
-	if _power == "Slow Down":
-		$AnimationPlayer.playback_speed = 0.5
+		rune = true
+	
+	if Global.power_rune == "Slow":
+		$AnimationPlayer.playback_speed = 0.75
 		custom_speed = 0.5
 		if type == 2: custom_speed = 0.25
+		rune = true
 	
-	$RuneActive._set_power(rune_power)
+	if rune: $RuneActive._set_power()
 
 func _on_VisibilityNotifier2D_screen_exited():
-	if type == 2:
-		_change_direction()
-	else:
-		$DespawnTimer.start(2)
+	$DespawnTimer.start(DESPAWN)
 
 func _on_DespawnTimer_timeout():
 	if !$VisibilityNotifier2D.is_on_screen():
 		queue_free()
 
 func _power_out():
-	match rune_power:
+	match Global.power_rune:
 		"Paralyze":
 			paralyze = false
-		"Slow Down":
+		"Slow":
 			$AnimationPlayer.playback_speed = 1
 			custom_speed = 1
 			if type == 2: custom_speed = 0.5
-	rune_power = ""
+	Global.power_rune = ""
 
 func _on_AttackArea_body_entered(body):
 	body._hurt(hit_power)

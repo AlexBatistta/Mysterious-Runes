@@ -30,12 +30,15 @@ func change_level():
 	$Levels/Portal.position = newLevel.map_to_world(portals[0]) + Vector2(48, 96)
 	$Levels/Portal2.position = newLevel.map_to_world(portals[1]) + Vector2(48, 96)
 	$Levels/Portal.reset()
+	$Levels/Portal2.reset()
 	
 	$Levels/Player/Camera2D.limit_right = get_limits().x
 	$Levels/Player/Camera2D.limit_bottom = get_limits().y
 	
 	$Levels/Player.position = $Levels/Portal.position
 	$Levels/Player.visible = false
+	
+	Global.rune_active = false
 
 func set_color():
 	$Levels/TileMapColor.clear()

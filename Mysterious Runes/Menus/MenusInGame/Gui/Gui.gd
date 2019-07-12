@@ -1,24 +1,32 @@
 extends Control
 
-var timeRunes = Global.timePower * 5
+var timeRunes = Global.timePower * 2
 
 func _ready():
 	set_process_input(true)
 	$GuiPlayer/PowerBar.max_value = Global.timePower
 	$GuiPlayer/SpecialBar.max_value = timeRunes
-	$TimerRune.start(timeRunes)
 	$GuiPlayer/RuneMenuButton.disabled = true
 
 func _process(delta):
+	if Global.levelKey && $TimerRune.is_stopped():
+		$TimerRune.start(timeRunes)
+	
+	if !$TimerRune.is_stopped(): 
+		$GuiPlayer/SpecialBar.value = $TimerRune.time_left
+	else:
+		$GuiPlayer/SpecialBar.value = timeRunes
+	
+	if $TimerPower.is_stopped():
+		$GuiPlayer/PowerBar.value = Global.timePower
+	
 	if Global.rune_active:
 		if $TimerPower.is_stopped(): $TimerPower.start(Global.timePower)
 		$GuiPlayer/PowerBar.value = $TimerPower.time_left
-		$TimerRune.stop()
 		$GuiPlayer/SpecialBar.value = timeRunes
-		if !$GuiPlayer/RuneMenuButton.disabled: _disable_RuneMenu()
-	else:
-		if $TimerRune.is_stopped(): $TimerRune.start(timeRunes)
-		else: $GuiPlayer/SpecialBar.value = $TimerRune.time_left
+		if !$GuiPlayer/RuneMenuButton.disabled:
+			_disable_RuneMenu()
+			$TimerRune.start(timeRunes)
 
 func set_LifeBar(_maxValue):
 	$GuiPlayer/LifeBar.max_value = _maxValue
@@ -73,3 +81,7 @@ func _on_RuneMenuButton_pressed():
 func _on_RunesMenu_popup_hide():
 	get_parent().set_process_input(true)
 	set_process_input(true)
+	_disable_RuneMenu()
+
+func _on_TimerPower_timeout():
+	Global.rune_active = false

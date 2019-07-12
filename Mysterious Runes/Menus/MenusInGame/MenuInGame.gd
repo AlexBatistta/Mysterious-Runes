@@ -23,11 +23,13 @@ func _on_PlayButton_pressed():
 	if Global.current_menu == "Game":
 		Global.change_menu("MenuPause")
 	else:
-		Global.change_menu("Game")
 		if menu == "MenuWin":
 			Global.pass_level()
 		if menu == "MenuLose":
 			Global.try_again()
+		if menu != "MenuPause":
+			Global.disconnect("transition", Global.current_scene, "_transition")
+		Global.change_menu("Game")
 
 func _on_HomeButton_pressed():
 	Global.change_menu("MainMenu")

@@ -2,13 +2,14 @@ extends KinematicBody2D
 
 signal change_life
 
-const gravity = 900
-const attack_wait = 1
+const GRAVITY = 900
+const ATTACK_WAIT = 0.5
+const IMMUNITY = 0.5
+const SPEED = 200
+const JUMP_SPEED = 600
 
 export var health = 100
-export var speed = 200
 export var hit_power = 25
-export var jump_speed = 600
 
 export var shooting = false
 export var shootUp = false
@@ -61,15 +62,15 @@ func _input(event):
 func _move(delta):
 	snap = Vector2(0, 32)
 	
-	velocity.y += delta * gravity
+	velocity.y += delta * GRAVITY
 	
 	direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
-	velocity.x = direction.x * speed
+	velocity.x = direction.x * SPEED
 	
 	if is_on_floor():
 		velocity.y = 0
 		if Input.is_action_pressed("jump"):
-			velocity.y = -jump_speed
+			velocity.y = -JUMP_SPEED
 			snap = Vector2.ZERO
 			$PlayerSounds.stream = load("res://Sound/Jump.ogg")
 			$PlayerSounds.play()
@@ -111,7 +112,7 @@ func _shoot():
 		$BulletSpawn.position.x = abs($BulletSpawn.position.x) * ($Sprite.scale.x * 2)
 		bullet.setup(position + $BulletSpawn.position, $Sprite.scale.x, "Player", shootUp, hit_power)
 		get_parent().add_child(bullet)
-		$ShootTimer.start(attack_wait)
+		$ShootTimer.start(ATTACK_WAIT)
 		$PlayerSounds.stream = load("res://Sound/Shoot.ogg")
 		$PlayerSounds.play()
 
@@ -119,18 +120,23 @@ func _hurt(hit):
 	if $ImmunityTimer.is_stopped():
 		health -= hit
 		emit_signal("change_life", health)
-		$ImmunityTimer.start(2)
 		hurting = true
+		
+		$ImmunityTimer.start(IMMUNITY)
+		
 		$PlayerSounds.stream = load("res://Sound/Hurt.ogg")
 		$PlayerSounds.play()
 
 func rune(power, type = 0):
 	Global.rune_active = true
+	
 	if type == 1:
 		Global.levelKey = true
+		
 	$Power.call("_" + power.to_lower())
 	$PowerMagic.emitting = true
 	$PowerMagic.restart()
+	
 	if power != "Fly":
 		$Sprite/AnimationPlayer.play("Power " + str(type))
 	else:
@@ -147,8 +153,9 @@ func _river(_active, _top = 0, _damage = 0):
 	set_physics_process(!_active)
 
 func _geyser(_orientation):
-	velocity.y = -jump_speed * 2 * _orientation
+	velocity.y = -JUMP_SPEED * 2 * _orientation
 	move_and_slide(velocity, Vector2(0, -1))
+	
 	$PlayerSounds.stream = load("res://Sound/Geyser.ogg")
 	$PlayerSounds.play()
 

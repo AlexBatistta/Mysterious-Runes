@@ -34,7 +34,7 @@ func _process(delta):
 			rune = buttons.find(button)
 	
 	match rune:
-		0:	rune_name = "Slow_Down"
+		0:	rune_name = "Slow"
 		1:	rune_name = "Poison"
 		2:	rune_name = "Paralyze"
 		3:	rune_name = "Invoke"

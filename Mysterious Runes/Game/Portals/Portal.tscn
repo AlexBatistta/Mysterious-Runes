@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Game/Portals/Portal.gd" type="Script" id=1]
 [ext_resource path="res://Game/Portals/Portal-01.png" type="Texture" id=2]
 [ext_resource path="res://Game/Portals/Portal-02.png" type="Texture" id=3]
 [ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=4]
 [ext_resource path="res://Sound/Portal.ogg" type="AudioStream" id=5]
+[ext_resource path="res://Game/Runes/Runes-02.png" type="Texture" id=6]
+[ext_resource path="res://Game/Runes/Runes-03.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Activate"
@@ -65,6 +67,18 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
+"times": PoolRealArray( 0, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("RuneKey:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
 "times": PoolRealArray( 0, 0.35, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
@@ -144,7 +158,6 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -109.938 )
 vframes = 2
 hframes = 5
-frame = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Activate = SubResource( 1 )
@@ -165,6 +178,18 @@ texture = ExtResource( 4 )
 "Sound",
 ]]
 stream = ExtResource( 5 )
+
+[node name="RuneKey" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, -260 )
+texture = ExtResource( 6 )
+hframes = 4
+frame = 3
+
+[node name="RuneIcon" type="Sprite" parent="RuneKey"]
+texture = ExtResource( 7 )
+vframes = 2
+hframes = 4
 
 [connection signal="body_entered" from="." to="." method="_on_Portals_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_Portals_body_exited"]

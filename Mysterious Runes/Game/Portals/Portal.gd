@@ -7,6 +7,8 @@ export (bool) var spawn
 signal teleport
 
 func reset():
+	$RuneKey.frame = 3
+	$RuneKey/RuneIcon.frame = Global.current_level + 2
 	if spawn:
 		$AnimationPlayer.animation_set_next("Activate", "Teleport")
 		$AnimationPlayer.play("Activate")
@@ -15,6 +17,7 @@ func _on_Portals_body_entered(body):
 	if !spawn:
 		if body.name == "Player":
 			if Global.levelKey:
+				$RuneKey.frame = 1
 				$AnimationPlayer.animation_set_next("Activate", "Teleport")
 				body._portal()
 			$AnimationPlayer.play("Activate")

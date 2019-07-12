@@ -169,5 +169,6 @@ margin_bottom = 212.5
 [connection signal="visibility_changed" from="." to="." method="_on_Gui_visibility_changed"]
 [connection signal="pressed" from="PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="GuiPlayer/RuneMenuButton" to="." method="_on_RuneMenuButton_pressed"]
+[connection signal="timeout" from="TimerPower" to="." method="_on_TimerPower_timeout"]
 [connection signal="timeout" from="TimerRune" to="." method="_on_TimerRune_timeout"]
 [connection signal="popup_hide" from="RunesMenu" to="." method="_on_RunesMenu_popup_hide"]

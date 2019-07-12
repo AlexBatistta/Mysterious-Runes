@@ -65,10 +65,10 @@ func _input(event):
 					else: button_active = 1
 				mouse = false
 		
-		if event is InputEventMouseButton && event.is_pressed() || event.is_action_pressed("ui_accept"):
+		"""if event is InputEventMouseButton && event.is_pressed() || event.is_action_pressed("ui_accept"):
 			for button in buttons:
 				if button.is_hovered(): 
-					_sound()
+					_sound()"""
 		
 		if button_active < 0:
 			button_active = buttons.size() - 1
