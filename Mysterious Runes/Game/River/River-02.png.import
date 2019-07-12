@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tileset-01.png-6578cc5c9b5e4e3af9bb37237cde5459.stex"
+path="res://.import/River-02.png-038436b0f7dbdc48155de1af79525707.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game/Tileset/Tileset-01.png"
-dest_files=[ "res://.import/Tileset-01.png-6578cc5c9b5e4e3af9bb37237cde5459.stex" ]
+source_file="res://Game/River/River-02.png"
+dest_files=[ "res://.import/River-02.png-038436b0f7dbdc48155de1af79525707.stex" ]
 
 [params]
 
@@ -25,7 +25,7 @@ flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
-process/premult_alpha=true
+process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false

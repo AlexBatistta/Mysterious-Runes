@@ -7,7 +7,8 @@ export (PackedScene) var NPCs
 export (float) var timeSpawn = 10
 
 func _ready():
-	timeSpawn /= Global.current_level
+	if Global.current_level > 0:
+		timeSpawn /= Global.current_level
 	$Vortex/AnimationPlayer.play("Vortex")
 
 func _on_SpawnNPC_timeout():

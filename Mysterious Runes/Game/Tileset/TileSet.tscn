@@ -29,7 +29,7 @@ __meta__ = {
 editor/display_folded = true
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 96, 96 )
+region_rect = Rect2( 5, 5, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -45,7 +45,7 @@ editor/display_folded = true
 position = Vector2( 96, 0 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 96, 0, 96, 96 )
+region_rect = Rect2( 106, 5, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -61,7 +61,7 @@ editor/display_folded = true
 position = Vector2( 192, 0 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 192, 0, 96, 96 )
+region_rect = Rect2( 207, 5, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -77,7 +77,7 @@ editor/display_folded = true
 position = Vector2( 288, 0 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 288, 0, 96, 96 )
+region_rect = Rect2( 308, 5, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -92,7 +92,7 @@ editor/display_folded = true
 position = Vector2( 384, 0 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 384, 0, 96, 96 )
+region_rect = Rect2( 409, 5, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -107,7 +107,7 @@ editor/display_folded = true
 position = Vector2( 0, 96 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 96, 96, 96 )
+region_rect = Rect2( 5, 106, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -122,7 +122,7 @@ editor/display_folded = true
 position = Vector2( 96, 96 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 96, 96, 96, 96 )
+region_rect = Rect2( 106, 106, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -137,7 +137,7 @@ editor/display_folded = true
 position = Vector2( 192, 96 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 192, 96, 96, 96 )
+region_rect = Rect2( 207, 106, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -152,7 +152,7 @@ editor/display_folded = true
 position = Vector2( 288, 96 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 288, 96, 96, 96 )
+region_rect = Rect2( 308, 106, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -167,7 +167,7 @@ editor/display_folded = true
 position = Vector2( 384, 96 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 384, 96, 96, 96 )
+region_rect = Rect2( 409, 106, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -182,7 +182,7 @@ editor/display_folded = true
 position = Vector2( 0, 192 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 192, 96, 96 )
+region_rect = Rect2( 5, 207, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -197,7 +197,7 @@ editor/display_folded = true
 position = Vector2( 96, 192 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 96, 192, 96, 96 )
+region_rect = Rect2( 106, 207, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -212,7 +212,7 @@ editor/display_folded = true
 position = Vector2( 192, 192 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 192, 192, 96, 96 )
+region_rect = Rect2( 207, 207, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -227,7 +227,7 @@ editor/display_folded = true
 position = Vector2( 288, 192 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 288, 192, 96, 96 )
+region_rect = Rect2( 308, 207, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -243,7 +243,7 @@ editor/display_folded = true
 position = Vector2( 384, 192 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 384, 192, 96, 96 )
+region_rect = Rect2( 409, 207, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -259,7 +259,7 @@ editor/display_folded = true
 position = Vector2( 0, 288 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 288, 96, 96 )
+region_rect = Rect2( 5, 308, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -274,7 +274,7 @@ editor/display_folded = true
 position = Vector2( 96, 288 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 96, 288, 96, 96 )
+region_rect = Rect2( 106, 308, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -289,7 +289,7 @@ editor/display_folded = true
 position = Vector2( 192, 288 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 192, 288, 96, 96 )
+region_rect = Rect2( 207, 308, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -304,7 +304,7 @@ editor/display_folded = true
 position = Vector2( 288, 288 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 288, 288, 96, 96 )
+region_rect = Rect2( 308, 308, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -318,7 +318,7 @@ shape = SubResource( 5 )
 position = Vector2( 384, 288 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 384, 288, 96, 96 )
+region_rect = Rect2( 409, 308, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }

@@ -61,7 +61,7 @@ anims/FadeOut = SubResource( 2 )
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 3 )]
 layer = -2
-scroll_offset = Vector2( -17893.5, 0 )
+scroll_offset = Vector2( -30415, 0 )
 
 [node name="BasicMenu" parent="." instance=ExtResource( 4 )]
 
