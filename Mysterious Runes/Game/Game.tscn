@@ -8,8 +8,8 @@
 [ext_resource path="res://Game/Camera2D.gd" type="Script" id=6]
 [ext_resource path="res://Game/UI.gd" type="Script" id=7]
 [ext_resource path="res://Menus/MenusInGame/MenuInGame.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Menus/KeyboardController.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Menus/MenusInGame/Gui/Gui.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Menus/MenusInGame/Gui/Gui.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Menus/KeyboardController.gd" type="Script" id=10]
 [ext_resource path="res://Music/CyberpunkMoonlightSonata-GameSong.ogg" type="AudioStream" id=11]
 
 [sub_resource type="Animation" id=1]
@@ -46,7 +46,7 @@ script = ExtResource( 1 )
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 2 )]
 pause_mode = 2
-scroll_offset = Vector2( -845, 0 )
+scroll_offset = Vector2( -27.5, 0 )
 scroll_limit_end = Vector2( 8544, 2688 )
 
 [node name="Levels" type="Node2D" parent="."]
@@ -112,13 +112,10 @@ script = ExtResource( 7 )
 [node name="MenuInGame" parent="MenuLayer/UI" instance=ExtResource( 8 )]
 visible = false
 
-[node name="KeyboardController" parent="MenuLayer/UI/MenuInGame" instance=ExtResource( 9 )]
-margin_left = 560.0
-margin_top = 510.0
-margin_right = 560.0
-margin_bottom = 510.0
+[node name="Gui" parent="MenuLayer/UI" instance=ExtResource( 9 )]
 
-[node name="Gui" parent="MenuLayer/UI" instance=ExtResource( 10 )]
+[node name="KeyboardController" type="Control" parent="MenuLayer/UI"]
+script = ExtResource( 10 )
 
 [node name="MusicGame" type="AudioStreamPlayer" parent="." groups=[
 "Music",
@@ -130,8 +127,4 @@ stream = ExtResource( 11 )
 [connection signal="body_entered" from="Levels/Level1/Geyser6" to="Levels/Level1/Geyser6" method="_on_Geyser_body_entered"]
 [connection signal="body_entered" from="Levels/Level1/Geyser7" to="Levels/Level1/Geyser7" method="_on_Geyser_body_entered"]
 [connection signal="body_entered" from="Levels/Level1/Geyser8" to="Levels/Level1/Geyser8" method="_on_Geyser_body_entered"]
-[connection signal="body_entered" from="Levels/Level2/Geyser5" to="Levels/Level2/Geyser5" method="_on_Geyser_body_entered"]
-[connection signal="body_entered" from="Levels/Level2/Geyser6" to="Levels/Level2/Geyser6" method="_on_Geyser_body_entered"]
-[connection signal="body_entered" from="Levels/Level2/Geyser7" to="Levels/Level2/Geyser7" method="_on_Geyser_body_entered"]
-[connection signal="body_entered" from="Levels/Level2/Geyser8" to="Levels/Level2/Geyser8" method="_on_Geyser_body_entered"]
 [connection signal="visibility_changed" from="MenuLayer/UI/MenuInGame" to="MenuLayer/UI" method="_on_MenuInGame_visibility_changed"]

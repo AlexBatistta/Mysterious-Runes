@@ -1,11 +1,12 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Menus/MenusInGame/Gui/Gui.gd" type="Script" id=1]
-[ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=2]
+[ext_resource path="res://Menus/Resources/Buttons-Icons.png" type="Texture" id=2]
 [ext_resource path="res://Menus/MenusInGame/Gui/LifeBar-01.png" type="Texture" id=3]
 [ext_resource path="res://Menus/MenusInGame/Gui/LifeBar-Icon.png" type="Texture" id=4]
 [ext_resource path="res://Game/Bullet/Magic.png" type="Texture" id=5]
 [ext_resource path="res://Menus/MenusInGame/Runes/RunesMenu.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Sound/Rune.ogg" type="AudioStream" id=7]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -162,9 +163,9 @@ one_shot = true
 margin_top = -212.5
 margin_bottom = 212.5
 
-[node name="GuiAudio" type="AudioStreamPlayer" parent="." groups=[
-"Sound",
-]]
+[node name="GuiAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+bus = "Effects"
 
 [connection signal="visibility_changed" from="." to="." method="_on_Gui_visibility_changed"]
 [connection signal="pressed" from="PauseButton" to="." method="_on_PauseButton_pressed"]

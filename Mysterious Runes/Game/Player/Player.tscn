@@ -707,10 +707,9 @@ visible = false
 position = Vector2( -10, -66 )
 scale = Vector2( 8, 7.4 )
 
-[node name="PlayerSounds" type="AudioStreamPlayer" parent="." groups=[
-"Sound",
-]]
+[node name="PlayerSounds" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
+bus = "Effects"
 
 [connection signal="visibility_changed" from="." to="." method="_on_Player_visibility_changed"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

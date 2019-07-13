@@ -49,15 +49,13 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 3 )
 
-[node name="SplashSound" type="AudioStreamPlayer" parent="." groups=[
-"Sound",
-]]
+[node name="SplashSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+bus = "Effects"
 
-[node name="LiquidSound" type="AudioStreamPlayer" parent="." groups=[
-"Sound",
-]]
+[node name="LiquidSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
+bus = "Effects"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

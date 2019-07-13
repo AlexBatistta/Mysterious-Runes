@@ -1,5 +1,9 @@
 extends Control
 
+var buttons = [
+	"PauseButton",
+	"GuiPlayer/RuneMenuButton"
+]
 var timeRunes = Global.timePower * 2
 
 func _ready():
@@ -7,11 +11,10 @@ func _ready():
 	$GuiPlayer/PowerBar.max_value = Global.timePower
 	$GuiPlayer/SpecialBar.max_value = timeRunes
 	$GuiPlayer/RuneMenuButton.disabled = true
+	if Global.levelsUnlock > 1:
+		$TimerRune.start(timeRunes)
 
 func _process(delta):
-	if Global.levelKey && $TimerRune.is_stopped():
-		$TimerRune.start(timeRunes)
-	
 	if !$TimerRune.is_stopped(): 
 		$GuiPlayer/SpecialBar.value = $TimerRune.time_left
 	else:
@@ -24,9 +27,11 @@ func _process(delta):
 		if $TimerPower.is_stopped(): $TimerPower.start(Global.timePower)
 		$GuiPlayer/PowerBar.value = $TimerPower.time_left
 		$GuiPlayer/SpecialBar.value = timeRunes
+		$TimerRune.stop()
 		if !$GuiPlayer/RuneMenuButton.disabled:
 			_disable_RuneMenu()
-			$TimerRune.start(timeRunes)
+	elif Global.levelKey && $TimerRune.is_stopped():
+		$TimerRune.start(timeRunes)
 
 func set_LifeBar(_maxValue):
 	$GuiPlayer/LifeBar.max_value = _maxValue

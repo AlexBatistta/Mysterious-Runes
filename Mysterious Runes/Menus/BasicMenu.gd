@@ -14,7 +14,6 @@ func _back_visible(_visibility):
 func _on_CreditsButton_pressed():
 	Global.change_menu("CreditsMenu")
 	if Global.current_state == "Game":
-		print("Entrz")
 		Global.change_scene("Menu")
 		get_tree().paused = false
 

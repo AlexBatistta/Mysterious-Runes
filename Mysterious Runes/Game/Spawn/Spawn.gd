@@ -13,7 +13,7 @@ func _ready():
 
 func _on_SpawnNPC_timeout():
 	if randomSpawn:
-		NpcType = randi() % 5
+		NpcType = randi() % (NpcType + 1)
 	
 	var newNPC = NPCs.instance()
 	newNPC.setup(NpcType, position + Vector2(0, 50))

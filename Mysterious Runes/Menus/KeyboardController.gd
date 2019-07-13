@@ -5,6 +5,7 @@ signal pause
 var buttons = []
 var button_active = 0
 var mouse = false
+var button_sound = null
 
 func _get_buttons():
 	if buttons != null:
@@ -25,6 +26,14 @@ func _get_buttons():
 		for button in node2.buttons:
 			if node2.get_node(button).visible:
 				buttons.push_back(node2.get_node(button))
+	
+	_create_sound()
+
+func _create_sound():
+	button_sound = AudioStreamPlayer.new()
+	button_sound.stream = load("res://Sound/Button.ogg")
+	button_sound.bus = AudioServer.get_bus_name(1)
+	add_child(button_sound)
 
 func _process(delta):
 	if get_parent().visible && !buttons.empty():
@@ -65,10 +74,10 @@ func _input(event):
 					else: button_active = 1
 				mouse = false
 		
-		"""if event is InputEventMouseButton && event.is_pressed() || event.is_action_pressed("ui_accept"):
+		if event is InputEventMouseButton && event.is_pressed() || event.is_action_pressed("ui_accept"):
 			for button in buttons:
-				if button.is_hovered(): 
-					_sound()"""
+				if button.is_hovered() && !button.disabled: 
+					_sound()
 		
 		if button_active < 0:
 			button_active = buttons.size() - 1
@@ -76,5 +85,5 @@ func _input(event):
 			button_active = 0
 
 func _sound():
-	if !$ButtonPressedSound.playing:
-		$ButtonPressedSound.play()
+	if !button_sound.playing:
+		button_sound.play()

@@ -78,14 +78,10 @@ func color():
 
 func set_sound():
 	sound = !sound
-	var sfx = get_tree().get_nodes_in_group("Sound")
-	for fx in sfx:
-		if !sound:
-			fx.volume_db = -80
-			fx.stop()
-		else:
-			print(fx.name)
-			fx.volume_db = 0
+	if sound:
+		AudioServer.set_bus_volume_db(1, 0)
+	else:
+		AudioServer.set_bus_volume_db(1, -80)
 
 func set_music():
 	music = !music

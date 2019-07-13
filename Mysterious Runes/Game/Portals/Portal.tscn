@@ -174,10 +174,9 @@ visibility_rect = Rect2( -100, -125, 200, 250 )
 process_material = SubResource( 6 )
 texture = ExtResource( 4 )
 
-[node name="TeleportSound" type="AudioStreamPlayer" parent="." groups=[
-"Sound",
-]]
+[node name="TeleportSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+bus = "Effects"
 
 [node name="RuneKey" type="Sprite" parent="."]
 visible = false

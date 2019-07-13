@@ -2,9 +2,12 @@
 
 [ext_resource path="res://Menus/Main/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Menus/Main/Title-Main.png" type="Texture" id=2]
-[ext_resource path="res://Menus/Button-Normal.png" type="Texture" id=3]
-[ext_resource path="res://Menus/Button-Hover.png" type="Texture" id=4]
-[ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=5]
+[ext_resource path="res://Menus/Resources/Button-Normal.png" type="Texture" id=3]
+[ext_resource path="res://Menus/Resources/Button-Hover.png" type="Texture" id=4]
+[ext_resource path="res://Menus/Resources/Buttons-Icons.png" type="Texture" id=5]
+
+
+
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4

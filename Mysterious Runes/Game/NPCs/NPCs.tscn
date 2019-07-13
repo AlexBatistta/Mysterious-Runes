@@ -415,6 +415,7 @@ autostart = true
 one_shot = true
 
 [node name="LifeBar" type="ProgressBar" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -25.0
@@ -430,9 +431,8 @@ percent_visible = false
 [node name="RuneActive" parent="." instance=ExtResource( 5 )]
 visible = false
 
-[node name="NPCSound" type="AudioStreamPlayer" parent="." groups=[
-"Sound",
-]]
+[node name="NPCSound" type="AudioStreamPlayer" parent="."]
+bus = "Effects"
 
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_AttackArea_body_entered"]

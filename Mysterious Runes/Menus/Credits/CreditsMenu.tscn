@@ -1,10 +1,12 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Menus/Credits/CreditsMenu.gd" type="Script" id=1]
-[ext_resource path="res://Menus/Title-Menus.png" type="Texture" id=2]
+[ext_resource path="res://Menus/Resources/Title-Menus.png" type="Texture" id=2]
 [ext_resource path="res://Menus/Font (immortal).ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://Menus/Buttons-Icons.png" type="Texture" id=4]
+[ext_resource path="res://Menus/Resources/Buttons-Icons.png" type="Texture" id=4]
 [ext_resource path="res://Menus/Credits/GAMELEX.png" type="Texture" id=5]
+
+
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
