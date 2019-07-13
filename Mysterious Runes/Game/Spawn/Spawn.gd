@@ -4,16 +4,19 @@ extends Node2D
 export (int, "WeakBasic", "StrongBasic", "MagicFlyer", "WeakArmored", "StrongArmored", "InvokerBoss") var NpcType
 export (bool) var randomSpawn = false
 export (PackedScene) var NPCs
-export (float) var timeSpawn = 10
+var timeSpawn = 8
+var health = 25
 
 func _ready():
 	if Global.current_level > 0:
-		timeSpawn /= Global.current_level
+		timeSpawn -= Global.current_level
+		health = 25 * Global.current_level
 	$Vortex/AnimationPlayer.play("Vortex")
 
 func _on_SpawnNPC_timeout():
 	if randomSpawn:
 		NpcType = randi() % (NpcType + 1)
+		if NpcType == 2: NpcType -= 1
 	
 	var newNPC = NPCs.instance()
 	newNPC.setup(NpcType, position + Vector2(0, 50))
@@ -25,7 +28,9 @@ func _on_SpawnNPC_timeout():
 
 func _hurt(_hit):
 	$SpawnSound.play()
-	$Vortex/AnimationPlayer.play("Disappear")
+	health -= _hit
+	if health <= 0:
+		$Vortex/AnimationPlayer.play("Disappear")
 
 func _on_VisibilityEnabler2D_screen_entered():
 	$SpawnNPC.start(1)
@@ -37,12 +42,10 @@ func _spawn_invoked(_position):
 	var newInvoked_01 = NPCs.instance()
 	newInvoked_01.setup(randi() % 2, _position - Vector2(150, 200))
 	call_deferred("_spawn", newInvoked_01)
-	#get_parent().add_child(newInvoked_01)
 	
 	var newInvoked_02 = NPCs.instance()
 	newInvoked_02.setup(randi() % 2, _position - Vector2(-150, 200))
 	call_deferred("_spawn", newInvoked_02)
-	#get_parent().add_child(newInvoked_02)
 	
 	$SpawnSound.play()
 

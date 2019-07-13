@@ -42,11 +42,10 @@ func _spawn():
 	set_physics_process(false)
 
 func _physics_process(delta):
+	if shooting && Input.is_action_pressed("move_up"): shootUp = true
+	
 	_move(delta)
 	_animate()
-	
-	if shooting && Input.is_action_pressed("move_up"): shootUp = true
-	else: shootUp = false
 	
 	#Game Endeavor camera script
 	var was_grounded = is_grounded
@@ -95,7 +94,8 @@ func _animate():
 		animation = "Shoot"
 		if !is_on_floor():
 			animation += " Jump"
-		elif shootUp:
+			shootUp = false
+		if shootUp:
 			animation += " Up"
 	
 	if hurting:
@@ -110,9 +110,12 @@ func _shoot():
 	if $ShootTimer.is_stopped():
 		var bullet = Bullet.instance()
 		$BulletSpawn.position.x = abs($BulletSpawn.position.x) * ($Sprite.scale.x * 2)
+		
 		bullet.setup(position + $BulletSpawn.position, $Sprite.scale.x, "Player", shootUp, hit_power)
 		get_parent().add_child(bullet)
+		
 		$ShootTimer.start(ATTACK_WAIT)
+		
 		$PlayerSounds.stream = load("res://Sound/Shoot.ogg")
 		$PlayerSounds.play()
 

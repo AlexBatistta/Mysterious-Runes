@@ -4,7 +4,7 @@ var buttons = [
 	"PauseButton",
 	"GuiPlayer/RuneMenuButton"
 ]
-var timeRunes = Global.timePower * 2
+var timeRunes = Global.timePower + 5
 
 func _ready():
 	set_process_input(true)
