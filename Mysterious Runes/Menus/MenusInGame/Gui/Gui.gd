@@ -30,8 +30,11 @@ func _process(delta):
 		$TimerRune.stop()
 		if !$GuiPlayer/RuneMenuButton.disabled:
 			_disable_RuneMenu()
-	elif Global.levelKey && $TimerRune.is_stopped():
-		$TimerRune.start(timeRunes)
+	elif $TimerRune.is_stopped() && $GuiPlayer/RuneMenuButton.disabled:
+		if Global.levelsUnlock > 1:
+			$TimerRune.start(timeRunes)
+		elif Global.levelKey:
+			$TimerRune.start(timeRunes)
 
 func set_LifeBar(_maxValue):
 	$GuiPlayer/LifeBar.max_value = _maxValue

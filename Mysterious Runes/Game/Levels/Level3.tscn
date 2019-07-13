@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Game/Tileset/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Game/Levels/Level.gd" type="Script" id=2]
@@ -7,21 +7,6 @@
 [ext_resource path="res://Game/Spawn/Spawn.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Game/Platform/Platform.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game/River/River.tscn" type="PackedScene" id=7]
-
-[sub_resource type="Curve2D" id=1]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -288 )
-}
-
-[sub_resource type="Curve2D" id=2]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 336, 0, 0, 0, 0, 0, 576, 192 )
-}
-
-[sub_resource type="Curve2D" id=3]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 384, 0, 0, 0, 0, 0, 576, 144 )
-}
 
 [node name="Level3" type="TileMap" groups=[
 "Level",
@@ -127,37 +112,22 @@ NpcType = 4
 flyerSpawn = false
 
 [node name="Platforms" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Platform" parent="Platforms" instance=ExtResource( 6 )]
 editor/display_folded = true
 position = Vector2( 2544, 1872 )
-
-[node name="Sprite" parent="Platforms/Platform" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform" index="2"]
-curve = SubResource( 1 )
+coordinates = [ Vector2( 0, 0 ), Vector2( 0, -6 ) ]
 
 [node name="Platform2" parent="Platforms" instance=ExtResource( 6 )]
 editor/display_folded = true
 position = Vector2( 4368, 624 )
-
-[node name="Sprite" parent="Platforms/Platform2" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform2" index="2"]
-curve = SubResource( 2 )
+coordinates = [ Vector2( 0, 0 ), Vector2( 8, 4 ) ]
 
 [node name="Platform3" parent="Platforms" instance=ExtResource( 6 )]
 editor/display_folded = true
 position = Vector2( 5232, 2112 )
-
-[node name="Sprite" parent="Platforms/Platform3" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform3" index="2"]
-curve = SubResource( 3 )
+long = true
+coordinates = [ Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 10, 5 ) ]
 
 [node name="Rivers" type="Node2D" parent="."]
 
@@ -176,9 +146,3 @@ type = 2
 dimensions = Vector2( 5, 1 )
 
 [connection signal="body_entered" from="Geyser" to="Geyser" method="_on_Geyser_body_entered"]
-
-[editable path="Platforms/Platform"]
-
-[editable path="Platforms/Platform2"]
-
-[editable path="Platforms/Platform3"]

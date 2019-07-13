@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Game/Tileset/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Game/Levels/Level.gd" type="Script" id=2]
@@ -7,31 +7,6 @@
 [ext_resource path="res://Game/Runes/Runes.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Game/Platform/Platform.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game/River/River.tscn" type="PackedScene" id=7]
-
-[sub_resource type="Curve2D" id=1]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 384, 0 )
-}
-
-[sub_resource type="Curve2D" id=2]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 191, 0, 0, 0, 0, 0, 191, -192, 0, 0, 0, 0, 191, 0, 0, 0, 0, 0, 383, 0 )
-}
-
-[sub_resource type="Curve2D" id=3]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, -385, -240, 0, 0, 0, 0, 383, -240, 0, 0, 0, 0, -1, 0 )
-}
-
-[sub_resource type="Curve2D" id=4]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, -385, -336 )
-}
-
-[sub_resource type="Curve2D" id=5]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0 )
-}
 
 [node name="Level1" type="TileMap" groups=[
 "Level",
@@ -78,6 +53,7 @@ position = Vector2( 6960, 1728 )
 
 [node name="Spawn" parent="Spawns" instance=ExtResource( 4 )]
 position = Vector2( 2592, 528 )
+NpcType = 1
 flyerSpawn = false
 
 [node name="Spawn2" parent="Spawns" instance=ExtResource( 4 )]
@@ -128,61 +104,27 @@ temporary = "Regeneration"
 editor/display_folded = true
 position = Vector2( 1487, 960 )
 long = true
-
-[node name="Sprite" parent="Platforms/Platform" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-region_rect = Rect2( 0, 0, 192, 48 )
-
-[node name="CollisionShape2D" parent="Platforms/Platform" index="1"]
-scale = Vector2( 2, 1 )
-
-[node name="Path2D" parent="Platforms/Platform" index="2"]
-curve = SubResource( 1 )
+coordinates = [ Vector2( 0, 0 ), Vector2( 8, 0 ) ]
 
 [node name="Platform2" parent="Platforms" instance=ExtResource( 6 )]
 editor/display_folded = true
-position = Vector2( 1488, 1344 )
-
-[node name="Sprite" parent="Platforms/Platform2" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform2" index="2"]
-curve = SubResource( 2 )
+position = Vector2( 1680, 1344 )
+long = true
+coordinates = [ Vector2( 0, 0 ), Vector2( 0, -5 ) ]
 
 [node name="Platform3" parent="Platforms" instance=ExtResource( 6 )]
-editor/display_folded = true
 position = Vector2( 7776, 1104 )
-
-[node name="Sprite" parent="Platforms/Platform3" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform3" index="2"]
-curve = SubResource( 3 )
+coordinates = [ Vector2( 0, 0 ), Vector2( -8, -6 ), Vector2( 8, -6 ), Vector2( 0, 0 ) ]
 
 [node name="Platform4" parent="Platforms" instance=ExtResource( 6 )]
-editor/display_folded = true
 position = Vector2( 3696, 1968 )
 long = true
-
-[node name="Sprite" parent="Platforms/Platform4" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-region_rect = Rect2( 0, 0, 192, 48 )
-
-[node name="CollisionShape2D" parent="Platforms/Platform4" index="1"]
-scale = Vector2( 2, 1 )
-
-[node name="Path2D" parent="Platforms/Platform4" index="2"]
-curve = SubResource( 4 )
+coordinates = [ Vector2( 0, 0 ), Vector2( -8, -8 ) ]
 
 [node name="Platform5" parent="Platforms" instance=ExtResource( 6 )]
 editor/display_folded = true
-position = Vector2( 4512, 1968 )
-
-[node name="Sprite" parent="Platforms/Platform5" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform5" index="2"]
-curve = SubResource( 5 )
+position = Vector2( 4560, 2016 )
+coordinates = [ Vector2( 0, 0 ), Vector2( 8, 0 ) ]
 
 [node name="Rivers" type="Node2D" parent="."]
 
@@ -199,13 +141,3 @@ dimensions = Vector2( 3, 2 )
 [connection signal="body_entered" from="Geyser2" to="Geyser2" method="_on_Geyser_body_entered"]
 [connection signal="body_entered" from="Geyser3" to="Geyser3" method="_on_Geyser_body_entered"]
 [connection signal="body_entered" from="Geyser4" to="Geyser4" method="_on_Geyser_body_entered"]
-
-[editable path="Platforms/Platform"]
-
-[editable path="Platforms/Platform2"]
-
-[editable path="Platforms/Platform3"]
-
-[editable path="Platforms/Platform4"]
-
-[editable path="Platforms/Platform5"]

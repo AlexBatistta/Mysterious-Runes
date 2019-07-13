@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Game/Tileset/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Game/Levels/Level.gd" type="Script" id=2]
@@ -8,25 +8,9 @@
 [ext_resource path="res://Game/Runes/Runes.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game/River/River.tscn" type="PackedScene" id=7]
 
-[sub_resource type="Curve2D" id=1]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -960 )
-}
-
-[sub_resource type="Curve2D" id=2]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -624 )
-}
-
-[sub_resource type="Curve2D" id=3]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -240, -144 )
-}
-
 [node name="Level5" type="TileMap" groups=[
 "Level",
 ]]
-position = Vector2( 1, 0 )
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 96, 96 )
 collision_layer = 4
@@ -76,37 +60,19 @@ flyerSpawn = false
 [node name="Platform" parent="Platforms" instance=ExtResource( 4 )]
 editor/display_folded = true
 position = Vector2( 7488, 1776 )
-
-[node name="Sprite" parent="Platforms/Platform" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform" index="2"]
-curve = SubResource( 1 )
+long = true
+coordinates = [ Vector2( 0, 0 ), Vector2( 0, -20 ) ]
 
 [node name="Platform2" parent="Platforms" instance=ExtResource( 4 )]
 editor/display_folded = true
 position = Vector2( 3311, 1400 )
 long = true
-
-[node name="Sprite" parent="Platforms/Platform2" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-region_rect = Rect2( 0, 0, 192, 48 )
-
-[node name="CollisionShape2D" parent="Platforms/Platform2" index="1"]
-scale = Vector2( 2, 1 )
-
-[node name="Path2D" parent="Platforms/Platform2" index="2"]
-curve = SubResource( 2 )
+coordinates = [ Vector2( 0, 0 ), Vector2( 0, -14 ) ]
 
 [node name="Platform3" parent="Platforms" instance=ExtResource( 4 )]
 editor/display_folded = true
 position = Vector2( 2351, 576 )
-
-[node name="Sprite" parent="Platforms/Platform3" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform3" index="2"]
-curve = SubResource( 3 )
+coordinates = [ Vector2( 0, 0 ), Vector2( -5, -1 ) ]
 
 [node name="Stalactites" type="Node2D" parent="."]
 
@@ -147,16 +113,15 @@ flip = true
 
 [node name="Runes" parent="Runes" instance=ExtResource( 6 )]
 position = Vector2( 3936, 2496 )
-temporary = "Regeneration"
+temporary = "Shield"
 
 [node name="Runes2" parent="Runes" instance=ExtResource( 6 )]
 position = Vector2( 576, 1536 )
-runeType = 1
+temporary = "Regeneration"
 
 [node name="Runes3" parent="Runes" instance=ExtResource( 6 )]
 position = Vector2( 4223, 1536 )
 treeType = 1
-temporary = "Regeneration"
 
 [node name="Rivers" type="Node2D" parent="."]
 
@@ -177,9 +142,3 @@ dimensions = Vector2( 4, 1 )
 
 [connection signal="body_entered" from="Geyser" to="Geyser" method="_on_Geyser_body_entered"]
 [connection signal="body_entered" from="Geyser2" to="Geyser2" method="_on_Geyser_body_entered"]
-
-[editable path="Platforms/Platform"]
-
-[editable path="Platforms/Platform2"]
-
-[editable path="Platforms/Platform3"]

@@ -2,7 +2,7 @@ tool
 extends Node
 
 const maxLevels = 5
-const timePower = 15
+const timePower = 20
 
 var current_scene = null
 var current_level = 0

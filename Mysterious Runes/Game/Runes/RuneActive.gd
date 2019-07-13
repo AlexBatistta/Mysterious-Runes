@@ -20,7 +20,7 @@ func _set_power():
 	$SpriteRune.frame = frame
 	$AnimationPlayer.play("Power")
 	if Global.power_rune != "Invoke":
-		$RuneTimer.start(Global.timePower / 2)
+		$RuneTimer.start(Global.timePower)
 
 func _on_RuneTimer_timeout():
 	$AnimationPlayer.stop()

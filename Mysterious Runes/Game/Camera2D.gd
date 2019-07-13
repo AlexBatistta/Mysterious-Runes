@@ -9,14 +9,16 @@ const SHIFT_EASE = Tween.EASE_OUT
 const SHIFT_DURATION = 1.0
 
 var facing = 0
+var fix_camera = false
 
 onready var prev_camera_pos = get_camera_position()
 
 func _ready():
-	get_parent().connect("grounded_updated", self, "_grounded_updated")
+	get_parent().connect("fix_camera", self, "_fix_camera")
 
 func _process(delta):
-	_check_facing()
+	if !fix_camera:
+		_check_facing()
 	prev_camera_pos = get_camera_position()
 
 func _check_facing():
@@ -29,5 +31,5 @@ func _check_facing():
 		$ShiftTween.interpolate_property(self, "position:x", position.x, target_offset, SHIFT_DURATION, SHIFT_TRANS, SHIFT_EASE)
 		$ShiftTween.start()
 
-func _grounded_updated(is_grounded):
-	drag_margin_v_enabled = !is_grounded
+func _fix_camera(_fix):
+	fix_camera = _fix

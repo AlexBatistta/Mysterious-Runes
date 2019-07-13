@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal change_life
+signal fix_camera
 
 const GRAVITY = 900
 const ATTACK_WAIT = 0.5
@@ -14,6 +15,7 @@ export var hit_power = 25
 export var shooting = false
 export var shootUp = false
 export var hurting = false
+export var power_rune = false
 
 export (PackedScene) var Bullet
 
@@ -23,10 +25,8 @@ var direction = Vector2()
 var currentDirection = 0
 var maxLife = 0
 var snap = Vector2(0, 32)
-
-#Game Endeavor camera script
-signal grounded_updated(is_grounded)
-var is_grounded
+var rune_type = 0
+var prev_pos_x
 
 func _ready():
 	$Sprite/AnimationPlayer.animation_set_next("Fly to Up", "Fly Up")
@@ -46,13 +46,7 @@ func _physics_process(delta):
 	
 	_move(delta)
 	_animate()
-	
-	#Game Endeavor camera script
-	var was_grounded = is_grounded
-	is_grounded = is_on_floor()
-	
-	if was_grounded == null || is_grounded != was_grounded:
-		emit_signal("grounded_updated", is_grounded)
+	_camera()
 
 func _input(event):
 	if $ShootTimer.is_stopped() && event.is_action_pressed("shoot"):
@@ -79,6 +73,8 @@ func _move(delta):
 	if direction.x != 0: change_direction()
 	
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2(0, -1))
+	
+	if direction.x == 0: prev_pos_x = position.x
 
 func _animate():
 	if velocity.x != 0:
@@ -97,6 +93,11 @@ func _animate():
 			shootUp = false
 		if shootUp:
 			animation += " Up"
+	
+	if power_rune:
+		animation = "Power"
+		if rune_type > 0:
+			animation += " Key"
 	
 	if hurting:
 		animation = "Hurt"
@@ -119,6 +120,12 @@ func _shoot():
 		$PlayerSounds.stream = load("res://Sound/Shoot.ogg")
 		$PlayerSounds.play()
 
+func _camera():
+	if prev_pos_x != position.x:
+		emit_signal("fix_camera", false)
+	else:
+		emit_signal("fix_camera", true)
+
 func _hurt(hit, _river = false):
 	if $ImmunityTimer.is_stopped():
 		health -= hit
@@ -131,20 +138,22 @@ func _hurt(hit, _river = false):
 		$PlayerSounds.stream = load("res://Sound/Hurt.ogg")
 		$PlayerSounds.play()
 
-func rune(power, type = 0):
+func rune(power, _type = 0):
+	rune_type = _type
+	power_rune = true
+	
 	Global.rune_active = true
 	
-	if type == 1:
+	if rune_type == 1:
 		Global.levelKey = true
 		
 	$Power.call("_" + power.to_lower())
 	$PowerMagic.emitting = true
 	$PowerMagic.restart()
 	
-	if power != "Fly":
-		$Sprite/AnimationPlayer.play("Power " + str(type))
-	else:
+	if power == "Fly":
 		set_physics_process(false)
+		emit_signal("fix_camera", false)
 
 func check_life():
 	health = ceil(health)
@@ -172,6 +181,8 @@ func _die():
 	health = maxLife
 
 func _portal():
+	Global.rune_active = false
+	$Power/RuneActive._on_RuneTimer_timeout()
 	set_process_input(false)
 	$Sprite/AnimationPlayer.play_backwards("Spawn")
 	set_physics_process(false)

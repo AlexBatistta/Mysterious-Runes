@@ -27,7 +27,7 @@ func _process(delta):
 	
 	if Global.power_rune == "Fly":
 		_flying(delta)
-		
+	
 	if swimming:
 		_swimming(delta)
 	
@@ -97,8 +97,6 @@ func _invoke():
 	var newInvoked_02 = Invoked.instance()
 	newInvoked_02.setup(-1, Player.position - Vector2(-150, 200))
 	Player.get_parent().call_deferred("add_child", newInvoked_02)
-	
-	$RuneActive._set_power()
 
 func _fly():
 	Global.power_rune = "Fly"
@@ -149,6 +147,7 @@ func _power_out():
 			Player.hit_power /= 2
 		"Fly":
 			$FlyMagic.emitting = false
+			set_process_input(false)
 			Player.set_physics_process(true)
 		"Shield":
 			$Shield.visible = false

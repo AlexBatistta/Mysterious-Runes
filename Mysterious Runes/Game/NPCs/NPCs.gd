@@ -34,9 +34,6 @@ func setup(_type, _position):
 		$SpriteColor.texture = load("res://Game/NPCs/SpriteColor/NPC-0" + str(type + 1) + ".png")
 		$SpriteColor.modulate = Global.color()
 		
-		$AttackArea.set_collision_mask_bit(0, true)
-		set_collision_layer_bit(1, true)
-		
 		health = SetHealth[type]
 		hit_power = SetHitPower[type]
 		
@@ -46,14 +43,20 @@ func setup(_type, _position):
 		$SpriteBody.texture = load ("res://Game/NPCs/Invoked.png")
 		$SpriteColor.texture = null
 		
-		$AttackArea.set_collision_mask_bit(1, true)
-		set_collision_layer_bit(0, true)
-		
 		health = 100
 		hit_power = 10
 
 func _ready():
 	custom_speed = 0.5
+	
+	if type == -1:
+		set_collision_layer_bit(0, true)
+		$AttackArea.set_collision_mask_bit(1, true)
+		$AttackArea/AttackRayCast.set_collision_mask_bit(1, true)
+	else:
+		set_collision_layer_bit(1, true)
+		$AttackArea.set_collision_mask_bit(0, true)
+		$AttackArea/AttackRayCast.set_collision_mask_bit(0, true)
 	
 	if type >= 3:
 		$AttackArea/AttackRayCast.position = Vector2(140, -50)
@@ -153,7 +156,7 @@ func _magic_flyer():
 func _invoker_boss():
 	if $InvokerTimer.is_stopped():
 		shooting = true
-		$InvokerTimer.start(7)
+		$InvokerTimer.start(Global.timePower)
 		emit_signal("spawn_invoked", position)
 	pass
 

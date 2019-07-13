@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Game/Tileset/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Game/Levels/Level.gd" type="Script" id=2]
@@ -7,16 +7,6 @@
 [ext_resource path="res://Game/River/River.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Game/Runes/Runes.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game/Platform/Platform.tscn" type="PackedScene" id=7]
-
-[sub_resource type="Curve2D" id=1]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -336, -192, 0, 0, 0, 0, -336, -528 )
-}
-
-[sub_resource type="Curve2D" id=2]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -240, 0, 0, 0, 0, -288, -240 )
-}
 
 [node name="Level4" type="TileMap" groups=[
 "Level",
@@ -135,25 +125,15 @@ treeType = 1
 temporary = "Regeneration"
 
 [node name="Platforms" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Platform" parent="Platforms" instance=ExtResource( 7 )]
 position = Vector2( 1920, 1056 )
-
-[node name="Sprite" parent="Platforms/Platform" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform" index="2"]
-curve = SubResource( 1 )
+coordinates = [ Vector2( 0, 0 ), Vector2( -8, -3 ) ]
 
 [node name="Platform2" parent="Platforms" instance=ExtResource( 7 )]
 position = Vector2( 7344, 2160 )
-
-[node name="Sprite" parent="Platforms/Platform2" index="0"]
-modulate = Color( 1, 0, 1, 1 )
-
-[node name="Path2D" parent="Platforms/Platform2" index="2"]
-curve = SubResource( 2 )
+long = true
+coordinates = [ Vector2( 0, 0 ), Vector2( 0, -12 ), Vector2( -8, -12 ) ]
 
 [connection signal="body_entered" from="Geyser" to="Geyser" method="_on_Geyser_body_entered"]
 [connection signal="body_entered" from="Geyser2" to="Geyser2" method="_on_Geyser_body_entered"]
@@ -161,7 +141,3 @@ curve = SubResource( 2 )
 [connection signal="body_entered" from="Geyser4" to="Geyser4" method="_on_Geyser_body_entered"]
 [connection signal="body_entered" from="Geyser5" to="Geyser5" method="_on_Geyser_body_entered"]
 [connection signal="body_entered" from="Geyser6" to="Geyser6" method="_on_Geyser_body_entered"]
-
-[editable path="Platforms/Platform"]
-
-[editable path="Platforms/Platform2"]
