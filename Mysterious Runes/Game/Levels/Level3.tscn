@@ -35,6 +35,7 @@ tile_data = PoolIntArray( 0, 5, 0, 1, 6, 0, 2, 6, 0, 3, 6, 0, 4, 6, 0, 5, 6, 0, 
 script = ExtResource( 2 )
 
 [node name="Runes" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Runes" parent="Runes" instance=ExtResource( 3 )]
 position = Vector2( 3950, 576 )
@@ -54,6 +55,7 @@ treeType = 1
 temporary = "Shield"
 
 [node name="Stalactites" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Stalactite" parent="Stalactites" instance=ExtResource( 4 )]
 position = Vector2( 4704, 384 )
@@ -92,30 +94,37 @@ flip = true
 
 [node name="Spawn" parent="Spawns" instance=ExtResource( 5 )]
 position = Vector2( 1872, 720 )
+NpcType = 1
+flyerSpawn = false
 
 [node name="Spawn2" parent="Spawns" instance=ExtResource( 5 )]
 position = Vector2( 2400, 720 )
+NpcType = 3
 
 [node name="Spawn3" parent="Spawns" instance=ExtResource( 5 )]
 position = Vector2( 1296, 1680 )
+NpcType = 3
+flyerSpawn = false
 
 [node name="Spawn4" parent="Spawns" instance=ExtResource( 5 )]
 position = Vector2( 2976, 1680 )
+NpcType = 4
+flyerSpawn = false
 
 [node name="Spawn5" parent="Spawns" instance=ExtResource( 5 )]
 position = Vector2( 3168, 2448 )
-NpcType = 1
-randomSpawn = true
+NpcType = 4
+flyerSpawn = false
 
 [node name="Spawn6" parent="Spawns" instance=ExtResource( 5 )]
 position = Vector2( 5376, 770 )
-NpcType = 1
-randomSpawn = true
+NpcType = 4
+flyerSpawn = false
 
 [node name="Spawn7" parent="Spawns" instance=ExtResource( 5 )]
 position = Vector2( 4704, 2448 )
-NpcType = 1
-randomSpawn = true
+NpcType = 4
+flyerSpawn = false
 
 [node name="Platforms" type="Node2D" parent="."]
 editor/display_folded = true
@@ -143,7 +152,6 @@ curve = SubResource( 2 )
 [node name="Platform3" parent="Platforms" instance=ExtResource( 6 )]
 editor/display_folded = true
 position = Vector2( 5232, 2112 )
-speed = 2
 
 [node name="Sprite" parent="Platforms/Platform3" index="0"]
 modulate = Color( 1, 0, 1, 1 )

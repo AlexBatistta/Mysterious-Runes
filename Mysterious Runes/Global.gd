@@ -51,7 +51,7 @@ func new_scene(_scene):
 	Data.save_data()
 
 func change_level(_level):
-	if _level < maxLevels:
+	if _level <= maxLevels:
 		current_level = _level
 
 func change_menu(_menu):

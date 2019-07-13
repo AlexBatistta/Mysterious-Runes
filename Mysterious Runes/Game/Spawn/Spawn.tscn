@@ -138,8 +138,8 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="Vortex" type="Sprite" parent="."]
-rotation = 0.397442
-scale = Vector2( 0.936745, 0.936745 )
+rotation = 1.84687
+scale = Vector2( 0.706061, 0.706061 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Vortex"]

@@ -2,7 +2,7 @@ tool
 extends Node2D
 
 export (int, "WeakBasic", "StrongBasic", "MagicFlyer", "WeakArmored", "StrongArmored", "InvokerBoss") var NpcType
-export (bool) var randomSpawn = false
+export (bool) var flyerSpawn = true
 export (PackedScene) var NPCs
 var timeSpawn = 8
 var health = 25
@@ -14,8 +14,8 @@ func _ready():
 	$Vortex/AnimationPlayer.play("Vortex")
 
 func _on_SpawnNPC_timeout():
-	if randomSpawn:
-		NpcType = randi() % (NpcType + 1)
+	NpcType = randi() % (NpcType + 1)
+	if !flyerSpawn:
 		if NpcType == 2: NpcType -= 1
 	
 	var newNPC = NPCs.instance()

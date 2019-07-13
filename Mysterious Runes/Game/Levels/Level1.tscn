@@ -75,28 +75,36 @@ flip = true
 position = Vector2( 6960, 1728 )
 
 [node name="Spawns" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Spawn" parent="Spawns" instance=ExtResource( 4 )]
 position = Vector2( 2592, 528 )
+flyerSpawn = false
 
 [node name="Spawn2" parent="Spawns" instance=ExtResource( 4 )]
 position = Vector2( 1248, 2016 )
+NpcType = 2
 
 [node name="Spawn3" parent="Spawns" instance=ExtResource( 4 )]
 position = Vector2( 5760, 480 )
+NpcType = 2
 
 [node name="Spawn4" parent="Spawns" instance=ExtResource( 4 )]
 position = Vector2( 6768, 336 )
+NpcType = 2
 
 [node name="Spawn5" parent="Spawns" instance=ExtResource( 4 )]
 position = Vector2( 6720, 1200 )
+NpcType = 1
+flyerSpawn = false
 
 [node name="Spawn6" parent="Spawns" instance=ExtResource( 4 )]
 position = Vector2( 1920, 2016 )
+NpcType = 1
+flyerSpawn = false
 
 [node name="Spawn7" parent="Spawns" instance=ExtResource( 4 )]
 position = Vector2( 6575, 2081 )
+NpcType = 2
 
 [node name="Runes" type="Node2D" parent="."]
 
@@ -120,9 +128,9 @@ temporary = "Regeneration"
 editor/display_folded = true
 position = Vector2( 1487, 960 )
 long = true
-speed = 2
 
 [node name="Sprite" parent="Platforms/Platform" index="0"]
+modulate = Color( 1, 0, 1, 1 )
 region_rect = Rect2( 0, 0, 192, 48 )
 
 [node name="CollisionShape2D" parent="Platforms/Platform" index="1"]
@@ -134,7 +142,9 @@ curve = SubResource( 1 )
 [node name="Platform2" parent="Platforms" instance=ExtResource( 6 )]
 editor/display_folded = true
 position = Vector2( 1488, 1344 )
-speed = 2
+
+[node name="Sprite" parent="Platforms/Platform2" index="0"]
+modulate = Color( 1, 0, 1, 1 )
 
 [node name="Path2D" parent="Platforms/Platform2" index="2"]
 curve = SubResource( 2 )
@@ -143,6 +153,9 @@ curve = SubResource( 2 )
 editor/display_folded = true
 position = Vector2( 7776, 1104 )
 
+[node name="Sprite" parent="Platforms/Platform3" index="0"]
+modulate = Color( 1, 0, 1, 1 )
+
 [node name="Path2D" parent="Platforms/Platform3" index="2"]
 curve = SubResource( 3 )
 
@@ -150,9 +163,9 @@ curve = SubResource( 3 )
 editor/display_folded = true
 position = Vector2( 3696, 1968 )
 long = true
-speed = 2
 
 [node name="Sprite" parent="Platforms/Platform4" index="0"]
+modulate = Color( 1, 0, 1, 1 )
 region_rect = Rect2( 0, 0, 192, 48 )
 
 [node name="CollisionShape2D" parent="Platforms/Platform4" index="1"]
@@ -164,6 +177,9 @@ curve = SubResource( 4 )
 [node name="Platform5" parent="Platforms" instance=ExtResource( 6 )]
 editor/display_folded = true
 position = Vector2( 4512, 1968 )
+
+[node name="Sprite" parent="Platforms/Platform5" index="0"]
+modulate = Color( 1, 0, 1, 1 )
 
 [node name="Path2D" parent="Platforms/Platform5" index="2"]
 curve = SubResource( 5 )

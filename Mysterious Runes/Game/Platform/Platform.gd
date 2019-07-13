@@ -2,7 +2,7 @@ tool
 extends KinematicBody2D
 
 export (bool) var long = false setget change_size
-export (int, 1, 5) var speed = 1
+var speed = 2
 
 var points : Array
 var current_point = 1
