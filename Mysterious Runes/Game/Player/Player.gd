@@ -119,13 +119,14 @@ func _shoot():
 		$PlayerSounds.stream = load("res://Sound/Shoot.ogg")
 		$PlayerSounds.play()
 
-func _hurt(hit):
+func _hurt(hit, _river = false):
 	if $ImmunityTimer.is_stopped():
 		health -= hit
 		emit_signal("change_life", health)
 		hurting = true
 		
-		$ImmunityTimer.start(IMMUNITY)
+		if !_river: $ImmunityTimer.start(IMMUNITY)
+		else: $ImmunityTimer.start(IMMUNITY * 5)
 		
 		$PlayerSounds.stream = load("res://Sound/Hurt.ogg")
 		$PlayerSounds.play()

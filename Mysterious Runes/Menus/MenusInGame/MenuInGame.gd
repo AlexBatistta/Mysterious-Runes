@@ -7,10 +7,6 @@ var buttons = [
 	"HBoxContainer/LevelsButton"
 ]
 
-func _ready():
-	for button in $BasicMenu.buttons:
-		buttons.push_back("BasicMenu/" + button)
-
 func set_menu(_menu):
 	menu = _menu
 	

@@ -300,7 +300,6 @@ __meta__ = {
 shape = SubResource( 5 )
 
 [node name="Tile19" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 288, 288 )
 texture = ExtResource( 1 )
 region_enabled = true
@@ -308,11 +307,6 @@ region_rect = Rect2( 308, 308, 96, 96 )
 __meta__ = {
 "_edit_group_": true
 }
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Tile19"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tile19/StaticBody2D"]
-shape = SubResource( 5 )
 
 [node name="Tile20" type="Sprite" parent="."]
 position = Vector2( 384, 288 )

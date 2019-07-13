@@ -23,12 +23,14 @@ func change_level():
 	
 	set_color()
 	
-	var portals = newLevel.get_used_cells_by_id(19)
-	for portal in portals:
-		newLevel.set_cell(portal.x, portal.y, -1)
+	var entry_portal = newLevel.get_used_cells_by_id(18)[0]
+	var exit_portal = newLevel.get_used_cells_by_id(19)[0]
 	
-	$Levels/Portal.position = newLevel.map_to_world(portals[0]) + Vector2(48, 96)
-	$Levels/Portal2.position = newLevel.map_to_world(portals[1]) + Vector2(48, 96)
+	newLevel.set_cell(entry_portal.x, entry_portal.y, -1)
+	newLevel.set_cell(exit_portal.x, exit_portal.y, -1)
+	
+	$Levels/Portal.position = newLevel.map_to_world(entry_portal) + Vector2(48, 96)
+	$Levels/Portal2.position = newLevel.map_to_world(exit_portal) + Vector2(48, 96)
 	$Levels/Portal.reset()
 	$Levels/Portal2.reset()
 	
@@ -80,10 +82,12 @@ func _hide_nodes():
 	$Levels.visible = false
 	$MenuLayer/UI/Gui.visible = false
 	$MenuLayer/UI/MenuInGame.visible = false
+	$MenuLayer/UI/BasicMenu.visible = false
 
 func _draw_current_state():
 	if Global.current_menu != "Game":
 		$MenuLayer/UI/MenuInGame.visible = true
+		$MenuLayer/UI/BasicMenu.visible = true
 	else:
 		$Levels.visible = true
 		$MenuLayer/UI/Gui.visible = true

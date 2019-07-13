@@ -56,7 +56,7 @@ func _swimming(delta):
 		velocity.y = -Player.JUMP_SPEED / 2
 	
 	if damageRiver > 0:
-		Player._hurt(damageRiver)
+		Player._hurt(damageRiver, true)
 
 func _damage():
 	Global.power_rune = "Damage"

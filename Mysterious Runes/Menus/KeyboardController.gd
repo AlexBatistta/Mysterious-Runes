@@ -6,6 +6,7 @@ var buttons = []
 var button_active = 0
 var mouse = false
 var button_sound = null
+var gui = false
 
 func _get_buttons():
 	if buttons != null:
@@ -37,7 +38,7 @@ func _create_sound():
 
 func _process(delta):
 	if get_parent().visible && !buttons.empty():
-		if mouse:
+		if mouse || gui:
 			buttons[button_active].release_focus()
 		else:
 			buttons[button_active].grab_focus()
