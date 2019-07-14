@@ -15,7 +15,7 @@ var power_rune = ""
 var levelsUnlock = 1
 
 var sound = true
-var music = false
+var music = true
 
 onready var Game = preload("res://Game/Game.tscn")
 onready var Menu = preload("res://Menus/Menus.tscn")
@@ -62,7 +62,7 @@ func try_again():
 	change_scene("Game")
 
 func pass_level():
-	if current_level < 5:
+	if current_level < maxLevels:
 		current_level += 1;
 		levelsUnlock = current_level;
 		change_scene("Game")
@@ -75,6 +75,7 @@ func color():
 		3:	return Color.green
 		4:	return Color.yellow
 		5:	return Color.purple
+		6:	return Color.magenta
 
 func set_sound():
 	sound = !sound

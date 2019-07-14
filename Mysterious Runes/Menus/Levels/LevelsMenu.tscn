@@ -7,45 +7,41 @@
 [ext_resource path="res://Menus/Resources/Buttons-Icons.png" type="Texture" id=5]
 [ext_resource path="res://Menus/Font (immortal).ttf" type="DynamicFontData" id=6]
 
-
-
-
-
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 400, 150 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 500, 300, 100, 100 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 91
 font_data = ExtResource( 6 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 500, 200, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 500, 200, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 500, 200, 100, 100 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=7]
 flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 500, 200, 100, 100 )
 
-[sub_resource type="AtlasTexture" id=10]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 500, 200, 100, 100 )
-
-[sub_resource type="AtlasTexture" id=12]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 500, 200, 100, 100 )
-
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=8]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("VBoxContainer/HBoxContainer/LevelButton-01/Padlock:modulate")
@@ -107,7 +103,7 @@ margin_left = -100.0
 margin_top = -100.0
 rect_min_size = Vector2( 75, 75 )
 rect_pivot_offset = Vector2( 50, 50 )
-texture = SubResource( 3 )
+texture = SubResource( 2 )
 
 [node name="Number" type="Label" parent="VBoxContainer/HBoxContainer/LevelButton-01"]
 anchor_left = 0.5
@@ -118,7 +114,7 @@ margin_left = -17.5
 margin_top = -56.5
 margin_right = 17.5
 margin_bottom = 56.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "1"
 
 [node name="LevelButton-02" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
@@ -140,7 +136,7 @@ margin_left = -26.5
 margin_top = -56.5
 margin_right = 26.5
 margin_bottom = 56.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "2"
 
 [node name="Padlock" type="TextureRect" parent="VBoxContainer/HBoxContainer/LevelButton-02"]
@@ -152,7 +148,7 @@ margin_left = -100.0
 margin_top = -100.0
 rect_min_size = Vector2( 75, 75 )
 rect_pivot_offset = Vector2( 50, 50 )
-texture = SubResource( 6 )
+texture = SubResource( 4 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 305.0
@@ -180,7 +176,7 @@ margin_left = -25.0
 margin_top = -56.5
 margin_right = 25.0
 margin_bottom = 56.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "3"
 
 [node name="Padlock" type="TextureRect" parent="VBoxContainer/HBoxContainer2/LevelButton-03"]
@@ -192,7 +188,7 @@ margin_left = -100.0
 margin_top = -100.0
 rect_min_size = Vector2( 75, 75 )
 rect_pivot_offset = Vector2( 50, 50 )
-texture = SubResource( 8 )
+texture = SubResource( 5 )
 
 [node name="LevelButton-04" type="TextureButton" parent="VBoxContainer/HBoxContainer2"]
 margin_left = 440.0
@@ -213,7 +209,7 @@ margin_left = -28.5
 margin_top = -56.5
 margin_right = 28.5
 margin_bottom = 56.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "4"
 
 [node name="Padlock" type="TextureRect" parent="VBoxContainer/HBoxContainer2/LevelButton-04"]
@@ -225,7 +221,7 @@ margin_left = -100.0
 margin_top = -100.0
 rect_min_size = Vector2( 75, 75 )
 rect_pivot_offset = Vector2( 50, 50 )
-texture = SubResource( 10 )
+texture = SubResource( 6 )
 
 [node name="LevelButton-05" type="TextureButton" parent="VBoxContainer/HBoxContainer2"]
 margin_left = 655.0
@@ -246,7 +242,7 @@ margin_left = -25.5
 margin_top = -56.5
 margin_right = 25.5
 margin_bottom = 56.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "5"
 
 [node name="Padlock" type="TextureRect" parent="VBoxContainer/HBoxContainer2/LevelButton-05"]
@@ -258,10 +254,10 @@ margin_left = -100.0
 margin_top = -100.0
 rect_min_size = Vector2( 75, 75 )
 rect_pivot_offset = Vector2( 50, 50 )
-texture = SubResource( 12 )
+texture = SubResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Blocked = SubResource( 13 )
+anims/Blocked = SubResource( 8 )
 
 [connection signal="visibility_changed" from="." to="." method="_on_LevelsMenu_visibility_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/LevelButton-01" to="." method="_on_LevelButton01_pressed"]
