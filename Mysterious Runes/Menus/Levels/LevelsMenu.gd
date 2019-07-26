@@ -1,17 +1,26 @@
 extends Control
 
-var node_path = ""
-var buttons = []
+#Script para el menú de niveles
 
+#Contenedor de los botones del menú para el manejo por teclado
+var buttons = [
+	"VBoxContainer/HBoxContainer/LevelButton-01",
+	"VBoxContainer/HBoxContainer/LevelButton-02",
+	"VBoxContainer/HBoxContainer2/LevelButton-03",
+	"VBoxContainer/HBoxContainer2/LevelButton-04",
+	"VBoxContainer/HBoxContainer2/LevelButton-05"
+]
+var node_path = ""
+
+#Actualiza el icono del candado según haya desbloqueado los niveles
 func _ready():
-	_get_buttons()
-	
 	for button in buttons:
 		get_node(button + "/Padlock").texture.region = Rect2(500, 200, 100, 100)
 	
 	for unlock in Global.levelsUnlock:
 		get_node(buttons[unlock] + "/Padlock").texture.region = Rect2(500, 300, 100, 100)
 
+#Acciones de los botones de cada nivel
 func _on_LevelButton01_pressed():
 	_play_level(1)
 
@@ -27,6 +36,8 @@ func _on_LevelButton04_pressed():
 func _on_LevelButton05_pressed():
 	_play_level(5)
 
+#Cambia de nivel e inicia el juego si está desbloqueado, sino 
+#reproduce animación de bloqueo
 func _play_level(_level):
 	if Global.levelsUnlock >= _level :
 		Global.change_level(_level)
@@ -41,13 +52,7 @@ func _play_level(_level):
 		$AnimationPlayer.get_animation("Blocked").track_set_path(0, node_path + ":modulate")
 		$AnimationPlayer.play("Blocked")
 
-func _get_buttons():
-	for i in range(1, 6):
-		var button = "VBoxContainer/HBoxContainer"
-		if i > 2: button += "2"
-		button += "/LevelButton-0" + str(i)
-		buttons.push_back(button)
-
+#Cambio en la visibilidad del nodo, visibiliza la lista de botones
 func _on_LevelsMenu_visibility_changed():
 	for button in buttons:
 		get_node(button).visible = visible

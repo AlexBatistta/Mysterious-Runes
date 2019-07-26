@@ -1,5 +1,8 @@
 extends Node2D
 
+#Script que controla el tiempo de acción de los poderes de las runas
+#y lo visualiza
+
 signal power_out
 
 func _ready():
@@ -17,12 +20,19 @@ func _set_power():
 		"Invoke": frame = 6
 		"Fly": frame = 7
 	
+	#Frame del poder activo
 	$SpriteRune.frame = frame
+	#Animación del poder
 	$AnimationPlayer.play("Power")
+	#Activa el contador
 	if Global.power_rune != "Invoke":
-		$RuneTimer.start(Global.timePower)
+		$RuneTimer.start(Global.TIME_POWER)
 
+#Acción de cuando finaliza el tiempo
 func _on_RuneTimer_timeout():
+	#Detiene la animación
 	$AnimationPlayer.stop()
+	#Lo invisibiliza
 	visible = false
+	#Emite la señal para terminar
 	emit_signal("power_out")

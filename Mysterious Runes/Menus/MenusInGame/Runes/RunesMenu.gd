@@ -1,8 +1,11 @@
 extends Control
 
+#Script para el control del menú especial de runas,
+#contiene todos los poderes permanentes que se desbloquean con los niveles
+
 signal rune
 
-var rune_name = ""
+#Contenedor de los botones del menú para el manejo por teclado
 var buttons = [
 	"CenterContainer/VBoxContainer/CenterContainer/Power-01",
 	"CenterContainer/VBoxContainer/HBoxContainer/Power-02",
@@ -10,24 +13,30 @@ var buttons = [
 	"CenterContainer/VBoxContainer/HBoxContainer2/Power-04",
 	"CenterContainer/VBoxContainer/HBoxContainer2/Power-05",
 ]
+var rune_name = ""
 
 func _ready():
+	#Color de fondo
 	var _color = Global.color()
 	_color.a = 0.25
 	get_stylebox("panel", "").bg_color = _color
 	
+	#Deshabilita todos los botones
 	for button in buttons:
 		get_node(button).disabled = true
 	
+	#Habilita los desbloquedos y quita de la lista los restantes
 	for i in buttons.size():
 		if i < Global.levelsUnlock:
 			get_node(buttons[i]).disabled = false
 		else:
 			buttons.pop_back()
 	
+	#Obtiene los botones de la escena
 	$KeyboardController._get_buttons()
 
 func _process(delta):
+	#Obtiene el botón seleccionado y nombra a la etiqueta
 	var rune = -1
 	for button in buttons:
 		if get_node(button).is_hovered():
@@ -46,9 +55,11 @@ func _process(delta):
 		$CenterContainer/RuneName.text = "Runes"
 
 func _input(event):
+	#Oculta el menú
 	if event.is_action_pressed("runes"):
 		hide()
 
+#Cambio en la visibilidad del nodo, modifica el input y la escala de tiempo
 func _on_PowerMenu_visibility_changed():
 	if visible:
 		set_process_input(true)
@@ -56,6 +67,8 @@ func _on_PowerMenu_visibility_changed():
 	else:
 		set_process_input(false)
 		Engine.time_scale = 1
+
+#Acciones de los botones, emiten la señal con el nombre y oculta el nodo
 
 func _on_Power01_pressed():
 	emit_signal("rune", rune_name)

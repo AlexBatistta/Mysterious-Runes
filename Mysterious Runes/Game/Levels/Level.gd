@@ -1,10 +1,15 @@
 tool
 extends TileMap
 
+#Script que se encarga de instanciar nodos según tiles específicos
+
+#Escena del geiser
 var Geyser = load("res://Game/Geyser/Geyser.tscn")
 
+#Obtiene las celdas utilizadas
 onready var usedTiles = get_used_cells()
 
+#Crea los nodos y los agrega a escena
 func create_nodes():
 	var children = get_children()
 	for child in children:

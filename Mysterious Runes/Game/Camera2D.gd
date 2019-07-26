@@ -1,5 +1,7 @@
 extends Camera2D
 
+#Script que se encarga del movimiento de la cámara
+
 #Game Endeavor camera script
 #https://www.youtube.com/watch?v=sxtC7hj2ABY
 
@@ -9,14 +11,17 @@ const SHIFT_EASE = Tween.EASE_OUT
 const SHIFT_DURATION = 1.0
 
 var facing = 0
+#Variable para fijado de cámara
 var fix_camera = false
 
 onready var prev_camera_pos = get_camera_position()
 
 func _ready():
+	#Conecta la señal
 	get_parent().connect("fix_camera", self, "_fix_camera")
 
 func _process(delta):
+	#Si no esta fija, comprueba si debe moverse
 	if !fix_camera:
 		_check_facing()
 	prev_camera_pos = get_camera_position()
